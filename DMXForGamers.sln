@@ -1,0 +1,43 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMXForGamers", "DMXForGamers\DMXForGamers.csproj", "{14630851-96A6-4964-B587-FD86C1EC33C5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMXCommunication", "DMXCommunication\DMXCommunication.csproj", "{574E1761-FFDA-4D62-9444-EC23AD1E7E99}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMXEngine", "DMXEngine\DMXEngine.csproj", "{58E6905D-9A37-4C12-9AB5-B268AAB823E2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{14630851-96A6-4964-B587-FD86C1EC33C5}.Debug|x86.ActiveCfg = Debug|x86
+		{14630851-96A6-4964-B587-FD86C1EC33C5}.Debug|x86.Build.0 = Debug|x86
+		{14630851-96A6-4964-B587-FD86C1EC33C5}.Release|x86.ActiveCfg = Release|x86
+		{14630851-96A6-4964-B587-FD86C1EC33C5}.Release|x86.Build.0 = Release|x86
+		{574E1761-FFDA-4D62-9444-EC23AD1E7E99}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{574E1761-FFDA-4D62-9444-EC23AD1E7E99}.Debug|x86.Build.0 = Debug|Any CPU
+		{574E1761-FFDA-4D62-9444-EC23AD1E7E99}.Release|x86.ActiveCfg = Release|Any CPU
+		{574E1761-FFDA-4D62-9444-EC23AD1E7E99}.Release|x86.Build.0 = Release|Any CPU
+		{58E6905D-9A37-4C12-9AB5-B268AAB823E2}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{58E6905D-9A37-4C12-9AB5-B268AAB823E2}.Debug|x86.Build.0 = Debug|Any CPU
+		{58E6905D-9A37-4C12-9AB5-B268AAB823E2}.Release|x86.ActiveCfg = Release|Any CPU
+		{58E6905D-9A37-4C12-9AB5-B268AAB823E2}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		Policies = $0
+		$0.DotNetNamingPolicy = $1
+		$1.DirectoryNamespaceAssociation = None
+		$1.ResourceNamePolicy = FileFormatDefault
+		$0.TextStylePolicy = $2
+		$2.inheritsSet = null
+		$2.scope = text/x-csharp
+		$0.CSharpFormattingPolicy = $3
+		$3.AfterDelegateDeclarationParameterComma = True
+		$3.inheritsSet = Mono
+		$3.inheritsScope = text/x-csharp
+		$3.scope = text/x-csharp
+	EndGlobalSection
+EndGlobal

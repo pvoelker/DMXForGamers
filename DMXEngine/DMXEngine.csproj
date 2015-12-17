@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{58E6905D-9A37-4C12-9AB5-B268AAB823E2}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>DMXEngine</RootNamespace>
+    <AssemblyName>DMXEngine</AssemblyName>
+    <Description>DMX Engine library written by Paul Voelker</Description>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="DMXStateMachine.cs" />
+    <Compile Include="DMXEventsFile.cs" />
+    <Compile Include="EventDefinitionsFile.cs" />
+    <Compile Include="DMXEventsXML.cs" />
+    <Compile Include="TextEventEngine.cs" />
+    <Compile Include="Support\ThreadedProcessingQueue.cs" />
+    <Compile Include="Monitors\ITextMonitor.cs" />
+    <Compile Include="Monitors\NewProcessTextMonitor.cs" />
+    <Compile Include="Monitors\FileTextMonitor.cs" />
+    <Compile Include="EventDefinitionsXML.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <ProjectReference Include="..\DMXCommunication\DMXCommunication.csproj">
+      <Project>{574E1761-FFDA-4D62-9444-EC23AD1E7E99}</Project>
+      <Name>DMXCommunication</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Support\" />
+    <Folder Include="Monitors\" />
+  </ItemGroup>
+</Project>
