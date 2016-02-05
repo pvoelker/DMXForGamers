@@ -9,14 +9,16 @@ namespace DMXEngine
 {
 	internal class ActiveEvent
 	{
-		public ActiveEvent(DateTime start, int iterCount)
+		public ActiveEvent(DateTime start, int iterCount, bool continuous)
 		{
 			Start = start;
 			Iteration = iterCount;
+			Continuous = continuous;
 		}
 
 		public DateTime Start { get; set; }
 		public int Iteration { get; set; }
+		public bool Continuous { get; set; }
 	}
 
 	public class DMXStateMachine : IDisposable
@@ -25,6 +27,26 @@ namespace DMXEngine
 		private IDMXCommunication _dmxComm;
 		private Dictionary<string, ActiveEvent> _activeEvents = new Dictionary<string, ActiveEvent> ();
 		private bool _disposing = false;
+
+//		#region Events
+//
+//		public delegate void StartedHandler(object sender);
+//		public event StartedHandler Started;
+//		public void OnStarted()
+//		{
+//			if (Started != null)
+//				Started (this);
+//		}
+//
+//		public delegate void StoppedHandler(object sender);
+//		public event StoppedHandler Stopped;
+//		public void OnStopped()
+//		{
+//			if (Stopped != null)
+//				Stopped (this);
+//		}
+//
+//		#endregion
 
 		public DMXStateMachine (DMX dmx, IDMXCommunication dmxComm)
 		{
@@ -79,7 +101,10 @@ namespace DMXEngine
 					}
 
 					foreach (var element in finishedEvents) {
-						_activeEvents.Remove (element);
+						if (_activeEvents [element].Continuous == true)
+							_activeEvents [element].Start = DateTime.Now;
+						else
+							_activeEvents.Remove (element);
 					}
 
 					// Set base values if no time blocks active
@@ -92,13 +117,24 @@ namespace DMXEngine
 			}
 		}
 
-		public void AddEvent (string eventName)
+		public void AddEvent (string eventName, bool continuous = false)
+		{
+			RemoveEvent (eventName);
+
+			lock (_activeEvents) {
+				var foundEvent = _dmx.Events.Find (x => String.Compare (x.ID, eventName, true) == 0);
+				if (foundEvent != null) {
+					_activeEvents.Add (eventName, new ActiveEvent (DateTime.Now, foundEvent.RepeatCount, continuous));
+				}
+			}
+		}
+
+		public void RemoveEvent (string eventName)
 		{
 			lock (_activeEvents) {
 				var foundEvent = _dmx.Events.Find (x => String.Compare (x.ID, eventName, true) == 0);
 				if (foundEvent != null) {
 					_activeEvents.Remove (eventName);
-					_activeEvents.Add (eventName, new ActiveEvent (DateTime.Now, foundEvent.RepeatCount));
 				}
 			}
 		}

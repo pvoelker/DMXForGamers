@@ -14,6 +14,8 @@ namespace DMXEngine
 			_eventDefs = eventDefs;
 		}
 
+		public EventDefinitions EventDefinitions { get { return _eventDefs; } }
+
 		public void ProcessText (string line)
 		{
 			foreach (var eventDef in _eventDefs.Events) {
@@ -30,6 +32,16 @@ namespace DMXEngine
 					}
 				}
 			}
+		}
+
+		public void ManualAddEvent(string eventName, bool continuous = false)
+		{
+			_dmx.AddEvent (eventName, continuous);
+		}
+
+		public void ManualRemoveEvent(string eventName)
+		{
+			_dmx.RemoveEvent (eventName);
 		}
 
 		public void Execute (DateTime dt)

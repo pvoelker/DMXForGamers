@@ -206,10 +206,21 @@ public partial class MainWindow: Gtk.Window
 					_textMonitor = new NewProcessTextMonitor (_exeFile.Text, _exeArgs.Text, ProcessLine);
 				} else if (_monitorNotebook.CurrentPage == 1) {
 					_textMonitor = new FileTextMonitor (_fileFile.Text, ProcessLine);
+				} else if (_monitorNotebook.CurrentPage == 2) {
+					_textMonitor = null; // No text monitor, manual triggering only
 				} else {
 					throw new Exception ("Invalid selection");
 				}
-				_textMonitor.Start ();
+				if(_textMonitor != null)
+					_textMonitor.Start ();
+
+				try
+				{
+					_manualEvents.ConfigureUI (_engine);
+				}
+				catch(Exception ex) {
+					var temp = ex.Message;
+				}
 			}
 		} catch (Exception ex) {
 			MessageDialog md = new MessageDialog (this, DialogFlags.Modal | DialogFlags.DestroyWithParent,
@@ -375,6 +386,11 @@ public partial class MainWindow: Gtk.Window
 	}
 
 	protected void OnTestButtonClicked (object sender, EventArgs e)
+	{
+		throw new NotImplementedException ();
+	}
+
+	protected void OnManualButtonClicked (object sender, EventArgs e)
 	{
 		throw new NotImplementedException ();
 	}

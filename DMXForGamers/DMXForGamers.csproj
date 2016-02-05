@@ -60,6 +60,8 @@
     <Compile Include="gtk-gui\DMXForGamers.EventEditView.cs" />
     <Compile Include="ManualConsole.cs" />
     <Compile Include="gtk-gui\DMXForGamers.ManualConsole.cs" />
+    <Compile Include="ManualEventsConsole.cs" />
+    <Compile Include="gtk-gui\DMXForGamers.ManualEventsConsole.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

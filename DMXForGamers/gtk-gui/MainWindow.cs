@@ -53,6 +53,10 @@ public partial class MainWindow
 	
 	private global::Gtk.Label _FileMonitorSettingsLabel;
 	
+	private global::Gtk.Label _eventsFileInstructions1;
+	
+	private global::Gtk.Label _NoMonitorSettingsLabel;
+	
 	private global::Gtk.ComboBox _protocolComboBox;
 	
 	private global::Gtk.Label label1;
@@ -61,17 +65,29 @@ public partial class MainWindow
 	
 	private global::Gtk.Label label5;
 	
+	private global::Gtk.Notebook notebook1;
+	
+	private global::Gtk.VBox vbox2;
+	
 	private global::Gtk.HBox hbox1;
 	
 	private global::Gtk.Button _startButton;
 	
 	private global::Gtk.Button _stopButton;
 	
+	private global::Gtk.Button _manualButton;
+	
 	private global::Gtk.Button _testButton;
 	
 	private global::Gtk.ScrolledWindow GtkScrolledWindow;
 	
 	private global::Gtk.TextView _outputTextView;
+	
+	private global::Gtk.Label label8;
+	
+	private global::DMXForGamers.ManualEventsConsole _manualEvents;
+	
+	private global::Gtk.Label label9;
 	
 	private global::Gtk.Label _configFilePath;
 
@@ -86,7 +102,6 @@ public partial class MainWindow
 		this.DefaultHeight = 480;
 		// Container child MainWindow.Gtk.Container+ContainerChild
 		this.vbox1 = new global::Gtk.VBox ();
-		this.vbox1.Name = "vbox1";
 		this.vbox1.Spacing = 6;
 		// Container child vbox1.Gtk.Box+BoxChild
 		this.table1 = new global::Gtk.Table (((uint)(6)), ((uint)(4)), false);
@@ -203,7 +218,7 @@ public partial class MainWindow
 		this._monitorNotebook = new global::Gtk.Notebook ();
 		this._monitorNotebook.CanFocus = true;
 		this._monitorNotebook.Name = "_monitorNotebook";
-		this._monitorNotebook.CurrentPage = 1;
+		this._monitorNotebook.CurrentPage = 0;
 		// Container child _monitorNotebook.Gtk.Notebook+NotebookChild
 		this.table2 = new global::Gtk.Table (((uint)(2)), ((uint)(4)), false);
 		this.table2.Name = "table2";
@@ -337,58 +352,82 @@ public partial class MainWindow
 		this._FileMonitorSettingsLabel.LabelProp = global::Mono.Unix.Catalog.GetString ("File Monitor");
 		this._monitorNotebook.SetTabLabel (this.table3, this._FileMonitorSettingsLabel);
 		this._FileMonitorSettingsLabel.ShowAll ();
+		// Container child _monitorNotebook.Gtk.Notebook+NotebookChild
+		this._eventsFileInstructions1 = new global::Gtk.Label ();
+		this._eventsFileInstructions1.Name = "_eventsFileInstructions1";
+		this._eventsFileInstructions1.LabelProp = global::Mono.Unix.Catalog.GetString ("<span foreground=\"blue\" size=\"large\">Do not run any text monitor.  Manual trigger" +
+		"ing of events only...</span>");
+		this._eventsFileInstructions1.UseMarkup = true;
+		this._monitorNotebook.Add (this._eventsFileInstructions1);
+		global::Gtk.Notebook.NotebookChild w21 = ((global::Gtk.Notebook.NotebookChild)(this._monitorNotebook [this._eventsFileInstructions1]));
+		w21.Position = 2;
+		// Notebook tab
+		this._NoMonitorSettingsLabel = new global::Gtk.Label ();
+		this._NoMonitorSettingsLabel.Name = "_NoMonitorSettingsLabel";
+		this._NoMonitorSettingsLabel.LabelProp = global::Mono.Unix.Catalog.GetString ("No Monitor");
+		this._monitorNotebook.SetTabLabel (this._eventsFileInstructions1, this._NoMonitorSettingsLabel);
+		this._NoMonitorSettingsLabel.ShowAll ();
 		this.table1.Add (this._monitorNotebook);
-		global::Gtk.Table.TableChild w21 = ((global::Gtk.Table.TableChild)(this.table1 [this._monitorNotebook]));
-		w21.TopAttach = ((uint)(1));
-		w21.BottomAttach = ((uint)(2));
-		w21.RightAttach = ((uint)(4));
-		w21.XPadding = ((uint)(3));
-		w21.YPadding = ((uint)(3));
-		w21.YOptions = ((global::Gtk.AttachOptions)(4));
+		global::Gtk.Table.TableChild w22 = ((global::Gtk.Table.TableChild)(this.table1 [this._monitorNotebook]));
+		w22.TopAttach = ((uint)(1));
+		w22.BottomAttach = ((uint)(2));
+		w22.RightAttach = ((uint)(4));
+		w22.XPadding = ((uint)(3));
+		w22.YPadding = ((uint)(3));
+		w22.YOptions = ((global::Gtk.AttachOptions)(4));
 		// Container child table1.Gtk.Table+TableChild
 		this._protocolComboBox = global::Gtk.ComboBox.NewText ();
 		this._protocolComboBox.Name = "_protocolComboBox";
 		this.table1.Add (this._protocolComboBox);
-		global::Gtk.Table.TableChild w22 = ((global::Gtk.Table.TableChild)(this.table1 [this._protocolComboBox]));
-		w22.LeftAttach = ((uint)(1));
-		w22.RightAttach = ((uint)(2));
-		w22.XOptions = ((global::Gtk.AttachOptions)(4));
-		w22.YOptions = ((global::Gtk.AttachOptions)(4));
+		global::Gtk.Table.TableChild w23 = ((global::Gtk.Table.TableChild)(this.table1 [this._protocolComboBox]));
+		w23.LeftAttach = ((uint)(1));
+		w23.RightAttach = ((uint)(2));
+		w23.XOptions = ((global::Gtk.AttachOptions)(4));
+		w23.YOptions = ((global::Gtk.AttachOptions)(4));
 		// Container child table1.Gtk.Table+TableChild
 		this.label1 = new global::Gtk.Label ();
 		this.label1.Name = "label1";
 		this.label1.LabelProp = global::Mono.Unix.Catalog.GetString ("Events File");
 		this.table1.Add (this.label1);
-		global::Gtk.Table.TableChild w23 = ((global::Gtk.Table.TableChild)(this.table1 [this.label1]));
-		w23.TopAttach = ((uint)(3));
-		w23.BottomAttach = ((uint)(4));
-		w23.XOptions = ((global::Gtk.AttachOptions)(4));
-		w23.YOptions = ((global::Gtk.AttachOptions)(4));
+		global::Gtk.Table.TableChild w24 = ((global::Gtk.Table.TableChild)(this.table1 [this.label1]));
+		w24.TopAttach = ((uint)(3));
+		w24.BottomAttach = ((uint)(4));
+		w24.XOptions = ((global::Gtk.AttachOptions)(4));
+		w24.YOptions = ((global::Gtk.AttachOptions)(4));
 		// Container child table1.Gtk.Table+TableChild
 		this.label2 = new global::Gtk.Label ();
 		this.label2.Name = "label2";
 		this.label2.LabelProp = global::Mono.Unix.Catalog.GetString ("Protocol");
 		this.label2.UseMarkup = true;
 		this.table1.Add (this.label2);
-		global::Gtk.Table.TableChild w24 = ((global::Gtk.Table.TableChild)(this.table1 [this.label2]));
-		w24.XOptions = ((global::Gtk.AttachOptions)(4));
-		w24.YOptions = ((global::Gtk.AttachOptions)(4));
+		global::Gtk.Table.TableChild w25 = ((global::Gtk.Table.TableChild)(this.table1 [this.label2]));
+		w25.XOptions = ((global::Gtk.AttachOptions)(4));
+		w25.YOptions = ((global::Gtk.AttachOptions)(4));
 		// Container child table1.Gtk.Table+TableChild
 		this.label5 = new global::Gtk.Label ();
 		this.label5.Name = "label5";
 		this.label5.LabelProp = global::Mono.Unix.Catalog.GetString ("DMX File");
 		this.table1.Add (this.label5);
-		global::Gtk.Table.TableChild w25 = ((global::Gtk.Table.TableChild)(this.table1 [this.label5]));
-		w25.TopAttach = ((uint)(5));
-		w25.BottomAttach = ((uint)(6));
-		w25.XOptions = ((global::Gtk.AttachOptions)(4));
-		w25.YOptions = ((global::Gtk.AttachOptions)(4));
+		global::Gtk.Table.TableChild w26 = ((global::Gtk.Table.TableChild)(this.table1 [this.label5]));
+		w26.TopAttach = ((uint)(5));
+		w26.BottomAttach = ((uint)(6));
+		w26.XOptions = ((global::Gtk.AttachOptions)(4));
+		w26.YOptions = ((global::Gtk.AttachOptions)(4));
 		this.vbox1.Add (this.table1);
-		global::Gtk.Box.BoxChild w26 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.table1]));
-		w26.Position = 0;
-		w26.Expand = false;
-		w26.Fill = false;
+		global::Gtk.Box.BoxChild w27 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.table1]));
+		w27.Position = 0;
+		w27.Expand = false;
+		w27.Fill = false;
 		// Container child vbox1.Gtk.Box+BoxChild
+		this.notebook1 = new global::Gtk.Notebook ();
+		this.notebook1.CanFocus = true;
+		this.notebook1.Name = "notebook1";
+		this.notebook1.CurrentPage = 0;
+		// Container child notebook1.Gtk.Notebook+NotebookChild
+		this.vbox2 = new global::Gtk.VBox ();
+		this.vbox2.Name = "vbox2";
+		this.vbox2.Spacing = 6;
+		// Container child vbox2.Gtk.Box+BoxChild
 		this.hbox1 = new global::Gtk.HBox ();
 		this.hbox1.Name = "hbox1";
 		this.hbox1.Homogeneous = true;
@@ -399,48 +438,63 @@ public partial class MainWindow
 		this._startButton.Name = "_startButton";
 		this._startButton.UseUnderline = true;
 		this._startButton.Label = global::Mono.Unix.Catalog.GetString ("Start");
-		global::Gtk.Image w27 = new global::Gtk.Image ();
-		w27.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-media-play", global::Gtk.IconSize.Button);
-		this._startButton.Image = w27;
+		global::Gtk.Image w28 = new global::Gtk.Image ();
+		w28.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-media-play", global::Gtk.IconSize.Menu);
+		this._startButton.Image = w28;
 		this.hbox1.Add (this._startButton);
-		global::Gtk.Box.BoxChild w28 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this._startButton]));
-		w28.Position = 0;
-		w28.Expand = false;
-		w28.Fill = false;
+		global::Gtk.Box.BoxChild w29 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this._startButton]));
+		w29.Position = 0;
+		w29.Expand = false;
+		w29.Fill = false;
 		// Container child hbox1.Gtk.Box+BoxChild
 		this._stopButton = new global::Gtk.Button ();
 		this._stopButton.CanFocus = true;
 		this._stopButton.Name = "_stopButton";
 		this._stopButton.UseUnderline = true;
 		this._stopButton.Label = global::Mono.Unix.Catalog.GetString ("Stop");
-		global::Gtk.Image w29 = new global::Gtk.Image ();
-		w29.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-stop", global::Gtk.IconSize.Button);
-		this._stopButton.Image = w29;
+		global::Gtk.Image w30 = new global::Gtk.Image ();
+		w30.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-stop", global::Gtk.IconSize.Button);
+		this._stopButton.Image = w30;
 		this.hbox1.Add (this._stopButton);
-		global::Gtk.Box.BoxChild w30 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this._stopButton]));
-		w30.Position = 1;
-		w30.Expand = false;
-		w30.Fill = false;
+		global::Gtk.Box.BoxChild w31 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this._stopButton]));
+		w31.Position = 1;
+		w31.Expand = false;
+		w31.Fill = false;
+		// Container child hbox1.Gtk.Box+BoxChild
+		this._manualButton = new global::Gtk.Button ();
+		this._manualButton.CanFocus = true;
+		this._manualButton.Name = "_manualButton";
+		this._manualButton.UseUnderline = true;
+		this._manualButton.Label = global::Mono.Unix.Catalog.GetString ("Manual");
+		global::Gtk.Image w32 = new global::Gtk.Image ();
+		w32.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-color-picker", global::Gtk.IconSize.Menu);
+		this._manualButton.Image = w32;
+		this.hbox1.Add (this._manualButton);
+		global::Gtk.Box.BoxChild w33 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this._manualButton]));
+		w33.PackType = ((global::Gtk.PackType)(1));
+		w33.Position = 2;
+		w33.Expand = false;
+		w33.Fill = false;
 		// Container child hbox1.Gtk.Box+BoxChild
 		this._testButton = new global::Gtk.Button ();
 		this._testButton.CanFocus = true;
 		this._testButton.Name = "_testButton";
 		this._testButton.UseUnderline = true;
 		this._testButton.Label = global::Mono.Unix.Catalog.GetString ("Test");
-		global::Gtk.Image w31 = new global::Gtk.Image ();
-		this._testButton.Image = w31;
+		global::Gtk.Image w34 = new global::Gtk.Image ();
+		this._testButton.Image = w34;
 		this.hbox1.Add (this._testButton);
-		global::Gtk.Box.BoxChild w32 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this._testButton]));
-		w32.PackType = ((global::Gtk.PackType)(1));
-		w32.Position = 2;
-		w32.Expand = false;
-		w32.Fill = false;
-		this.vbox1.Add (this.hbox1);
-		global::Gtk.Box.BoxChild w33 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.hbox1]));
-		w33.Position = 1;
-		w33.Expand = false;
-		w33.Fill = false;
-		// Container child vbox1.Gtk.Box+BoxChild
+		global::Gtk.Box.BoxChild w35 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this._testButton]));
+		w35.PackType = ((global::Gtk.PackType)(1));
+		w35.Position = 3;
+		w35.Expand = false;
+		w35.Fill = false;
+		this.vbox2.Add (this.hbox1);
+		global::Gtk.Box.BoxChild w36 = ((global::Gtk.Box.BoxChild)(this.vbox2 [this.hbox1]));
+		w36.Position = 0;
+		w36.Expand = false;
+		w36.Fill = false;
+		// Container child vbox2.Gtk.Box+BoxChild
 		this.GtkScrolledWindow = new global::Gtk.ScrolledWindow ();
 		this.GtkScrolledWindow.Name = "GtkScrolledWindow";
 		this.GtkScrolledWindow.ShadowType = ((global::Gtk.ShadowType)(1));
@@ -450,30 +504,52 @@ public partial class MainWindow
 		this._outputTextView.Name = "_outputTextView";
 		this._outputTextView.Editable = false;
 		this.GtkScrolledWindow.Add (this._outputTextView);
-		this.vbox1.Add (this.GtkScrolledWindow);
-		global::Gtk.Box.BoxChild w35 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.GtkScrolledWindow]));
-		w35.Position = 2;
+		this.vbox2.Add (this.GtkScrolledWindow);
+		global::Gtk.Box.BoxChild w38 = ((global::Gtk.Box.BoxChild)(this.vbox2 [this.GtkScrolledWindow]));
+		w38.Position = 1;
+		this.notebook1.Add (this.vbox2);
+		// Notebook tab
+		this.label8 = new global::Gtk.Label ();
+		this.label8.Name = "label8";
+		this.label8.LabelProp = global::Mono.Unix.Catalog.GetString ("page1");
+		this.notebook1.SetTabLabel (this.vbox2, this.label8);
+		this.label8.ShowAll ();
+		// Container child notebook1.Gtk.Notebook+NotebookChild
+		this._manualEvents = new global::DMXForGamers.ManualEventsConsole ();
+		this._manualEvents.Events = ((global::Gdk.EventMask)(256));
+		this._manualEvents.Name = "_manualEvents";
+		this.notebook1.Add (this._manualEvents);
+		global::Gtk.Notebook.NotebookChild w40 = ((global::Gtk.Notebook.NotebookChild)(this.notebook1 [this._manualEvents]));
+		w40.Position = 1;
+		// Notebook tab
+		this.label9 = new global::Gtk.Label ();
+		this.label9.Name = "label9";
+		this.label9.LabelProp = global::Mono.Unix.Catalog.GetString ("page2");
+		this.notebook1.SetTabLabel (this._manualEvents, this.label9);
+		this.label9.ShowAll ();
+		this.vbox1.Add (this.notebook1);
+		global::Gtk.Box.BoxChild w41 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.notebook1]));
+		w41.Position = 1;
 		// Container child vbox1.Gtk.Box+BoxChild
 		this._configFilePath = new global::Gtk.Label ();
 		this._configFilePath.Name = "_configFilePath";
 		this._configFilePath.Justify = ((global::Gtk.Justification)(1));
 		this.vbox1.Add (this._configFilePath);
-		global::Gtk.Box.BoxChild w36 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this._configFilePath]));
-		w36.Position = 3;
-		w36.Expand = false;
-		w36.Fill = false;
+		global::Gtk.Box.BoxChild w42 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this._configFilePath]));
+		w42.Position = 2;
+		w42.Expand = false;
+		w42.Fill = false;
 		this.Add (this.vbox1);
 		if ((this.Child != null)) {
 			this.Child.ShowAll ();
 		}
 		this.Show ();
 		this.DeleteEvent += new global::Gtk.DeleteEventHandler (this.OnDeleteEvent);
-		this._monitorNotebook.SwitchPage += new global::Gtk.SwitchPageHandler (this.OnMonitorNotebookSwitchPage);
 		this._exeFileButton.Clicked += new global::System.EventHandler (this.OnExeFileButtonClicked);
 		this._exeFile.FocusOutEvent += new global::Gtk.FocusOutEventHandler (this.OnExeFileFocusOutEvent);
 		this._fileFileButton.Clicked += new global::System.EventHandler (this.OnFileFileButtonClicked);
 		this._fileFile.FocusOutEvent += new global::Gtk.FocusOutEventHandler (this.OnFileFileFocusOutEvent);
+		this._eventsFileButton.Clicked += new global::System.EventHandler (this.OnEventsFileButtonClicked);
 		this._startButton.Clicked += new global::System.EventHandler (this.OnStartButtonClicked);
-		this._testButton.Clicked += new global::System.EventHandler (this.OnTestButtonClicked);
 	}
 }

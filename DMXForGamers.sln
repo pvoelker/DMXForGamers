@@ -7,6 +7,19 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMXCommunication", "DMXComm
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMXEngine", "DMXEngine\DMXEngine.csproj", "{58E6905D-9A37-4C12-9AB5-B268AAB823E2}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Images", "Images", "{2749FADA-4337-413E-8EFE-D2BDB95AF552}"
+	ProjectSection(SolutionItems) = preProject
+		Images\DMXForGamers.svg = Images\DMXForGamers.svg
+		Images\DMXForGamers2.svg = Images\DMXForGamers2.svg
+		Images\DMXForGamers16.png = Images\DMXForGamers16.png
+		Images\DMXForGamers32.png = Images\DMXForGamers32.png
+		Images\DMXForGamers48.png = Images\DMXForGamers48.png
+		Images\DMXForGamers64.png = Images\DMXForGamers64.png
+		Images\DMXForGamers128.png = Images\DMXForGamers128.png
+		Images\Warning.svg = Images\Warning.svg
+		Images\Warning24x24.png = Images\Warning24x24.png
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -25,6 +38,8 @@ Global
 		{58E6905D-9A37-4C12-9AB5-B268AAB823E2}.Debug|x86.Build.0 = Debug|Any CPU
 		{58E6905D-9A37-4C12-9AB5-B268AAB823E2}.Release|x86.ActiveCfg = Release|Any CPU
 		{58E6905D-9A37-4C12-9AB5-B268AAB823E2}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		Policies = $0

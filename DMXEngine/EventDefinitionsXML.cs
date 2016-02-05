@@ -70,6 +70,13 @@ namespace DMXEngine
 			get { return _pattern; }
 			set { _pattern = value; }
 		}		
+
+		private bool _continuous;
+		public bool Continuous
+		{
+			get { return _continuous; }
+			set { _continuous = value; }
+		}		
 	}
 }
 
