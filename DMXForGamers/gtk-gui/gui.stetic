@@ -74,6 +74,7 @@
                 <property name="Type">TextOnly</property>
                 <property name="Label" translatable="yes">...</property>
                 <property name="UseUnderline">True</property>
+                <signal name="Clicked" handler="OnDmxFileButtonClicked" />
               </widget>
               <packing>
                 <property name="TopAttach">5</property>
@@ -115,7 +116,7 @@
             <child>
               <widget class="Gtk.Image" id="_dmxFileWarning">
                 <property name="MemberName" />
-                <property name="Pixbuf">stock:gtk-dialog-warning Menu</property>
+                <property name="Pixbuf">resource:DMXForGamers.Images.Warning24x24.png</property>
               </widget>
               <packing>
                 <property name="TopAttach">5</property>
@@ -204,7 +205,7 @@
             <child>
               <widget class="Gtk.Image" id="_eventsFileWarning">
                 <property name="MemberName" />
-                <property name="Pixbuf">stock:gtk-dialog-warning Menu</property>
+                <property name="Pixbuf">resource:DMXForGamers.Images.Warning24x24.png</property>
               </widget>
               <packing>
                 <property name="TopAttach">3</property>
@@ -226,7 +227,8 @@
               <widget class="Gtk.Notebook" id="_monitorNotebook">
                 <property name="MemberName" />
                 <property name="CanFocus">True</property>
-                <property name="CurrentPage">0</property>
+                <property name="CurrentPage">2</property>
+                <signal name="SwitchPage" handler="OnMonitorNotebookSwitchPage" />
                 <child>
                   <widget class="Gtk.Table" id="table2">
                     <property name="MemberName" />
@@ -310,7 +312,7 @@
                     <child>
                       <widget class="Gtk.Image" id="_exeFileWarning">
                         <property name="MemberName" />
-                        <property name="Pixbuf">stock:gtk-dialog-warning Menu</property>
+                        <property name="Pixbuf">resource:DMXForGamers.Images.Warning24x24.png</property>
                       </widget>
                       <packing>
                         <property name="LeftAttach">3</property>
@@ -427,7 +429,7 @@
                     <child>
                       <widget class="Gtk.Image" id="_fileFileWarning">
                         <property name="MemberName" />
-                        <property name="Pixbuf">stock:gtk-dialog-warning Menu</property>
+                        <property name="Pixbuf">resource:DMXForGamers.Images.Warning24x24.png</property>
                       </widget>
                       <packing>
                         <property name="LeftAttach">3</property>
@@ -613,7 +615,7 @@
                         <property name="MemberName" />
                         <property name="CanFocus">True</property>
                         <property name="Type">TextAndIcon</property>
-                        <property name="Icon">stock:gtk-media-play Menu</property>
+                        <property name="Icon">resource:DMXForGamers.Images.Warning24x24.png</property>
                         <property name="Label" translatable="yes">Start</property>
                         <property name="UseUnderline">True</property>
                         <signal name="Clicked" handler="OnStartButtonClicked" />
@@ -630,7 +632,7 @@
                         <property name="MemberName" />
                         <property name="CanFocus">True</property>
                         <property name="Type">TextAndIcon</property>
-                        <property name="Icon">stock:gtk-stop Button</property>
+                        <property name="Icon">resource:DMXForGamers.Images.Warning24x24.png</property>
                         <property name="Label" translatable="yes">Stop</property>
                         <property name="UseUnderline">True</property>
                       </widget>
@@ -642,37 +644,7 @@
                       </packing>
                     </child>
                     <child>
-                      <widget class="Gtk.Button" id="_manualButton">
-                        <property name="MemberName" />
-                        <property name="CanFocus">True</property>
-                        <property name="Type">TextAndIcon</property>
-                        <property name="Icon">stock:gtk-color-picker Menu</property>
-                        <property name="Label" translatable="yes">Manual</property>
-                        <property name="UseUnderline">True</property>
-                      </widget>
-                      <packing>
-                        <property name="PackType">End</property>
-                        <property name="Position">2</property>
-                        <property name="AutoSize">True</property>
-                        <property name="Expand">False</property>
-                        <property name="Fill">False</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <widget class="Gtk.Button" id="_testButton">
-                        <property name="MemberName" />
-                        <property name="CanFocus">True</property>
-                        <property name="Type">TextAndIcon</property>
-                        <property name="Label" translatable="yes">Test</property>
-                        <property name="UseUnderline">True</property>
-                      </widget>
-                      <packing>
-                        <property name="PackType">End</property>
-                        <property name="Position">3</property>
-                        <property name="AutoSize">True</property>
-                        <property name="Expand">False</property>
-                        <property name="Fill">False</property>
-                      </packing>
+                      <placeholder />
                     </child>
                   </widget>
                   <packing>
@@ -706,7 +678,7 @@
             <child>
               <widget class="Gtk.Label" id="label8">
                 <property name="MemberName" />
-                <property name="LabelProp" translatable="yes">page1</property>
+                <property name="LabelProp" translatable="yes">Main Control</property>
               </widget>
               <packing>
                 <property name="type">tab</property>
@@ -724,7 +696,7 @@
             <child>
               <widget class="Gtk.Label" id="label9">
                 <property name="MemberName" />
-                <property name="LabelProp" translatable="yes">page2</property>
+                <property name="LabelProp" translatable="yes">Manual Triggering</property>
               </widget>
               <packing>
                 <property name="type">tab</property>
@@ -900,39 +872,101 @@
   <widget class="Gtk.Bin" id="DMXForGamers.ManualEventsConsole" design-size="300 300">
     <property name="MemberName" />
     <property name="Visible">False</property>
+    <signal name="DeleteEvent" handler="OnDeleteEvent" />
     <child>
-      <widget class="Gtk.Table" id="_consoleTable">
+      <widget class="Gtk.VBox" id="vbox1">
         <property name="MemberName" />
-        <property name="NRows">3</property>
-        <property name="NColumns">3</property>
-        <property name="RowSpacing">6</property>
-        <property name="ColumnSpacing">6</property>
+        <property name="Spacing">6</property>
         <child>
-          <placeholder />
+          <widget class="Gtk.Table" id="_sceneConsoleTable">
+            <property name="MemberName" />
+            <property name="NRows">3</property>
+            <property name="NColumns">3</property>
+            <property name="RowSpacing">6</property>
+            <property name="ColumnSpacing">6</property>
+            <child>
+              <placeholder />
+            </child>
+            <child>
+              <placeholder />
+            </child>
+            <child>
+              <placeholder />
+            </child>
+            <child>
+              <placeholder />
+            </child>
+            <child>
+              <placeholder />
+            </child>
+            <child>
+              <placeholder />
+            </child>
+            <child>
+              <placeholder />
+            </child>
+            <child>
+              <placeholder />
+            </child>
+            <child>
+              <placeholder />
+            </child>
+          </widget>
+          <packing>
+            <property name="Position">0</property>
+            <property name="AutoSize">True</property>
+          </packing>
         </child>
         <child>
-          <placeholder />
+          <widget class="Gtk.HSeparator" id="hseparator1">
+            <property name="MemberName" />
+          </widget>
+          <packing>
+            <property name="Position">1</property>
+            <property name="AutoSize">True</property>
+            <property name="Expand">False</property>
+            <property name="Fill">False</property>
+          </packing>
         </child>
         <child>
-          <placeholder />
-        </child>
-        <child>
-          <placeholder />
-        </child>
-        <child>
-          <placeholder />
-        </child>
-        <child>
-          <placeholder />
-        </child>
-        <child>
-          <placeholder />
-        </child>
-        <child>
-          <placeholder />
-        </child>
-        <child>
-          <placeholder />
+          <widget class="Gtk.Table" id="_eventConsoleTable">
+            <property name="MemberName" />
+            <property name="NRows">3</property>
+            <property name="NColumns">3</property>
+            <property name="RowSpacing">6</property>
+            <property name="ColumnSpacing">6</property>
+            <child>
+              <placeholder />
+            </child>
+            <child>
+              <placeholder />
+            </child>
+            <child>
+              <placeholder />
+            </child>
+            <child>
+              <placeholder />
+            </child>
+            <child>
+              <placeholder />
+            </child>
+            <child>
+              <placeholder />
+            </child>
+            <child>
+              <placeholder />
+            </child>
+            <child>
+              <placeholder />
+            </child>
+            <child>
+              <placeholder />
+            </child>
+          </widget>
+          <packing>
+            <property name="Position">2</property>
+            <property name="AutoSize">True</property>
+          </packing>
         </child>
       </widget>
     </child>

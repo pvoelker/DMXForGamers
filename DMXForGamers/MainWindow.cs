@@ -72,6 +72,7 @@ public partial class MainWindow: Gtk.Window
 			}
 		} while(_protocolComboBox.Model.IterNext (ref iter) == true);
 
+		_monitorNotebook.Page = _appSettings.TextMonitorOption;
 		_exeFile.Text = _appSettings.EXEFilePath;
 		_exeArgs.Text = _appSettings.EXEArguments;
 		_fileFile.Text = _appSettings.MonitorFilePath;
@@ -117,6 +118,7 @@ public partial class MainWindow: Gtk.Window
 			_appSettings.PortAdapterGuid = dmxPortAdapter.Id;
 		}
 
+		_appSettings.TextMonitorOption = _monitorNotebook.Page;
 		_appSettings.EXEFilePath = _exeFile.Text;
 		_appSettings.EXEArguments = _exeArgs.Text;
 		_appSettings.MonitorFilePath = _fileFile.Text;
@@ -290,13 +292,20 @@ public partial class MainWindow: Gtk.Window
 				_fileFileWarning.Visible = true;
 				problemsFound = true;
 			}
+		} else if (_monitorNotebook.CurrentPage == 2) {
+			// No monitor
+		} else {
+			// Invalid monitor selection
+			problemsFound = true;
 		}
+
 		if (File.Exists (_eventsFile.Text) == true) {
 			_eventsFileWarning.Visible = false;
 		} else {
 			_eventsFileWarning.Visible = true;
 			problemsFound = true;
 		}
+
 		if (File.Exists (_dmxFile.Text) == true) {
 			_dmxFileWarning.Visible = false;
 		} else {
@@ -386,11 +395,6 @@ public partial class MainWindow: Gtk.Window
 	}
 
 	protected void OnTestButtonClicked (object sender, EventArgs e)
-	{
-		throw new NotImplementedException ();
-	}
-
-	protected void OnManualButtonClicked (object sender, EventArgs e)
 	{
 		throw new NotImplementedException ();
 	}

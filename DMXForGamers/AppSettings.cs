@@ -8,6 +8,7 @@ namespace DMXForGamers
 	public class AppSettings
 	{
 		public Guid PortAdapterGuid { get; set; }
+		public int TextMonitorOption { get; set; }
 		public string EXEFilePath { get; set; }
 		public string EXEArguments { get; set; }
 		public string MonitorFilePath { get; set; }

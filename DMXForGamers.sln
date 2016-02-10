@@ -17,7 +17,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Images", "Images", "{2749FA
 		Images\DMXForGamers64.png = Images\DMXForGamers64.png
 		Images\DMXForGamers128.png = Images\DMXForGamers128.png
 		Images\Warning.svg = Images\Warning.svg
-		Images\Warning24x24.png = Images\Warning24x24.png
 	EndProjectSection
 EndProject
 Global
