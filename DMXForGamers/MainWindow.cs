@@ -22,7 +22,7 @@ public partial class MainWindow: Gtk.Window
 		Build ();
 
 		_dmxUpdateTimer = new Timer ();
-		_dmxUpdateTimer.Interval = 50;
+		_dmxUpdateTimer.Interval = 10;
 		_dmxUpdateTimer.Elapsed += DMXUpdateTimer_Elapsed;
 
 		_stopButton.Sensitive = false;

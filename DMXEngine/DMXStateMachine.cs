@@ -28,26 +28,6 @@ namespace DMXEngine
 		private Dictionary<string, ActiveEvent> _activeEvents = new Dictionary<string, ActiveEvent> ();
 		private bool _disposing = false;
 
-//		#region Events
-//
-//		public delegate void StartedHandler(object sender);
-//		public event StartedHandler Started;
-//		public void OnStarted()
-//		{
-//			if (Started != null)
-//				Started (this);
-//		}
-//
-//		public delegate void StoppedHandler(object sender);
-//		public event StoppedHandler Stopped;
-//		public void OnStopped()
-//		{
-//			if (Stopped != null)
-//				Stopped (this);
-//		}
-//
-//		#endregion
-
 		public DMXStateMachine (DMX dmx, IDMXCommunication dmxComm)
 		{
 			if (dmx == null)
@@ -66,9 +46,35 @@ namespace DMXEngine
 			if (_disposing == false) {
 
 				List<string> finishedEvents = new List<string> ();
-				Dictionary<ushort, byte> channelValues = new Dictionary<ushort, byte> ();
 
 				lock (_activeEvents) {
+					foreach (var element in _activeEvents) {
+						TimeSpan ts = dt - element.Value.Start;
+
+						var foundEvent = _dmx.Events.Find (x => String.Compare (x.ID, element.Key, true) == 0);
+						if ((foundEvent != null) && ((int)ts.TotalMilliseconds > foundEvent.TimeSpan)) {
+							if (element.Value.Iteration > 1) {
+								element.Value.Start = dt;
+								element.Value.Iteration--;
+							} else {
+								if (element.Value.Continuous == true) {
+									element.Value.Start = dt;
+									element.Value.Iteration = foundEvent.RepeatCount;
+								} else {
+									finishedEvents.Add (element.Key);
+								}
+							}
+						}
+					}
+
+					foreach (var element in finishedEvents) {
+						_activeEvents.Remove (element);
+					}
+
+					finishedEvents = null;
+
+					Dictionary<ushort, byte> channelValues = new Dictionary<ushort, byte> ();
+
 					foreach (var element in _activeEvents) {
 						TimeSpan ts = dt - element.Value.Start;
 
@@ -80,18 +86,11 @@ namespace DMXEngine
 									foreach (var val in eventEnum.Current.DMXValues) {
 										short value = val.Value;
 										if (val.Delta != 0) {
-											value += (short)(val.Delta * (ts.TotalMilliseconds / eventEnum.Current.TimeSpan));
+											value += (short)(val.Delta * ((ts.TotalMilliseconds - eventEnum.Current.StartTime) / eventEnum.Current.TimeSpan));
 										}
 										channelValues[val.Channel] = (byte)value;
 									}									
 								}
-							}
-						} else {
-							if (element.Value.Iteration > 1) {
-								element.Value.Start = DateTime.Now;
-								element.Value.Iteration--;
-							} else {
-								finishedEvents.Add (element.Key);
 							}
 						}
 					}
@@ -99,14 +98,7 @@ namespace DMXEngine
 					foreach (var value in channelValues) {
 						_dmxComm.SetChannelValue (value.Key, value.Value);
 					}
-
-					foreach (var element in finishedEvents) {
-						if (_activeEvents [element].Continuous == true)
-							_activeEvents [element].Start = DateTime.Now;
-						else
-							_activeEvents.Remove (element);
-					}
-
+						
 					// Set base values if no time blocks active
 					if (_activeEvents.Count == 0) {
 						foreach (var val in _dmx.BaseDMXValues) {
