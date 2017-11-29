@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DMX xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Description>DMX configuration for Scorched3D for 4-channel DMX lights</Description>
+  <BaseDMXValues>
+    <DMXValue Channel="1" Value="255" Delta="0" />
+    <DMXValue Channel="2" Value="63" Delta="0" />
+    <DMXValue Channel="3" Value="63" Delta="0" />
+    <DMXValue Channel="4" Value="63" Delta="0" />
+    <DMXValue Channel="5" Value="255" Delta="0" />
+    <DMXValue Channel="6" Value="63" Delta="0" />
+    <DMXValue Channel="7" Value="63" Delta="0" />
+    <DMXValue Channel="8" Value="63" Delta="0" />
+    <DMXValue Channel="9" Value="255" Delta="0" />
+    <DMXValue Channel="10" Value="63" Delta="0" />
+    <DMXValue Channel="11" Value="63" Delta="0" />
+    <DMXValue Channel="12" Value="63" Delta="0" />
+    <DMXValue Channel="13" Value="255" Delta="0" />
+    <DMXValue Channel="14" Value="63" Delta="0" />
+    <DMXValue Channel="15" Value="63" Delta="0" />
+    <DMXValue Channel="16" Value="63" Delta="0" />
+  </BaseDMXValues>
+  <Events>
+    <Event ID="Game Start" TimeSpan="500" RepeatCount="10">
+      <TimeBlocks>
+        <TimeBlock StartTime="0" TimeSpan="500">
+          <DMXValues>
+            <DMXValue Channel="1" Value="255" Delta="0" />
+            <DMXValue Channel="2" Value="255" Delta="-255" />
+            <DMXValue Channel="3" Value="0" Delta="0" />
+            <DMXValue Channel="4" Value="0" Delta="0" />
+          </DMXValues>
+        </TimeBlock>
+      </TimeBlocks>
+    </Event>
+    <Event ID="Player Killed" TimeSpan="500" RepeatCount="8">
+      <TimeBlocks>
+        <TimeBlock StartTime="0" TimeSpan="125">
+          <DMXValues>
+            <DMXValue Channel="1" Value="255" Delta="0" />
+            <DMXValue Channel="2" Value="255" Delta="0" />
+            <DMXValue Channel="3" Value="0" Delta="0" />
+            <DMXValue Channel="4" Value="0" Delta="0" />
+          </DMXValues>
+        </TimeBlock>
+        <TimeBlock StartTime="125" TimeSpan="125">
+          <DMXValues>
+            <DMXValue Channel="1" Value="255" Delta="0" />
+            <DMXValue Channel="2" Value="255" Delta="0" />
+            <DMXValue Channel="3" Value="255" Delta="0" />
+            <DMXValue Channel="4" Value="0" Delta="0" />
+          </DMXValues>
+        </TimeBlock>
+        <TimeBlock StartTime="250" TimeSpan="125">
+          <DMXValues>
+            <DMXValue Channel="1" Value="255" Delta="0" />
+            <DMXValue Channel="2" Value="255" Delta="0" />
+            <DMXValue Channel="3" Value="255" Delta="0" />
+            <DMXValue Channel="4" Value="255" Delta="0" />
+          </DMXValues>
+        </TimeBlock>
+        <TimeBlock StartTime="375" TimeSpan="125">
+          <DMXValues>
+            <DMXValue Channel="1" Value="255" Delta="0" />
+            <DMXValue Channel="2" Value="255" Delta="0" />
+            <DMXValue Channel="3" Value="165" Delta="0" />
+            <DMXValue Channel="4" Value="0" Delta="0" />
+          </DMXValues>
+        </TimeBlock>
+      </TimeBlocks>
+    </Event>
+    <Event ID="Winner" TimeSpan="1500" RepeatCount="4">
+      <TimeBlocks>
+        <TimeBlock StartTime="0" TimeSpan="500">
+          <DMXValues>
+            <DMXValue Channel="1" Value="255" Delta="0" />
+            <DMXValue Channel="2" Value="255" Delta="-255" />
+            <DMXValue Channel="3" Value="0" Delta="255" />
+            <DMXValue Channel="4" Value="0" Delta="0" />
+          </DMXValues>
+        </TimeBlock>
+        <TimeBlock StartTime="500" TimeSpan="500">
+          <DMXValues>
+            <DMXValue Channel="1" Value="255" Delta="0" />
+            <DMXValue Channel="2" Value="0" Delta="0" />
+            <DMXValue Channel="3" Value="255" Delta="-255" />
+            <DMXValue Channel="4" Value="0" Delta="255" />
+          </DMXValues>
+        </TimeBlock>
+        <TimeBlock StartTime="1000" TimeSpan="500">
+          <DMXValues>
+            <DMXValue Channel="1" Value="255" Delta="0" />
+            <DMXValue Channel="2" Value="0" Delta="255" />
+            <DMXValue Channel="3" Value="0" Delta="0" />
+            <DMXValue Channel="4" Value="255" Delta="-255" />
+          </DMXValues>
+        </TimeBlock>
+      </TimeBlocks>
+    </Event>
+  </Events>
+</DMX>
