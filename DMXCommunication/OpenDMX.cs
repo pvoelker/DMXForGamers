@@ -5,7 +5,7 @@ using FTDIChip.FTD2XX;
 
 namespace DMXCommunication
 {
-	public class OpenDMX : IDMXCommunication
+    public class OpenDMX : IDMXCommunication
 	{
 		private byte[] _buffer = new byte[513];
 		private uint _handle = 0;
@@ -22,7 +22,8 @@ namespace DMXCommunication
 		public const byte PURGE_RX = 1;
 		public const byte PURGE_TX = 2;
 
-		public Guid Identifier { get { return new Guid("b76abe7d-ef4a-4b05-bf41-bb4e68613ed7");} }
+        static public Guid ID = new Guid("b76abe7d-ef4a-4b05-bf41-bb4e68613ed7");
+        public Guid Identifier { get { return ID; } }
 		public string Description { get { return "Enttec Open DMX (FTDI Based)"; } }
 
 		private void Init ()

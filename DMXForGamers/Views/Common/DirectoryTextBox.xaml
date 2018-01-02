@@ -1,0 +1,18 @@
+﻿<UserControl x:Class="DMXForGamers.Views.Common.DirectoryTextBox"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:DMXForGamers.Views.Common"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="5"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <TextBox Grid.Column="0" IsReadOnly="False" MouseDoubleClick="TextBox_MouseDoubleClick" Text="{Binding Path=DirectoryPath, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:DirectoryTextBox}}}" />
+        <Button Grid.Column="5" Click="Button_Click" Padding="5,0">...</Button>
+    </Grid>
+</UserControl>

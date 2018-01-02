@@ -13,7 +13,8 @@ namespace DMXCommunication
 		private EventWaitHandle _doneComplete = null;
 		private bool _doneStarted = false;
 
-		public Guid Identifier { get { return new Guid("2900cfbe-a150-41d9-bf92-fbbb27fe2f22");} }
+        static public Guid ID = new Guid("2900cfbe-a150-41d9-bf92-fbbb27fe2f22");
+        public Guid Identifier { get { return ID; } }
 		public string Description { get { return "COM Port (RS485)"; } }
 
 		public string PortName { get; set; }

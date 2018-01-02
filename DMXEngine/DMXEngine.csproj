@@ -8,7 +8,8 @@
     <RootNamespace>DMXEngine</RootNamespace>
     <AssemblyName>DMXEngine</AssemblyName>
     <Description>DMX Engine library written by Paul Voelker</Description>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -54,8 +55,5 @@
       <Name>DMXCommunication</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Support\" />
-    <Folder Include="Monitors\" />
-  </ItemGroup>
+  <ItemGroup />
 </Project>
