@@ -30,12 +30,14 @@ namespace DMXForGamers.Models
             set { m_SelectedMonitorIndex = value; AnnouncePropertyChanged(); }
         }
 
-        private string m_Output;
-        public string Output
+        private Queue<string> m_Output = new Queue<string>();
+        public Queue<string> Output
         {
             get { return m_Output; }
             set { m_Output = value; AnnouncePropertyChanged(); }
         }
+
+        public void TriggerOutputPropertyChanged() { OnPropertyChanged(nameof(Output)); }
 
         #region Monitors
 

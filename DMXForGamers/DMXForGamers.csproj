@@ -60,6 +60,7 @@
     </ApplicationDefinition>
     <Compile Include="AppSettings\AppSettings.cs" />
     <Compile Include="AppSettings\AppSettingsFile.cs" />
+    <Compile Include="Converters\ListToStringConverter.cs" />
     <Compile Include="Models\DMXProtocol.cs" />
     <Compile Include="Models\Main.cs" />
     <Compile Include="Views\Common\DirectoryTextBox.xaml.cs">
@@ -67,6 +68,9 @@
     </Compile>
     <Compile Include="Views\Common\FileTextBox.xaml.cs">
       <DependentUpon>FileTextBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ManualEvents.xaml.cs">
+      <DependentUpon>ManualEvents.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Monitors\NewProcessMonitor.xaml.cs">
       <DependentUpon>NewProcessMonitor.xaml</DependentUpon>
@@ -97,6 +101,10 @@
     <Page Include="Views\Common\FileTextBox.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ManualEvents.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Monitors\NewProcessMonitor.xaml">
       <Generator>MSBuild:Compile</Generator>

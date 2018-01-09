@@ -4,10 +4,15 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DMXForGamers"
+        xmlns:views="clr-namespace:DMXForGamers.Views"
         xmlns:monitors="clr-namespace:DMXForGamers.Views.Monitors"
         xmlns:common="clr-namespace:DMXForGamers.Views.Common"
+        xmlns:converters="clr-namespace:DMXForGamers.Converters"
         mc:Ignorable="d"
-        Title="DMX For Gamers" Height="350" Width="525" Icon="DMXForGamers.ico" Closed="Window_Closed">
+        Title="DMX For Gamers" Height="600" Width="800" Icon="DMXForGamers.ico" Closed="Window_Closed" Closing="Window_Closing">
+    <Window.Resources>
+        <converters:ListToStringConverter x:Key="listToStringConverter" />
+    </Window.Resources>
     <Grid Margin="5">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -44,7 +49,7 @@
         <common:FileTextBox Grid.Row="6" Grid.Column="2" FilePath="{Binding Path=DMXFile}"></common:FileTextBox>
         <TabControl Grid.Row="8" Grid.ColumnSpan="3">
             <TabItem Header="Main Control">
-                <Grid>
+                <Grid Margin="10">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="10"/>
@@ -57,10 +62,15 @@
                     </Grid.ColumnDefinitions>
                     <Button Grid.Row="0" Grid.Column="0" Click="StartButton_Click" Name="_startButton">Start</Button>
                     <Button Grid.Row="0" Grid.Column="2" Click="StopButton_Click" Name="_stopButton">Stop</Button>
-                    <TextBlock Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3"></TextBlock>
+                    <ScrollViewer Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" x:Name="m_OutputScroll">
+                        <TextBlock Text="{Binding Path=Output, Converter={StaticResource listToStringConverter}}"></TextBlock>
+                    </ScrollViewer>
                 </Grid>
             </TabItem>
             <TabItem Header="Manual Triggering">
+                <Grid>
+                    <views:ManualEvents></views:ManualEvents>
+                </Grid>
             </TabItem>
         </TabControl>
     </Grid>

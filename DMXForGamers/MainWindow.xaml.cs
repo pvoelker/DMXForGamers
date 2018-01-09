@@ -15,6 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 using DMXCommunication;
 using DMXEngine;
 using DMXForGamers.Models;
@@ -31,6 +32,10 @@ namespace DMXForGamers
             InitializeComponent();
 
             LoadData();
+
+            _dmxUpdateTimer = new Timer();
+            _dmxUpdateTimer.Interval = 10;
+            _dmxUpdateTimer.Elapsed += DMXUpdateTimer_Elapsed;
         }
 
         private Main m_Data = new Main();
@@ -41,7 +46,7 @@ namespace DMXForGamers
         private TextEventEngine _engine = null;
         private ITextMonitor _textMonitor = null;
         private Timer _dmxUpdateTimer = null;
-        private const int MAX_LINE_COUNT = 200;
+        private const int MAX_LINE_COUNT = 100;
 
         private void LoadData()
         {
@@ -81,6 +86,8 @@ namespace DMXForGamers
             m_Data.NewProcessMonitor.ExeFilePath = m_AppSettings.EXEFilePath;
 
             m_Data.SelectedMonitorIndex = m_AppSettings.TextMonitorOption;
+
+            m_Data.Output.Enqueue("test line...");
 
             this.DataContext = m_Data;
         }
@@ -156,7 +163,7 @@ namespace DMXForGamers
                 if (dmxComm == null)
                 {
                     MessageBox.Show("DMX Adapter/Port is Not Selected",
-                        "", MessageBoxButton.OK, MessageBoxImage.Exclamation);                 
+                        "", MessageBoxButton.OK, MessageBoxImage.Exclamation);
                 }
                 else
                 {
@@ -224,7 +231,14 @@ namespace DMXForGamers
         {
             if (line != null)
             {
-                m_Data.Output += line + Environment.NewLine;
+                m_Data.Output.Enqueue(line);
+                if (m_Data.Output.Count() > MAX_LINE_COUNT)
+                {
+                    m_Data.Output.Dequeue();
+                }
+                m_Data.TriggerOutputPropertyChanged();
+
+                Dispatcher.BeginInvoke(DispatcherPriority.SystemIdle, new Action(() => m_OutputScroll.ScrollToEnd()));
 
                 ProcessDMXEvent(line);
             }
@@ -236,6 +250,27 @@ namespace DMXForGamers
             {
                 _engine.ProcessText(line);
             }
+        }
+
+        void DMXUpdateTimer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            _dmxUpdateTimer.Enabled = false;
+            try
+            {
+                if (_engine != null)
+                {
+                    _engine.Execute(DateTime.Now);
+                }
+            }
+            finally
+            {
+                _dmxUpdateTimer.Enabled = true;
+            }
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            StopButton_Click(this, null);
         }
     }
 }
