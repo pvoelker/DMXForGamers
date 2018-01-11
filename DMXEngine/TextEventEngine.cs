@@ -22,8 +22,8 @@ namespace DMXEngine
             {
                 if (eventDef.UseRegEx == true)
                 {
-                    if (Regex.IsMatch(line, eventDef.Pattern,
-                                RegexOptions.IgnoreCase | RegexOptions.Singleline) == true)
+                    if ((eventDef.Pattern != null) && (Regex.IsMatch(line, eventDef.Pattern,
+                                RegexOptions.IgnoreCase | RegexOptions.Singleline) == true))
                     {
                         _dmx.AddEvent(eventDef.EventID);
                         break;
@@ -31,7 +31,7 @@ namespace DMXEngine
                 }
                 else
                 {
-                    if (line.ToLower().Contains(eventDef.Pattern.ToLower()) == true)
+                    if ((eventDef.Pattern != null) && (line.ToLower().Contains(eventDef.Pattern.ToLower()) == true))
                     {
                         _dmx.AddEvent(eventDef.EventID);
                         break;

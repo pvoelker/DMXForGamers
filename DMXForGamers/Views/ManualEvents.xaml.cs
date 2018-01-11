@@ -1,10 +1,12 @@
 ﻿using System;
+using DMXForGamers.Models;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -23,6 +25,40 @@ namespace DMXForGamers.Views
         public ManualEvents()
         {
             InitializeComponent();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            if(sender is Button)
+            {
+                var control = sender as Button;
+                var data = control.DataContext as EventDefinition;
+
+                if(data.EventOn != null)
+                {
+                    data.EventOn.Execute(data.EventID);
+                }
+            }
+            else if(sender is ToggleButton)
+            {
+                var control = sender as ToggleButton;
+                var data = control.DataContext as EventDefinition;
+
+                if(control.IsChecked == false)
+                {
+                    if (data.EventOff != null)
+                    {
+                        data.EventOff.Execute(data.EventID);
+                    }
+                }
+                else
+                {
+                    if (data.EventOn != null)
+                    {
+                        data.EventOn.Execute(data.EventID);
+                    }
+                }
+            }
         }
     }
 }

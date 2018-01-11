@@ -61,7 +61,9 @@
     <Compile Include="AppSettings\AppSettings.cs" />
     <Compile Include="AppSettings\AppSettingsFile.cs" />
     <Compile Include="Converters\ListToStringConverter.cs" />
+    <Compile Include="Models\Bases\RelayCommand.cs" />
     <Compile Include="Models\DMXProtocol.cs" />
+    <Compile Include="Models\EventDefinition.cs" />
     <Compile Include="Models\Main.cs" />
     <Compile Include="Views\Common\DirectoryTextBox.xaml.cs">
       <DependentUpon>DirectoryTextBox.xaml</DependentUpon>

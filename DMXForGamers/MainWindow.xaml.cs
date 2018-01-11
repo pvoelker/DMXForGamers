@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -87,8 +88,6 @@ namespace DMXForGamers
 
             m_Data.SelectedMonitorIndex = m_AppSettings.TextMonitorOption;
 
-            m_Data.Output.Enqueue("test line...");
-
             this.DataContext = m_Data;
         }
 
@@ -117,7 +116,7 @@ namespace DMXForGamers
                 catch (Exception ex)
                 {
                     response = MessageBox.Show("Unable to save settings.  Do you want to try again?  Otherwise current settings will be lost.\n\nDetails: " + ex.Message,
-                        "", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No);
+                        "Warning", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No);
                 }
             }
         }
@@ -167,9 +166,11 @@ namespace DMXForGamers
                 }
                 else
                 {
-                    DMXStateMachine dmx = new DMXStateMachine(DMXEventsFile.LoadFile(m_Data.DMXFile), dmxComm);
+                    var dmxEvents = DMXEventsFile.LoadFile(m_Data.DMXFile);
+                    DMXStateMachine dmx = new DMXStateMachine(dmxEvents, dmxComm);
 
-                    _engine = new TextEventEngine(dmx, EventDefinitionsFile.LoadFile(m_Data.EventsFile));
+                    var eventDefs = EventDefinitionsFile.LoadFile(m_Data.EventsFile);
+                    _engine = new TextEventEngine(dmx, eventDefs);
 
                     _dmxUpdateTimer.Enabled = true;
 
@@ -192,7 +193,26 @@ namespace DMXForGamers
                     if (_textMonitor != null)
                         _textMonitor.Start();
 
-                    //_manualEvents.ConfigureUI(_engine);
+                    var events = new List<Models.EventDefinition>();
+                    foreach (var item in _engine.EventDefinitions.Events)
+                    {
+                        events.Add(new Models.EventDefinition()
+                        {
+                             Description = item.Description,
+                             EventID = item.EventID,
+                             Continuous = item.Continuous,
+                             EventOn = new RelayCommand(x =>
+                             {
+                                 _engine.ManualAddEvent((string)x, item.Continuous);
+                             }),
+                             EventOff = new RelayCommand(x =>
+                             {
+                                 _engine.ManualRemoveEvent((string)x);
+                             })
+                        });
+                    }
+
+                    m_Data.Events = new ObservableCollection<Models.EventDefinition>(events);
                 }
             }
             catch (Exception ex)

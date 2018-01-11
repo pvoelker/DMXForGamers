@@ -1,14 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Data;
 
 namespace DMXForGamers.Models
 {
     public class Main : NotifyPropertyChangedWithErrorInfoBase
     {
+        public Main()
+        {
+        }
+
         private List<DMXProtocol> m_Protocols = new List<DMXProtocol>();
         public List<DMXProtocol> Protocols
         {
@@ -70,6 +76,34 @@ namespace DMXForGamers.Models
             get { return m_DMXFile; }
             set { m_DMXFile = value; AnnouncePropertyChanged(); }
         }
+
+        private ObservableCollection<EventDefinition> m_Events;
+        public ObservableCollection<EventDefinition> Events
+        {
+            get { return m_Events; }
+            set
+            {
+                m_Events = value;
+
+                m_ContinuousEvents = new CollectionViewSource();
+                m_ContinuousEvents.Source = Events;
+                m_ContinuousEvents.Filter += (x, y) => { y.Accepted = ((EventDefinition)y.Item).Continuous; };
+
+                m_NonContinuousEvents = new CollectionViewSource();
+                m_NonContinuousEvents.Source = Events;
+                m_NonContinuousEvents.Filter += (x, y) => { y.Accepted = !((EventDefinition)y.Item).Continuous; };
+
+                AnnouncePropertyChanged();
+                OnPropertyChanged(nameof(ContinuousEvents));
+                OnPropertyChanged(nameof(NonContinuousEvents));
+            }
+        }
+
+        private CollectionViewSource m_ContinuousEvents;
+        public ICollectionView ContinuousEvents { get { return (m_ContinuousEvents == null) ? null : m_ContinuousEvents.View; } }
+
+        private CollectionViewSource m_NonContinuousEvents;
+        public ICollectionView NonContinuousEvents { get { return (m_NonContinuousEvents == null) ? null : m_NonContinuousEvents.View; } }
 
         #region IDataErrorInfo
 

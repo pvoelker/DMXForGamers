@@ -60,8 +60,8 @@
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
-                    <Button Grid.Row="0" Grid.Column="0" Click="StartButton_Click" Name="_startButton">Start</Button>
-                    <Button Grid.Row="0" Grid.Column="2" Click="StopButton_Click" Name="_stopButton">Stop</Button>
+                    <Button Grid.Row="0" Grid.Column="0" Click="StartButton_Click" Name="_startButton" Padding="5" FontSize="18">Start</Button>
+                    <Button Grid.Row="0" Grid.Column="2" Click="StopButton_Click" Name="_stopButton" Padding="5" FontSize="18">Stop</Button>
                     <ScrollViewer Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" x:Name="m_OutputScroll">
                         <TextBlock Text="{Binding Path=Output, Converter={StaticResource listToStringConverter}}"></TextBlock>
                     </ScrollViewer>
