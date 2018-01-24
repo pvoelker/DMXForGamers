@@ -8,7 +8,7 @@
     <RootNamespace>DMXEngine</RootNamespace>
     <AssemblyName>DMXEngine</AssemblyName>
     <Description>DMX Engine library written by Paul Voelker</Description>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">

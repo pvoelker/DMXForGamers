@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AutoMapper;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -37,6 +38,51 @@ namespace DMXForGamers
             _dmxUpdateTimer = new Timer();
             _dmxUpdateTimer.Interval = 10;
             _dmxUpdateTimer.Elapsed += DMXUpdateTimer_Elapsed;
+
+            Mapper.Initialize(cfg =>
+            {
+                cfg.CreateMap<DMXEngine.EventDefinitions, Models.EventDefinitions>();
+                cfg.CreateMap<DMXEngine.EventDefinition, Models.EventDefinition>();
+
+                cfg.CreateMap<DMXEngine.DMX, Models.DMXDefinitions>();
+                cfg.CreateMap<DMXEngine.Event, Models.DMXEvent>();
+                cfg.CreateMap<DMXEngine.TimeBlock, Models.TimeBlock>();
+                cfg.CreateMap<DMXEngine.DMXValue, Models.DMXValue>();
+            });
+
+            m_Data.EditEvents = new RelayCommand(x =>
+            {
+                var frm = new EditEventsWindow();
+                var filedata = EventDefinitionsFile.LoadFile(m_Data.EventsFile);
+                var data = Mapper.Map<DMXEngine.EventDefinitions, Models.EventDefinitions>(filedata);
+                frm.DataContext = data;
+                frm.ShowDialog();
+            },
+            x =>
+            {
+                return String.IsNullOrWhiteSpace(m_Data.EventsFile) == false;
+            });
+
+            m_Data.NewEvents = new RelayCommand(x =>
+            {
+                var frm = new EditEventsWindow();
+                var data = Mapper.Map<DMXEngine.EventDefinitions, Models.EventDefinitions>(new DMXEngine.EventDefinitions());
+                frm.DataContext = data;
+                frm.ShowDialog();
+            });
+
+            m_Data.EditDMXEvents = new RelayCommand(x =>
+            {
+                var frm = new EditDMXEventsWindow();
+                var filedata = DMXEventsFile.LoadFile(m_Data.DMXFile);
+                var data = Mapper.Map<DMXEngine.DMX, Models.DMXDefinitions>(filedata);
+                frm.DataContext = data;
+                frm.ShowDialog();
+            },
+            x =>
+            {
+                return String.IsNullOrWhiteSpace(m_Data.EventsFile) == false;
+            });
         }
 
         private Main m_Data = new Main();
@@ -198,17 +244,17 @@ namespace DMXForGamers
                     {
                         events.Add(new Models.EventDefinition()
                         {
-                             Description = item.Description,
-                             EventID = item.EventID,
-                             Continuous = item.Continuous,
-                             EventOn = new RelayCommand(x =>
-                             {
-                                 _engine.ManualAddEvent((string)x, item.Continuous);
-                             }),
-                             EventOff = new RelayCommand(x =>
-                             {
-                                 _engine.ManualRemoveEvent((string)x);
-                             })
+                            Description = item.Description,
+                            EventID = item.EventID,
+                            Continuous = item.Continuous,
+                            EventOn = new RelayCommand(x =>
+                            {
+                                _engine.ManualAddEvent((string)x, item.Continuous);
+                            }),
+                            EventOff = new RelayCommand(x =>
+                            {
+                                _engine.ManualRemoveEvent((string)x);
+                            })
                         });
                     }
 

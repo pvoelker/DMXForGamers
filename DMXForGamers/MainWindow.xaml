@@ -29,10 +29,13 @@
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="5"/>
             <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
+            <ColumnDefinition Width="5"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="5"/>
+            <ColumnDefinition Width="Auto"/>        </Grid.ColumnDefinitions>
         <TextBlock Grid.Row="0">Protocol:</TextBlock>
-        <ComboBox Grid.Row="0" Grid.Column="2" ItemsSource="{Binding Path=Protocols}" DisplayMemberPath="Name" SelectedItem="{Binding Path=SelectedProtocol}"></ComboBox>
-        <TabControl Grid.Row="2" Grid.ColumnSpan="3" SelectedIndex="{Binding Path=SelectedMonitorIndex}">
+        <ComboBox Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="5" ItemsSource="{Binding Path=Protocols}" DisplayMemberPath="Name" SelectedItem="{Binding Path=SelectedProtocol}"></ComboBox>
+        <TabControl Grid.Row="2" Grid.ColumnSpan="8" SelectedIndex="{Binding Path=SelectedMonitorIndex}">
             <TabItem Header="New Process Monitor">
                 <monitors:NewProcessMonitor DataContext="{Binding Path=NewProcessMonitor}"></monitors:NewProcessMonitor>
             </TabItem>
@@ -45,9 +48,13 @@
         </TabControl>
         <TextBlock Grid.Row="4">Events File:</TextBlock>
         <common:FileTextBox Grid.Row="4" Grid.Column="2" FilePath="{Binding Path=EventsFile}"></common:FileTextBox>
+        <Button Grid.Row="4" Grid.Column="4" Command="{Binding Path='EditEvents'}">Edit</Button>
+        <Button Grid.Row="4" Grid.Column="6" Command="{Binding Path='NewEvents'}">New</Button>
         <TextBlock Grid.Row="6">DMX File:</TextBlock>
         <common:FileTextBox Grid.Row="6" Grid.Column="2" FilePath="{Binding Path=DMXFile}"></common:FileTextBox>
-        <TabControl Grid.Row="8" Grid.ColumnSpan="3">
+        <Button Grid.Row="6" Grid.Column="4" Command="{Binding Path='EditDMXEvents'}">Edit</Button>
+        <Button Grid.Row="6" Grid.Column="6" Command="{Binding Path='NewDMXEvents'}">New</Button>
+        <TabControl Grid.Row="8" Grid.ColumnSpan="8">
             <TabItem Header="Main Control">
                 <Grid Margin="10">
                     <Grid.RowDefinitions>

@@ -8,7 +8,7 @@
     <RootNamespace>DMXCommunication</RootNamespace>
     <AssemblyName>DMXCommunication</AssemblyName>
     <Description>DMX Communication library written by Paul Voelker</Description>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">

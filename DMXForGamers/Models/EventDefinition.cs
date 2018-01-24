@@ -7,7 +7,7 @@ using System.Windows.Input;
 
 namespace DMXForGamers.Models
 {
-    public class EventDefinition : NotifyPropertyChangedBase
+    public class EventDefinition : NotifyPropertyChangedWithErrorInfoBase
     {
         public EventDefinition()
         {
@@ -25,6 +25,25 @@ namespace DMXForGamers.Models
         {
             get { return _eventID; }
             set { _eventID = value; AnnouncePropertyChanged(); }
+        }
+
+        private bool _useRegEx;
+        public bool UseRegEx
+        {
+            get { return _useRegEx; }
+            set
+            {
+                _useRegEx = value;
+                AnnouncePropertyChanged();
+                OnPropertyChanged(nameof(Pattern)); // For error validation
+            }
+        }
+
+        private string _pattern;
+        public string Pattern
+        {
+            get { return _pattern; }
+            set { _pattern = value; AnnouncePropertyChanged(); }
         }
 
         private bool _continuous;
@@ -47,5 +66,44 @@ namespace DMXForGamers.Models
             get { return _eventOff; }
             set { _eventOff = value; AnnouncePropertyChanged(); }
         }
+
+        private ICommand _deleteEvent;
+        public ICommand DeleteEvent
+        {
+            get { return _deleteEvent; }
+            set { _deleteEvent = value; AnnouncePropertyChanged(); }
+        }
+
+        #region IErrorInfo
+
+        public override string this[string columnName]
+        {
+            get
+            {
+                var errorStr = new StringBuilder();
+
+                if ((columnName == nameof(EventID)) || (columnName == null))
+                {
+                    if (String.IsNullOrWhiteSpace(EventID) == true)
+                    {
+                        errorStr.AppendLine("Event ID is required");
+                    }
+                }
+                if ((columnName == nameof(Pattern)) || (columnName == null))
+                {
+                    if (UseRegEx == true)
+                    {
+                        if (String.IsNullOrWhiteSpace(Pattern) == true)
+                        {
+                            errorStr.AppendLine("Matching Pattern is required or disable Regular Expression option");
+                        }
+                    }
+                }
+
+                return (errorStr.Length == 0) ? null : errorStr.ToString();
+            }
+        }
+
+        #endregion
     }
 }

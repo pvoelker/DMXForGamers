@@ -7,158 +7,184 @@ using DMXCommunication;
 
 namespace DMXEngine
 {
-	internal class ActiveEvent
-	{
-		public ActiveEvent(DateTime start, int iterCount, bool continuous)
-		{
-			Start = start;
-			Iteration = iterCount;
-			Continuous = continuous;
-		}
+    internal class ActiveEvent
+    {
+        public ActiveEvent(DateTime start, int iterCount, bool continuous)
+        {
+            Start = start;
+            Iteration = iterCount;
+            Continuous = continuous;
+        }
 
-		public DateTime Start { get; set; }
-		public int Iteration { get; set; }
-		public bool Continuous { get; set; }
-	}
+        public DateTime Start { get; set; }
+        public int Iteration { get; set; }
+        public bool Continuous { get; set; }
+    }
 
-	public class DMXStateMachine : IDisposable
-	{
-		private DMX _dmx;
-		private IDMXCommunication _dmxComm;
-		private Dictionary<string, ActiveEvent> _activeEvents = new Dictionary<string, ActiveEvent> ();
-		private bool _disposing = false;
+    public class DMXStateMachine : IDisposable
+    {
+        private DMX _dmx;
+        private IDMXCommunication _dmxComm;
+        private Dictionary<string, ActiveEvent> _activeEvents = new Dictionary<string, ActiveEvent>();
+        private bool _disposing = false;
 
-		public DMXStateMachine (DMX dmx, IDMXCommunication dmxComm)
-		{
-			if (dmx == null)
-				throw new ArgumentNullException ("dmx");
-			if (dmxComm == null)
-				throw new ArgumentNullException ("dmxComm");
+        public DMXStateMachine(DMX dmx, IDMXCommunication dmxComm)
+        {
+            if (dmx == null)
+                throw new ArgumentNullException("dmx");
+            if (dmxComm == null)
+                throw new ArgumentNullException("dmxComm");
 
-			_dmx = dmx;
+            _dmx = dmx;
 
-			_dmxComm = dmxComm;
-			_dmxComm.Start ();
-		}
+            _dmxComm = dmxComm;
+            _dmxComm.Start();
+        }
 
-		public void Execute (DateTime dt)
-		{
-			if (_disposing == false) {
+        public void Execute(DateTime dt)
+        {
+            if (_disposing == false)
+            {
 
-				List<string> finishedEvents = new List<string> ();
+                List<string> finishedEvents = new List<string>();
 
-				lock (_activeEvents) {
-					foreach (var element in _activeEvents) {
-						TimeSpan ts = dt - element.Value.Start;
+                lock (_activeEvents)
+                {
+                    foreach (var element in _activeEvents)
+                    {
+                        TimeSpan ts = dt - element.Value.Start;
 
-						var foundEvent = _dmx.Events.Find (x => String.Compare (x.ID, element.Key, true) == 0);
-						if ((foundEvent != null) && ((int)ts.TotalMilliseconds > foundEvent.TimeSpan)) {
-							if (element.Value.Iteration > 1) {
-								element.Value.Start = dt;
-								element.Value.Iteration--;
-							} else {
-								if (element.Value.Continuous == true) {
-									element.Value.Start = dt;
-									element.Value.Iteration = foundEvent.RepeatCount;
-								} else {
-									finishedEvents.Add (element.Key);
-								}
-							}
-						}
-					}
+                        var foundEvent = _dmx.Events.Find(x => String.Compare(x.ID, element.Key, true) == 0);
+                        if ((foundEvent != null) && ((int)ts.TotalMilliseconds > foundEvent.TimeSpan))
+                        {
+                            if (element.Value.Iteration > 1)
+                            {
+                                element.Value.Start = dt;
+                                element.Value.Iteration--;
+                            }
+                            else
+                            {
+                                if (element.Value.Continuous == true)
+                                {
+                                    element.Value.Start = dt;
+                                    element.Value.Iteration = foundEvent.RepeatCount;
+                                }
+                                else
+                                {
+                                    finishedEvents.Add(element.Key);
+                                }
+                            }
+                        }
+                    }
 
-					foreach (var element in finishedEvents) {
-						_activeEvents.Remove (element);
-					}
+                    foreach (var element in finishedEvents)
+                    {
+                        _activeEvents.Remove(element);
+                    }
 
-					finishedEvents = null;
+                    finishedEvents = null;
 
-					Dictionary<ushort, byte> channelValues = new Dictionary<ushort, byte> ();
+                    Dictionary<ushort, byte> channelValues = new Dictionary<ushort, byte>();
 
-					foreach (var element in _activeEvents) {
-						TimeSpan ts = dt - element.Value.Start;
+                    foreach (var element in _activeEvents)
+                    {
+                        TimeSpan ts = dt - element.Value.Start;
 
-						var foundEvent = _dmx.Events.Find (x => String.Compare (x.ID, element.Key, true) == 0);
-						if ((foundEvent != null) && ((int)ts.TotalMilliseconds <= foundEvent.TimeSpan)) {
-							var eventEnum = foundEvent.TimeBlocks.GetEnumerator ();
-							while (eventEnum.MoveNext () == true) {
-								if ((int)ts.TotalMilliseconds > eventEnum.Current.StartTime) {
-									foreach (var val in eventEnum.Current.DMXValues) {
-										short value = val.Value;
-										if (val.Delta != 0) {
-											value += (short)(val.Delta * ((ts.TotalMilliseconds - eventEnum.Current.StartTime) / eventEnum.Current.TimeSpan));
-										}
-										channelValues[val.Channel] = (byte)value;
-									}									
-								}
-							}
-						}
-					}
+                        var foundEvent = _dmx.Events.Find(x => String.Compare(x.ID, element.Key, true) == 0);
+                        if ((foundEvent != null) && ((int)ts.TotalMilliseconds <= foundEvent.TimeSpan))
+                        {
+                            var eventEnum = foundEvent.TimeBlocks.GetEnumerator();
+                            while (eventEnum.MoveNext() == true)
+                            {
+                                if ((int)ts.TotalMilliseconds > eventEnum.Current.StartTime)
+                                {
+                                    foreach (var val in eventEnum.Current.DMXValues)
+                                    {
+                                        short value = val.Value;
+                                        if (val.Delta != 0)
+                                        {
+                                            value += (short)(val.Delta * ((ts.TotalMilliseconds - eventEnum.Current.StartTime) / eventEnum.Current.TimeSpan));
+                                        }
+                                        channelValues[val.Channel] = (byte)value;
+                                    }
+                                }
+                            }
+                        }
+                    }
 
-					foreach (var value in channelValues) {
-						_dmxComm.SetChannelValue (value.Key, value.Value);
-					}
-						
-					// Set base values if no time blocks active
-					if (_activeEvents.Count == 0) {
-						foreach (var val in _dmx.BaseDMXValues) {
-							_dmxComm.SetChannelValue (val.Channel, (byte)val.Value);
-						}
-					}
-				}
-			}
-		}
+                    foreach (var value in channelValues)
+                    {
+                        _dmxComm.SetChannelValue(value.Key, value.Value);
+                    }
 
-		public void AddEvent (string eventName, bool continuous = false)
-		{
-			RemoveEvent (eventName);
+                    // Set base values if no time blocks active
+                    if (_activeEvents.Count == 0)
+                    {
+                        foreach (var val in _dmx.BaseDMXValues)
+                        {
+                            _dmxComm.SetChannelValue(val.Channel, (byte)val.Value);
+                        }
+                    }
+                }
+            }
+        }
 
-			lock (_activeEvents) {
-				var foundEvent = _dmx.Events.Find (x => String.Compare (x.ID, eventName, true) == 0);
-				if (foundEvent != null) {
-					_activeEvents.Add (eventName, new ActiveEvent (DateTime.Now, foundEvent.RepeatCount, continuous));
-				}
-			}
-		}
+        public void AddEvent(string eventName, bool continuous = false)
+        {
+            RemoveEvent(eventName);
 
-		public void RemoveEvent (string eventName)
-		{
-			lock (_activeEvents) {
-				var foundEvent = _dmx.Events.Find (x => String.Compare (x.ID, eventName, true) == 0);
-				if (foundEvent != null) {
-					_activeEvents.Remove (eventName);
-				}
-			}
-		}
+            lock (_activeEvents)
+            {
+                var foundEvent = _dmx.Events.Find(x => String.Compare(x.ID, eventName, true) == 0);
+                if (foundEvent != null)
+                {
+                    _activeEvents.Add(eventName, new ActiveEvent(DateTime.Now, foundEvent.RepeatCount, continuous));
+                }
+            }
+        }
 
-		#region IDisposable implementation
+        public void RemoveEvent(string eventName)
+        {
+            lock (_activeEvents)
+            {
+                var foundEvent = _dmx.Events.Find(x => String.Compare(x.ID, eventName, true) == 0);
+                if (foundEvent != null)
+                {
+                    _activeEvents.Remove(eventName);
+                }
+            }
+        }
 
-		public void Dispose ()
-		{
-			Dispose (true);
-			GC.SuppressFinalize (this);
-		}
+        #region IDisposable implementation
 
-		~DMXStateMachine ()
-		{
-			Dispose (false);
-		}
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
 
-		protected virtual void Dispose (bool disposing)
-		{
-			_disposing = true;
+        ~DMXStateMachine()
+        {
+            Dispose(false);
+        }
 
-			if (disposing) {
-				// Free managed resources
-				if (_dmxComm != null) {
-					_dmxComm.Dispose ();
-					_dmxComm = null;
-				}
-			}
+        protected virtual void Dispose(bool disposing)
+        {
+            _disposing = true;
 
-			// Free native resources if there are any
-		}
+            if (disposing)
+            {
+                // Free managed resources
+                if (_dmxComm != null)
+                {
+                    _dmxComm.Dispose();
+                    _dmxComm = null;
+                }
+            }
 
-		#endregion
-	}
+            // Free native resources if there are any
+        }
+
+        #endregion
+    }
 }

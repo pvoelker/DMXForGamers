@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
+using System.Windows.Input;
 
 namespace DMXForGamers.Models
 {
@@ -104,6 +105,38 @@ namespace DMXForGamers.Models
 
         private CollectionViewSource m_NonContinuousEvents;
         public ICollectionView NonContinuousEvents { get { return (m_NonContinuousEvents == null) ? null : m_NonContinuousEvents.View; } }
+
+        #region Commands
+
+        private ICommand _editEvents;
+        public ICommand EditEvents
+        {
+            get { return _editEvents; }
+            set { _editEvents = value; AnnouncePropertyChanged(); }
+        }
+
+        private ICommand _editDMXEvents;
+        public ICommand EditDMXEvents
+        {
+            get { return _editDMXEvents; }
+            set { _editDMXEvents = value; AnnouncePropertyChanged(); }
+        }
+
+        private ICommand _newEvents;
+        public ICommand NewEvents
+        {
+            get { return _newEvents; }
+            set { _newEvents = value; AnnouncePropertyChanged(); }
+        }
+
+        private ICommand _newDMXEvents;
+        public ICommand NewDMXEvents
+        {
+            get { return _newDMXEvents; }
+            set { _newDMXEvents = value; AnnouncePropertyChanged(); }
+        }
+
+        #endregion
 
         #region IDataErrorInfo
 

@@ -8,11 +8,12 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>DMXForGamers</RootNamespace>
     <AssemblyName>DMXForGamers</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -37,8 +38,12 @@
     <ApplicationIcon>DMXForGamers.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper, Version=6.2.2.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.6.2.2\lib\net45\AutoMapper.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -52,6 +57,24 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="Xceed.Wpf.AvalonDock, Version=3.2.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.2.0\lib\net40\Xceed.Wpf.AvalonDock.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Aero, Version=3.2.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.2.0\lib\net40\Xceed.Wpf.AvalonDock.Themes.Aero.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Metro, Version=3.2.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.2.0\lib\net40\Xceed.Wpf.AvalonDock.Themes.Metro.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.VS2010, Version=3.2.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.2.0\lib\net40\Xceed.Wpf.AvalonDock.Themes.VS2010.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.DataGrid, Version=3.2.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.2.0\lib\net40\Xceed.Wpf.DataGrid.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.Toolkit, Version=3.2.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.2.0\lib\net40\Xceed.Wpf.Toolkit.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -60,16 +83,46 @@
     </ApplicationDefinition>
     <Compile Include="AppSettings\AppSettings.cs" />
     <Compile Include="AppSettings\AppSettingsFile.cs" />
+    <Compile Include="Converters\BooleanOrConverter.cs" />
     <Compile Include="Converters\ListToStringConverter.cs" />
+    <Compile Include="EditDMXEventsWindow.xaml.cs">
+      <DependentUpon>EditDMXEventsWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="EditEventsWindow.xaml.cs">
+      <DependentUpon>EditEventsWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Models\Bases\RelayCommand.cs" />
+    <Compile Include="Models\DMXDefinitions.cs" />
+    <Compile Include="Models\DMXEvent.cs" />
     <Compile Include="Models\DMXProtocol.cs" />
+    <Compile Include="Models\DMXValue.cs" />
+    <Compile Include="Models\EventDefinitions.cs" />
     <Compile Include="Models\EventDefinition.cs" />
     <Compile Include="Models\Main.cs" />
+    <Compile Include="Models\TimeBlock.cs" />
     <Compile Include="Views\Common\DirectoryTextBox.xaml.cs">
       <DependentUpon>DirectoryTextBox.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Common\FileTextBox.xaml.cs">
       <DependentUpon>FileTextBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\EditDMXValue.xaml.cs">
+      <DependentUpon>EditDMXValue.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\EditDMXEvent.xaml.cs">
+      <DependentUpon>EditDMXEvent.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\EditEvent.xaml.cs">
+      <DependentUpon>EditEvent.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\EditDMXEvents.xaml.cs">
+      <DependentUpon>EditDMXEvents.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\EditEvents.xaml.cs">
+      <DependentUpon>EditEvents.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\EditTimeBlock.xaml.cs">
+      <DependentUpon>EditTimeBlock.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ManualEvents.xaml.cs">
       <DependentUpon>ManualEvents.xaml</DependentUpon>
@@ -80,6 +133,18 @@
     <Compile Include="Views\Monitors\FileMonitor.xaml.cs">
       <DependentUpon>FileMonitor.xaml</DependentUpon>
     </Compile>
+    <Page Include="EditDMXEventsWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ControlStyles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="EditEventsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -101,6 +166,30 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Common\FileTextBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\EditDMXValue.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\EditDMXEvent.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\EditEvent.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\EditDMXEvents.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\EditEvents.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\EditTimeBlock.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -135,17 +224,18 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Resource Include="DMXForGamers.ico" />
   </ItemGroup>
