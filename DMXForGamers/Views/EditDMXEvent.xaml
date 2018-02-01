@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:DMXForGamers.Views"
              xmlns:tk="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit"
              mc:Ignorable="d" 
-             d:DesignHeight="150" d:DesignWidth="300">
+             d:DesignHeight="250" d:DesignWidth="300">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -22,14 +22,14 @@
             <RowDefinition Height="10" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="10" />
-            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" MinHeight="100" />
             <RowDefinition Height="10" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="10"/>
-            <ColumnDefinition Width="Auto" MinWidth="200"/>
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <TextBlock Grid.Row="0" Grid.Column="0" TextAlignment="Right">Event ID:</TextBlock>
         <TextBox Grid.Row="0" Grid.Column="2" Text="{Binding Path='ID', ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" Validation.ErrorTemplate="{StaticResource ResourceKey=errorTemplateSilverlightStyle}"></TextBox>
@@ -45,7 +45,9 @@
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <local:EditTimeBlock />
+                    <GroupBox Header="Time Block" Margin="5" MaxHeight="200">
+                        <local:EditTimeBlock />
+                    </GroupBox>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
             <ItemsControl.Template>
@@ -56,6 +58,7 @@
                 </ControlTemplate>
             </ItemsControl.Template>
         </ItemsControl>
-        <Button Grid.Row="8" Grid.Column="2" Command="{Binding Path='DeleteEvent'}">Delete Event</Button>
+        <Button Grid.Row="8" Grid.Column="0" Command="{Binding Path='AddEvent'}" HorizontalAlignment="Left">Add Time Block</Button>
+        <Button Grid.Row="8" Grid.Column="2" Command="{Binding Path='DeleteEvent'}" HorizontalAlignment="Right">Delete Event</Button>
     </Grid>
 </UserControl>

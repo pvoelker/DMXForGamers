@@ -99,15 +99,12 @@
     <Compile Include="Models\EventDefinitions.cs" />
     <Compile Include="Models\EventDefinition.cs" />
     <Compile Include="Models\Main.cs" />
-    <Compile Include="Models\TimeBlock.cs" />
+    <Compile Include="Models\DMXTimeBlock.cs" />
     <Compile Include="Views\Common\DirectoryTextBox.xaml.cs">
       <DependentUpon>DirectoryTextBox.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Common\FileTextBox.xaml.cs">
       <DependentUpon>FileTextBox.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\EditDMXValue.xaml.cs">
-      <DependentUpon>EditDMXValue.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\EditDMXEvent.xaml.cs">
       <DependentUpon>EditDMXEvent.xaml</DependentUpon>
@@ -166,10 +163,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Common\FileTextBox.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\EditDMXValue.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

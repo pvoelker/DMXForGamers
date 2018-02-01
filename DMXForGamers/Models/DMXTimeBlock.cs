@@ -1,9 +1,10 @@
 ﻿using System.Collections.ObjectModel;
 using System.Text;
+using System.Windows.Input;
 
 namespace DMXForGamers.Models
 {
-    public class TimeBlock : NotifyPropertyChangedWithErrorInfoBase
+    public class DMXTimeBlock : NotifyPropertyChangedWithErrorInfoBase
     {
         private int _startTime;
         public int StartTime
@@ -24,6 +25,13 @@ namespace DMXForGamers.Models
         {
             get { return _dmxValues; }
             set { _dmxValues = value; AnnouncePropertyChanged(); }
+        }
+
+        private ICommand _addEvent;
+        public ICommand AddEvent
+        {
+            get { return _addEvent; }
+            set { _addEvent = value; AnnouncePropertyChanged(); }
         }
 
         #region IErrorInfo

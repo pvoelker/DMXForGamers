@@ -22,16 +22,16 @@
         </Grid.ColumnDefinitions>
         <TextBlock Grid.Row="0" Grid.Column="0" TextAlignment="Right">Description:</TextBlock>
         <TextBox Grid.Row="0" Grid.Column="2" Text="{Binding Path=Description}"></TextBox>
-        <ItemsControl Grid.Row="2" Grid.ColumnSpan="3" ItemsSource="{Binding Path=Events}">
+        <ItemsControl x:Name="events" Grid.Row="2" Grid.ColumnSpan="3" ItemsSource="{Binding Path=Events}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <WrapPanel />
+                    <StackPanel />
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <GroupBox Header="{Binding Path='ID'}">
-                        <local:EditDMXEvent></local:EditDMXEvent>
+                    <GroupBox Header="{Binding Path='ID'}" Margin="5">
+                        <local:EditDMXEvent ></local:EditDMXEvent>
                     </GroupBox>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>

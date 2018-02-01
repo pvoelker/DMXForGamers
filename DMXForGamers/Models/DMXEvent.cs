@@ -27,11 +27,18 @@ namespace DMXForGamers.Models
             set { _repeatCount = value; AnnouncePropertyChanged(); }
         }
 
-        private ObservableCollection<TimeBlock> _timeBlocks;
-        public ObservableCollection<TimeBlock> TimeBlocks
+        private ObservableCollection<DMXTimeBlock> _timeBlocks;
+        public ObservableCollection<DMXTimeBlock> TimeBlocks
         {
             get { return _timeBlocks; }
             set { _timeBlocks = value; AnnouncePropertyChanged(); }
+        }
+
+        private ICommand _addEvent;
+        public ICommand AddEvent
+        {
+            get { return _addEvent; }
+            set { _addEvent = value; AnnouncePropertyChanged(); }
         }
 
         private ICommand _deleteEvent;

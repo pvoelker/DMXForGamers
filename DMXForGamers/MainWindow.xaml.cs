@@ -46,7 +46,7 @@ namespace DMXForGamers
 
                 cfg.CreateMap<DMXEngine.DMX, Models.DMXDefinitions>();
                 cfg.CreateMap<DMXEngine.Event, Models.DMXEvent>();
-                cfg.CreateMap<DMXEngine.TimeBlock, Models.TimeBlock>();
+                cfg.CreateMap<DMXEngine.TimeBlock, Models.DMXTimeBlock>();
                 cfg.CreateMap<DMXEngine.DMXValue, Models.DMXValue>();
             });
 
