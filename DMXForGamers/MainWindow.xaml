@@ -48,12 +48,20 @@
         </TabControl>
         <TextBlock Grid.Row="4">Events File:</TextBlock>
         <common:FileTextBox Grid.Row="4" Grid.Column="2" FilePath="{Binding Path=EventsFile}"></common:FileTextBox>
-        <Button Grid.Row="4" Grid.Column="4" Command="{Binding Path='EditEvents'}">Edit</Button>
-        <Button Grid.Row="4" Grid.Column="6" Command="{Binding Path='NewEvents'}">New</Button>
+        <Button Grid.Row="4" Grid.Column="4" Command="{Binding Path='EditEvents'}" ToolTip="Edit">
+            <Image Source="/DMXForGamers;component/Images/Edit16.png" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" />
+        </Button>
+        <Button Grid.Row="4" Grid.Column="6" Command="{Binding Path='NewEvents'}" ToolTip="New">
+            <Image Source="/DMXForGamers;component/Images/New16.png" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" />
+        </Button>
         <TextBlock Grid.Row="6">DMX File:</TextBlock>
         <common:FileTextBox Grid.Row="6" Grid.Column="2" FilePath="{Binding Path=DMXFile}"></common:FileTextBox>
-        <Button Grid.Row="6" Grid.Column="4" Command="{Binding Path='EditDMXEvents'}">Edit</Button>
-        <Button Grid.Row="6" Grid.Column="6" Command="{Binding Path='NewDMXEvents'}">New</Button>
+        <Button Grid.Row="6" Grid.Column="4" Command="{Binding Path='EditDMXEvents'}" ToolTip="Edit">
+            <Image Source="/DMXForGamers;component/Images/Edit16.png" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" />
+        </Button>
+        <Button Grid.Row="6" Grid.Column="6" Command="{Binding Path='NewDMXEvents'}" ToolTip="New">
+            <Image Source="/DMXForGamers;component/Images/New16.png" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" />
+        </Button>
         <TabControl Grid.Row="8" Grid.ColumnSpan="8">
             <TabItem Header="Main Control">
                 <Grid Margin="10">

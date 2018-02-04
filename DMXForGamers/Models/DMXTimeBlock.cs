@@ -27,11 +27,11 @@ namespace DMXForGamers.Models
             set { _dmxValues = value; AnnouncePropertyChanged(); }
         }
 
-        private ICommand _addEvent;
-        public ICommand AddEvent
+        private ICommand _addDMXValue;
+        public ICommand AddDMXValue
         {
-            get { return _addEvent; }
-            set { _addEvent = value; AnnouncePropertyChanged(); }
+            get { return _addDMXValue; }
+            set { _addDMXValue = value; AnnouncePropertyChanged(); }
         }
 
         #region IErrorInfo

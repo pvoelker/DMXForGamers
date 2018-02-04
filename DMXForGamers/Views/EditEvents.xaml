@@ -43,6 +43,11 @@
                 </ControlTemplate>
             </ItemsControl.Template>
         </ItemsControl>
-        <Button Grid.Row="4" Grid.Column="0" Command="{Binding Path='AddEvent'}">Add Event</Button>
+        <Button Grid.Row="4" Grid.Column="0" Command="{Binding Path='AddEvent'}">
+            <StackPanel Orientation="Horizontal">
+                <Image Source="/DMXForGamers;component/Images/Add16.png" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                <TextBlock>Add Event</TextBlock>
+            </StackPanel>
+        </Button>
     </Grid>
 </UserControl>

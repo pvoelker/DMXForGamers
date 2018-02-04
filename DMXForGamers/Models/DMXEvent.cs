@@ -34,11 +34,11 @@ namespace DMXForGamers.Models
             set { _timeBlocks = value; AnnouncePropertyChanged(); }
         }
 
-        private ICommand _addEvent;
-        public ICommand AddEvent
+        private ICommand _addTimeBlock;
+        public ICommand AddTimeBlock
         {
-            get { return _addEvent; }
-            set { _addEvent = value; AnnouncePropertyChanged(); }
+            get { return _addTimeBlock; }
+            set { _addTimeBlock = value; AnnouncePropertyChanged(); }
         }
 
         private ICommand _deleteEvent;

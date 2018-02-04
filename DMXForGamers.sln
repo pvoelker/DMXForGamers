@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.10
+VisualStudioVersion = 15.0.27130.2020
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMXCommunication", "DMXCommunication\DMXCommunication.csproj", "{574E1761-FFDA-4D62-9444-EC23AD1E7E99}"
 EndProject
@@ -9,6 +9,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMXEngine", "DMXEngine\DMXE
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Images", "Images", "{2749FADA-4337-413E-8EFE-D2BDB95AF552}"
 	ProjectSection(SolutionItems) = preProject
+		Images\Add16.png = Images\Add16.png
+		Images\Add32.png = Images\Add32.png
+		Images\Add48.png = Images\Add48.png
+		Images\Add64.png = Images\Add64.png
+		Images\Delete16.png = Images\Delete16.png
+		Images\Delete32.png = Images\Delete32.png
+		Images\Delete48.png = Images\Delete48.png
+		Images\Delete64.png = Images\Delete64.png
 		Images\DMXForGamers.svg = Images\DMXForGamers.svg
 		Images\DMXForGamers128.png = Images\DMXForGamers128.png
 		Images\DMXForGamers16.png = Images\DMXForGamers16.png
@@ -16,6 +24,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Images", "Images", "{2749FA
 		Images\DMXForGamers32.png = Images\DMXForGamers32.png
 		Images\DMXForGamers48.png = Images\DMXForGamers48.png
 		Images\DMXForGamers64.png = Images\DMXForGamers64.png
+		Images\Edit16.png = Images\Edit16.png
+		Images\Edit32.png = Images\Edit32.png
+		Images\Edit64.png = Images\Edit64.png
+		Images\New16.png = Images\New16.png
+		Images\New32.png = Images\New32.png
+		Images\New64.png = Images\New64.png
 		Images\Warning.svg = Images\Warning.svg
 	EndProjectSection
 EndProject

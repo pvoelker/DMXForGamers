@@ -84,6 +84,7 @@
     <Compile Include="AppSettings\AppSettings.cs" />
     <Compile Include="AppSettings\AppSettingsFile.cs" />
     <Compile Include="Converters\BooleanOrConverter.cs" />
+    <Compile Include="Converters\IsLastInEnumVisibilityConverter.cs" />
     <Compile Include="Converters\ListToStringConverter.cs" />
     <Compile Include="EditDMXEventsWindow.xaml.cs">
       <DependentUpon>EditDMXEventsWindow.xaml</DependentUpon>
@@ -228,7 +229,9 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Images\Delete16.png" />
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="DMXForGamers.ico" />
   </ItemGroup>
@@ -241,6 +244,19 @@
       <Project>{58e6905d-9a37-4c12-9ab5-b268aab823e2}</Project>
       <Name>DMXEngine</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Add16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Add32.png" />
+    <Resource Include="Images\Delete32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Edit16.png" />
+    <Resource Include="Images\Edit32.png" />
+    <Resource Include="Images\New16.png" />
+    <Resource Include="Images\New32.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

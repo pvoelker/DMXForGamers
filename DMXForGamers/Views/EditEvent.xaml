@@ -25,8 +25,6 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="10" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="10" />
-            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
@@ -41,6 +39,8 @@
         <TextBox Grid.Row="4" Grid.Column="2" Text="{Binding Path='Pattern', ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" Validation.ErrorTemplate="{StaticResource ResourceKey=errorTemplateSilverlightStyle}"></TextBox>
         <CheckBox Grid.Row="6" Grid.Column="2" IsChecked="{Binding Path='UseRegEx'}">Use Regular Expression for Pattern</CheckBox>
         <CheckBox Grid.Row="8" Grid.Column="2" IsChecked="{Binding Path='Continuous'}">Continuous</CheckBox>
-        <Button Grid.Row="10" Grid.Column="2" Command="{Binding Path='DeleteEvent'}">Delete Event</Button>
+        <Button Grid.Row="8" Grid.Column="0" Command="{Binding Path='DeleteEvent'}" HorizontalAlignment="Left">
+            <Image Source="/DMXForGamers;component/Images/Delete16.png" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" />
+        </Button>
     </Grid>
 </UserControl>

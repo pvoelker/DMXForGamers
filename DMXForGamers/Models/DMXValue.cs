@@ -26,11 +26,11 @@ namespace DMXForGamers.Models
             set { _delta = value; }
         }
 
-        private ICommand _delete;
-        public ICommand Delete
+        private ICommand _deleteDMXValue;
+        public ICommand DeleteDMXValue
         {
-            get { return _delete; }
-            set { _delete = value; AnnouncePropertyChanged(); }
+            get { return _deleteDMXValue; }
+            set { _deleteDMXValue = value; AnnouncePropertyChanged(); }
         }
 
         #region IErrorInfo
@@ -53,6 +53,14 @@ namespace DMXForGamers.Models
                     if ((Delta < -255) || (Delta > 255))
                     {
                         errorStr.AppendLine("Delta Must Be Between -255 and 255 Inclusive");
+                    }
+                }
+                if ((columnName == nameof(Delta)) || (columnName == nameof(Value)) || (columnName == null))
+                {
+                    var total = Value + Delta;
+                    if ((total < -255) || (total > 255))
+                    {
+                        errorStr.AppendLine("Total of Value and Delta Values Must Be Between -255 and 255 Inclusive");
                     }
                 }
 
