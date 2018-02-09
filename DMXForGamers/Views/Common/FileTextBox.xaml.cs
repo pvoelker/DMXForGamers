@@ -4,9 +4,6 @@ using System.Windows.Input;
 
 namespace DMXForGamers.Views.Common
 {
-    /// <summary>
-    /// Interaction logic for FileTextBox.xaml
-    /// </summary>
     public partial class FileTextBox : UserControl
     {
         public static readonly DependencyProperty FilterProperty = DependencyProperty.Register(nameof(Filter), typeof(string), typeof(FileTextBox),

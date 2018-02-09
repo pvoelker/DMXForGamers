@@ -16,6 +16,12 @@ namespace DMXForGamers.Models
         {
         }
 
+        private ObservableCollection<byte> m_Channels = new ObservableCollection<byte>(Enumerable.Repeat((byte)0, 512));
+        public ObservableCollection<byte> Channels
+        {
+            get { return m_Channels; }
+        }
+
         private List<DMXProtocol> m_Protocols = new List<DMXProtocol>();
         public List<DMXProtocol> Protocols
         {

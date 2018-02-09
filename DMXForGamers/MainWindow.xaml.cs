@@ -186,6 +186,19 @@ namespace DMXForGamers
             }
         }
 
+        private void UpdateChannel(DMXChannelChange value)
+        {
+            if(m_Data != null)
+            {
+                if (value.Channel < m_Data.Channels.Count())
+                {
+                    //m_Data.Channels[value.Channel] = value.Value;
+                    Dispatcher.BeginInvoke(DispatcherPriority.Normal,
+                        new Action(() => m_Data.Channels[value.Channel] = value.Value));
+                }
+            }
+        }
+
         private void StartButton_Click(object sender, RoutedEventArgs e)
         {
             _startButton.IsEnabled = false;
@@ -213,7 +226,7 @@ namespace DMXForGamers
                 else
                 {
                     var dmxEvents = DMXEventsFile.LoadFile(m_Data.DMXFile);
-                    DMXStateMachine dmx = new DMXStateMachine(dmxEvents, dmxComm);
+                    DMXStateMachine dmx = new DMXStateMachine(dmxEvents, dmxComm, UpdateChannel);
 
                     var eventDefs = EventDefinitionsFile.LoadFile(m_Data.EventsFile);
                     _engine = new TextEventEngine(dmx, eventDefs);

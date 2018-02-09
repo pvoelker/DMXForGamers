@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using DMXCommunication;
 
 namespace DMXEngine
@@ -21,14 +20,27 @@ namespace DMXEngine
         public bool Continuous { get; set; }
     }
 
+    public class DMXChannelChange
+    {
+        public DMXChannelChange(ushort channel, byte value)
+        {
+            Channel = channel;
+            Value = value;
+        }
+
+        public ushort Channel { get; set; }
+        public byte Value { get; set; }
+    }
+
     public class DMXStateMachine : IDisposable
     {
         private DMX _dmx;
         private IDMXCommunication _dmxComm;
         private Dictionary<string, ActiveEvent> _activeEvents = new Dictionary<string, ActiveEvent>();
         private bool _disposing = false;
+        private ThreadedProcessingQueue<DMXChannelChange> _channelChangeQueue;
 
-        public DMXStateMachine(DMX dmx, IDMXCommunication dmxComm)
+        public DMXStateMachine(DMX dmx, IDMXCommunication dmxComm, Action<DMXChannelChange> change)
         {
             if (dmx == null)
                 throw new ArgumentNullException("dmx");
@@ -36,6 +48,12 @@ namespace DMXEngine
                 throw new ArgumentNullException("dmxComm");
 
             _dmx = dmx;
+
+            if (change != null)
+            {
+                _channelChangeQueue = new ThreadedProcessingQueue<DMXChannelChange>(change);
+                _channelChangeQueue.Start();
+            }
 
             _dmxComm = dmxComm;
             _dmxComm.Start();
@@ -45,7 +63,6 @@ namespace DMXEngine
         {
             if (_disposing == false)
             {
-
                 List<string> finishedEvents = new List<string>();
 
                 lock (_activeEvents)
@@ -115,6 +132,11 @@ namespace DMXEngine
                     foreach (var value in channelValues)
                     {
                         _dmxComm.SetChannelValue(value.Key, value.Value);
+
+                        if (_channelChangeQueue != null)
+                        {
+                            _channelChangeQueue.AddToQueue(new DMXChannelChange(value.Key, value.Value));
+                        }
                     }
 
                     // Set base values if no time blocks active
@@ -123,6 +145,11 @@ namespace DMXEngine
                         foreach (var val in _dmx.BaseDMXValues)
                         {
                             _dmxComm.SetChannelValue(val.Channel, (byte)val.Value);
+
+                            if (_channelChangeQueue != null)
+                            {
+                                _channelChangeQueue.AddToQueue(new DMXChannelChange(val.Channel, (byte)val.Value));
+                            }
                         }
                     }
                 }
@@ -179,6 +206,12 @@ namespace DMXEngine
                 {
                     _dmxComm.Dispose();
                     _dmxComm = null;
+                }
+
+                if(_channelChangeQueue != null)
+                {
+                    _channelChangeQueue.Dispose();
+                    _channelChangeQueue = null;
                 }
             }
 

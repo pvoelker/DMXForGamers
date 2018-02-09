@@ -1,0 +1,12 @@
+﻿<UserControl x:Class="DMXForGamers.Views.Common.Bar "
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:DMXForGamers.Views.Common"
+             mc:Ignorable="d" 
+             d:DesignHeight="60" d:DesignWidth="20">
+    <Grid x:Name="_Grid">
+        <Rectangle x:Name="_Bar" Fill="Blue" VerticalAlignment="Bottom" Height="{Binding Path=BarHeight, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
+    </Grid>
+</UserControl>

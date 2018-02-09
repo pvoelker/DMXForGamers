@@ -4,9 +4,6 @@ using System.Windows.Input;
 
 namespace DMXForGamers.Views.Common
 {
-    /// <summary>
-    /// Interaction logic for DirectoryTextBox.xaml
-    /// </summary>
     public partial class DirectoryTextBox : UserControl
     {
         public static readonly DependencyProperty DirectoryPathProperty = DependencyProperty.Register(nameof(DirectoryPath), typeof(string), typeof(DirectoryTextBox),

@@ -48,14 +48,14 @@
                 <DataGridTemplateColumn Header="Value" Width="Auto" IsReadOnly="False">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <tk:IntegerUpDown Value="{Binding Path=Value}" Minimum="0" Maximum="255"/>
+                            <tk:ByteUpDown Value="{Binding Path=Value}" Minimum="0" Maximum="255"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 <DataGridTemplateColumn Header="Delta" Width="Auto" IsReadOnly="False">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <tk:IntegerUpDown Value="{Binding Path=Delta}" Minimum="-255" Maximum="255"/>
+                            <tk:ShortUpDown Value="{Binding Path=Delta}" Minimum="-255" Maximum="255"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

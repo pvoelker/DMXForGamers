@@ -24,6 +24,8 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="5"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="5"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
@@ -32,7 +34,10 @@
             <ColumnDefinition Width="5"/>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="5"/>
-            <ColumnDefinition Width="Auto"/>        </Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="5"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
         <TextBlock Grid.Row="0">Protocol:</TextBlock>
         <ComboBox Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="5" ItemsSource="{Binding Path=Protocols}" DisplayMemberPath="Name" SelectedItem="{Binding Path=SelectedProtocol}"></ComboBox>
         <TabControl Grid.Row="2" Grid.ColumnSpan="8" SelectedIndex="{Binding Path=SelectedMonitorIndex}">
@@ -88,5 +93,26 @@
                 </Grid>
             </TabItem>
         </TabControl>
+        <GroupBox Grid.Row="10" Grid.ColumnSpan="8" Header='DMX Channels Visualizer'>
+            <ItemsControl ItemsSource="{Binding Path=Channels}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <common:Bar MaxValue="255" Value="{Binding}" Height="20" Width="10" />
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+                <ItemsControl.Template>
+                    <ControlTemplate TargetType="{x:Type ItemsControl}">
+                        <ScrollViewer VerticalScrollBarVisibility="Auto">
+                            <ItemsPresenter />
+                        </ScrollViewer>
+                    </ControlTemplate>
+                </ItemsControl.Template>
+            </ItemsControl>
+        </GroupBox>
     </Grid>
 </Window>
