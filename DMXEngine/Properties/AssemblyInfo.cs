@@ -8,8 +8,8 @@ using System.Runtime.CompilerServices;
 [assembly: AssemblyDescription ("")]
 [assembly: AssemblyConfiguration ("")]
 [assembly: AssemblyCompany ("")]
-[assembly: AssemblyProduct ("")]
-[assembly: AssemblyCopyright ("Paul")]
+[assembly: AssemblyProduct("DMX for Gamers")]
+[assembly: AssemblyCopyright("Paul Voelker")]
 [assembly: AssemblyTrademark ("")]
 [assembly: AssemblyCulture ("")]
 

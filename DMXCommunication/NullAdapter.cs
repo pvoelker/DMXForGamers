@@ -22,7 +22,6 @@ namespace DMXCommunication
 		{
 		}
 
-
 		public void SetChannelValue (ushort channel, byte value)
 		{
 		}
