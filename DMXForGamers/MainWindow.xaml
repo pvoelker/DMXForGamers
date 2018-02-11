@@ -39,7 +39,7 @@
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
         <TextBlock Grid.Row="0">Protocol:</TextBlock>
-        <ComboBox Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="5" ItemsSource="{Binding Path=Protocols}" DisplayMemberPath="Name" SelectedItem="{Binding Path=SelectedProtocol}"></ComboBox>
+        <ComboBox Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="5" ItemsSource="{Binding Path=Protocols}" DisplayMemberPath="Description" SelectedItem="{Binding Path=SelectedProtocol}"></ComboBox>
         <TabControl Grid.Row="2" Grid.ColumnSpan="8" SelectedIndex="{Binding Path=SelectedMonitorIndex}">
             <TabItem Header="New Process Monitor">
                 <monitors:NewProcessMonitor DataContext="{Binding Path=NewProcessMonitor}"></monitors:NewProcessMonitor>
@@ -93,7 +93,7 @@
                 </Grid>
             </TabItem>
         </TabControl>
-        <GroupBox Grid.Row="10" Grid.ColumnSpan="8" Header='DMX Channels Visualizer'>
+        <Expander Grid.Row="10" Grid.ColumnSpan="8" Header='DMX Channels Visualizer'>
             <ItemsControl ItemsSource="{Binding Path=Channels}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
@@ -102,7 +102,11 @@
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <common:Bar MaxValue="255" Value="{Binding}" Height="20" Width="10" />
+                        <common:Bar MaxValue="255" Value="{Binding}" Height="20" Width="10">
+                            <!--<common:Bar.ToolTip>
+                                <ToolTip Content="{Binding}" ContentStringFormat="{}Channel #{0}" />
+                            </common:Bar.ToolTip>-->
+                        </common:Bar>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
                 <ItemsControl.Template>
@@ -113,6 +117,6 @@
                     </ControlTemplate>
                 </ItemsControl.Template>
             </ItemsControl>
-        </GroupBox>
+        </Expander>
     </Grid>
 </Window>

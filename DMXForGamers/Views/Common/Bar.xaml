@@ -8,5 +8,6 @@
              d:DesignHeight="60" d:DesignWidth="20">
     <Grid x:Name="_Grid">
         <Rectangle x:Name="_Bar" Fill="Blue" VerticalAlignment="Bottom" Height="{Binding Path=BarHeight, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
+        <Border Background="Transparent" BorderBrush="DarkGray" BorderThickness="0.5"/>
     </Grid>
 </UserControl>

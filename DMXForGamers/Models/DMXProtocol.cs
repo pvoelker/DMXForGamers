@@ -4,10 +4,10 @@ namespace DMXForGamers.Models
 {
     public class DMXProtocol : NotifyPropertyChangedBase
     {
-        public DMXProtocol(Guid id, string name, Type type)
+        public DMXProtocol(Guid id, string description, Type type)
         {
             ID = id;
-            Name = name;
+            Description = description;
             Type = type;
         }
 
@@ -18,11 +18,11 @@ namespace DMXForGamers.Models
             set { m_ID = value; AnnouncePropertyChanged(); }
         }
 
-        private string m_Name;
-        public string Name
+        private string m_Description;
+        public string Description
         {
-            get { return m_Name; }
-            set { m_Name = value; AnnouncePropertyChanged(); }
+            get { return m_Description; }
+            set { m_Description = value; AnnouncePropertyChanged(); }
         }
 
         private Type m_Type;

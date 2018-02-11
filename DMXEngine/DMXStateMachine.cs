@@ -201,6 +201,14 @@ namespace DMXEngine
 
             if (disposing)
             {
+                if (_channelChangeQueue != null)
+                {
+                    for (ushort i = 1; i <= 512; i++)
+                    {
+                        _channelChangeQueue.AddToQueue(new DMXChannelChange(i, 0));
+                    }
+                }
+
                 // Free managed resources
                 if (_dmxComm != null)
                 {

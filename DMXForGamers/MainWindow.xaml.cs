@@ -33,22 +33,30 @@ namespace DMXForGamers
         {
             InitializeComponent();
 
+            Mapper.Initialize(cfg =>
+            {
+                cfg.CreateMap<DMXEngine.EventDefinitions, Models.EventDefinitions>();
+                cfg.CreateMap<Models.EventDefinitions, DMXEngine.EventDefinitions>();
+                cfg.CreateMap<DMXEngine.EventDefinition, Models.EventDefinition>();
+                cfg.CreateMap<Models.EventDefinition, DMXEngine.EventDefinition>();
+
+                cfg.CreateMap<DMXEngine.DMX, Models.DMXDefinitions>();
+                cfg.CreateMap<Models.DMXDefinitions, DMXEngine.DMX>();
+                cfg.CreateMap<DMXEngine.Event, Models.DMXEvent>();
+                cfg.CreateMap<Models.DMXEvent, DMXEngine.Event>();
+                cfg.CreateMap<DMXEngine.TimeBlock, Models.DMXTimeBlock>();
+                cfg.CreateMap<Models.DMXTimeBlock, DMXEngine.TimeBlock>();
+                cfg.CreateMap<DMXEngine.DMXValue, Models.DMXValue>();
+                cfg.CreateMap<Models.DMXValue, DMXEngine.DMXValue>();
+
+                cfg.CreateMap<DMXCommunication.DMXPortAdapter, Models.DMXProtocol>();
+            });
+
             LoadData();
 
             _dmxUpdateTimer = new Timer();
             _dmxUpdateTimer.Interval = 10;
             _dmxUpdateTimer.Elapsed += DMXUpdateTimer_Elapsed;
-
-            Mapper.Initialize(cfg =>
-            {
-                cfg.CreateMap<DMXEngine.EventDefinitions, Models.EventDefinitions>();
-                cfg.CreateMap<DMXEngine.EventDefinition, Models.EventDefinition>();
-
-                cfg.CreateMap<DMXEngine.DMX, Models.DMXDefinitions>();
-                cfg.CreateMap<DMXEngine.Event, Models.DMXEvent>();
-                cfg.CreateMap<DMXEngine.TimeBlock, Models.DMXTimeBlock>();
-                cfg.CreateMap<DMXEngine.DMXValue, Models.DMXValue>();
-            });
 
             m_Data.EditEvents = new RelayCommand(x =>
             {
@@ -118,9 +126,10 @@ namespace DMXForGamers
                 m_AppSettings = new AppSettings();
                 m_AppSettings.PortAdapterGuid = OpenDMX.ID;
             }
+            
+            var dmxPortAdapters = Mapper.Map<List<DMXCommunication.DMXPortAdapter>, List<Models.DMXProtocol>>(DMXPortAdapterHelpers.GetPortAdapters());
 
-            m_Data.Protocols.Add(new DMXProtocol(OpenDMX.ID, "Enttec Open DMX (FTDI Based)", typeof(OpenDMX)));
-            m_Data.Protocols.Add(new DMXProtocol(COMPortDMX.ID, "COM Port (RS485)", typeof(COMPortDMX)));
+            m_Data.Protocols.AddRange(dmxPortAdapters);
 
             m_Data.SelectedProtocol = m_Data.Protocols.First(x => x.ID == m_AppSettings.PortAdapterGuid);
 
@@ -192,9 +201,8 @@ namespace DMXForGamers
             {
                 if (value.Channel < m_Data.Channels.Count())
                 {
-                    //m_Data.Channels[value.Channel] = value.Value;
                     Dispatcher.BeginInvoke(DispatcherPriority.Normal,
-                        new Action(() => m_Data.Channels[value.Channel] = value.Value));
+                        new Action(() => m_Data.Channels[value.Channel - 1] = value.Value));
                 }
             }
         }

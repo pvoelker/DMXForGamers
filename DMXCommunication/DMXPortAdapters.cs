@@ -11,12 +11,12 @@ namespace DMXCommunication
 		public DMXPortAdapter(string description, Guid id, Type type)
 		{
 			Description = description;
-			Id = id;
+			ID = id;
 			Type = type;
 		}
 
 		public string Description { get; private set; }
-		public Guid Id { get; private set; }
+		public Guid ID { get; private set; }
 		public Type Type { get; private set; }
 	}
 
