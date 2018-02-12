@@ -13,7 +13,11 @@ namespace DMXForGamers.Converters
             if (targetType != typeof(string))
                 throw new InvalidOperationException("The target must be a String");
 
-            var copy = ((IEnumerable<string>)value).ToList();
+            List<string> copy = null;
+            lock (value)
+            {
+                copy = ((IEnumerable<string>)value).ToList();
+            }
 
             if (value == null)
                 return String.Empty;

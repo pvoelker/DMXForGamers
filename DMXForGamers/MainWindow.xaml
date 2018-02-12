@@ -93,30 +93,32 @@
                 </Grid>
             </TabItem>
         </TabControl>
-        <Expander Grid.Row="10" Grid.ColumnSpan="8" Header='DMX Channels Visualizer'>
-            <ItemsControl ItemsSource="{Binding Path=Channels}">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <WrapPanel />
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <common:Bar MaxValue="255" Value="{Binding}" Height="20" Width="10">
-                            <!--<common:Bar.ToolTip>
-                                <ToolTip Content="{Binding}" ContentStringFormat="{}Channel #{0}" />
-                            </common:Bar.ToolTip>-->
-                        </common:Bar>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-                <ItemsControl.Template>
-                    <ControlTemplate TargetType="{x:Type ItemsControl}">
-                        <ScrollViewer VerticalScrollBarVisibility="Auto">
-                            <ItemsPresenter />
-                        </ScrollViewer>
-                    </ControlTemplate>
-                </ItemsControl.Template>
-            </ItemsControl>
-        </Expander>
+        <Border Grid.Row="10" Grid.ColumnSpan="8" BorderThickness="1" BorderBrush="Black">
+            <Expander Header='DMX Channels Visualizer'>
+                <ItemsControl ItemsSource="{Binding Path=Channels}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <common:Bar MaxValue="255" Value="{Binding}" Height="20" Width="10" BorderThickness="0.5" BorderBrush="Gray">
+                                <!--<common:Bar.ToolTip>
+                                    <ToolTip Content="{Binding}" ContentStringFormat="{}Channel #{0}" />
+                                </common:Bar.ToolTip>-->
+                            </common:Bar>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                    <ItemsControl.Template>
+                        <ControlTemplate TargetType="{x:Type ItemsControl}">
+                            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                                <ItemsPresenter />
+                            </ScrollViewer>
+                        </ControlTemplate>
+                    </ItemsControl.Template>
+                </ItemsControl>
+            </Expander>
+        </Border>
     </Grid>
 </Window>

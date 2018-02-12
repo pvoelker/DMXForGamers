@@ -318,10 +318,13 @@ namespace DMXForGamers
         {
             if (line != null)
             {
-                m_Data.Output.Enqueue(line);
-                if (m_Data.Output.Count() > MAX_LINE_COUNT)
+                lock (m_Data.Output)
                 {
-                    m_Data.Output.Dequeue();
+                    m_Data.Output.Enqueue(line);
+                    if (m_Data.Output.Count() > MAX_LINE_COUNT)
+                    {
+                        m_Data.Output.Dequeue();
+                    }
                 }
                 m_Data.TriggerOutputPropertyChanged();
 
