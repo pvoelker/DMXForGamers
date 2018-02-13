@@ -58,6 +58,17 @@ namespace DMXForGamers
             _dmxUpdateTimer.Interval = 10;
             _dmxUpdateTimer.Elapsed += DMXUpdateTimer_Elapsed;
 
+            m_Data.EditSettings = new RelayCommand(x =>
+            {
+                var frm = new SettingsWindow();
+                frm.DataContext = m_Data.SelectedProtocol.Settings;
+                frm.ShowDialog();
+            },
+            x =>
+            {
+                return (m_Data.SelectedProtocol == null) ? false : (m_Data.SelectedProtocol.Settings != null);
+            });
+
             m_Data.EditEvents = new RelayCommand(x =>
             {
                 var frm = new EditEventsWindow();

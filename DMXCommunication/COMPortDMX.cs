@@ -1,9 +1,19 @@
 ﻿using System;
+using System.ComponentModel;
 using System.IO.Ports;
 using System.Threading;
 
 namespace DMXCommunication
 {
+    public class ComPortDMXSettings
+    {
+        [Category("Configuration")]
+        [DisplayName("Port Name")]
+        [Description("This property defined the serial port name to be used.")]
+        [DefaultValue("COM1")]
+        public string PortName { get; set; }
+    }
+
     public class COMPortDMX : IDMXCommunication
     {
         private byte[] ZERO_BUFFER = new byte[] { 0x00 };
@@ -17,16 +27,23 @@ namespace DMXCommunication
         public Guid Identifier { get { return ID; } }
         public string Description { get { return "COM Port (RS485)"; } }
 
-        public string PortName { get; set; }
+        private static ComPortDMXSettings _settings = new ComPortDMXSettings();
+
+        public object Settings
+        {
+            get { return _settings;  }
+        }
 
         public void Start()
         {
-            if (String.IsNullOrWhiteSpace(PortName) == true)
+            if (String.IsNullOrWhiteSpace((Settings as ComPortDMXSettings).PortName) == true)
             {
                 throw new Exception("Port name has not been set");
             }
 
-            _serialPort = new SerialPort(PortName, 250000, Parity.None, 8, StopBits.Two);
+            _serialPort = new SerialPort((Settings as ComPortDMXSettings).PortName, 250000, Parity.None, 8, StopBits.Two);
+            _serialPort.Open();
+
             _doneStarted = false;
 
             ClearChannelValues();

@@ -9,16 +9,18 @@ namespace DMXCommunication
 {
     public class DMXPortAdapter
     {
-        public DMXPortAdapter(string description, Guid id, Type type)
+        public DMXPortAdapter(string description, Guid id, Type type, object settings)
         {
             Description = description;
             ID = id;
             Type = type;
+            Settings = settings;
         }
 
         public string Description { get; private set; }
         public Guid ID { get; private set; }
         public Type Type { get; private set; }
+        public object Settings { get; private set; }
     }
 
     static public class DMXPortAdapterHelpers
@@ -33,7 +35,7 @@ namespace DMXCommunication
 
                 if (comm != null)
                 {
-                    retVal.Add(new DMXPortAdapter(comm.Description, comm.Identifier, type));
+                    retVal.Add(new DMXPortAdapter(comm.Description, comm.Identifier, type, comm.Settings));
 
                     comm.Dispose();
                 }

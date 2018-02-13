@@ -44,6 +44,11 @@ namespace DMXCommunication
             CheckStatusAndThrowException(_status);
         }
 
+        public object Settings
+        {
+            get { return null; }
+        }
+
         public void Start()
         {
             _handle = 0;

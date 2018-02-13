@@ -31,5 +31,12 @@ namespace DMXForGamers.Models
             get { return m_Type; }
             set { m_Type = value; AnnouncePropertyChanged(); }
         }
+
+        private object m_Settings;
+        public object Settings
+        {
+            get { return m_Settings; }
+            set { m_Settings = value; AnnouncePropertyChanged(); }
+        }
     }
 }

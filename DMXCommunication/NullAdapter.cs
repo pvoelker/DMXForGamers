@@ -10,7 +10,12 @@ namespace DMXCommunication
         public Guid Identifier { get { return ID; } }
 		public string Description { get { return "Null Adapter"; } }
 
-		public void Start ()
+        public object Settings
+        {
+            get { return null; }
+        }
+
+        public void Start ()
 		{
 		}
 

@@ -14,5 +14,7 @@ namespace DMXCommunication
         void ClearChannelValues();
 
         void SetChannelValue(ushort channel, byte value);
+
+        object Settings { get; }
     }
 }

@@ -1,0 +1,17 @@
+﻿<Window x:Class="DMXForGamers.SettingsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DMXForGamers"
+        xmlns:views="clr-namespace:DMXForGamers.Views"
+        xmlns:monitors="clr-namespace:DMXForGamers.Views.Monitors"
+        xmlns:common="clr-namespace:DMXForGamers.Views.Common"
+        xmlns:tk="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit"
+        xmlns:tkpg="clr-namespace:Xceed.Wpf.Toolkit.PropertyGrid;assembly=Xceed.Wpf.Toolkit"        
+        mc:Ignorable="d"
+        Title="Protocol Settings" Height="300" Width="400" ResizeMode="CanResizeWithGrip">
+    <Grid>
+        <tkpg:PropertyGrid AutoGenerateProperties="true" SelectedObject="{Binding}" ShowTitle="False" />
+    </Grid>
+</Window>

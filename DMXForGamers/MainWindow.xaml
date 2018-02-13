@@ -7,6 +7,8 @@
         xmlns:views="clr-namespace:DMXForGamers.Views"
         xmlns:monitors="clr-namespace:DMXForGamers.Views.Monitors"
         xmlns:common="clr-namespace:DMXForGamers.Views.Common"
+        xmlns:tk="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit"
+        xmlns:tkpg="clr-namespace:Xceed.Wpf.Toolkit.PropertyGrid;assembly=Xceed.Wpf.Toolkit"
         xmlns:converters="clr-namespace:DMXForGamers.Converters"
         mc:Ignorable="d"
         Title="DMX For Gamers" Height="600" Width="800" Icon="DMXForGamers.ico" Closed="Window_Closed" Closing="Window_Closing">
@@ -39,7 +41,10 @@
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
         <TextBlock Grid.Row="0">Protocol:</TextBlock>
-        <ComboBox Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="5" ItemsSource="{Binding Path=Protocols}" DisplayMemberPath="Description" SelectedItem="{Binding Path=SelectedProtocol}"></ComboBox>
+        <ComboBox Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="3" ItemsSource="{Binding Path=Protocols}" DisplayMemberPath="Description" SelectedItem="{Binding Path=SelectedProtocol}"></ComboBox>
+        <Button Grid.Row="0" Grid.Column="6" Command="{Binding Path='EditSettings'}" ToolTip="Protocol Settings">
+            <Image Source="/DMXForGamers;component/Images/Gear16.png" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" />
+        </Button>        
         <TabControl Grid.Row="2" Grid.ColumnSpan="8" SelectedIndex="{Binding Path=SelectedMonitorIndex}">
             <TabItem Header="New Process Monitor">
                 <monitors:NewProcessMonitor DataContext="{Binding Path=NewProcessMonitor}"></monitors:NewProcessMonitor>

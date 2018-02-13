@@ -114,6 +114,13 @@ namespace DMXForGamers.Models
 
         #region Commands
 
+        private ICommand _editSettings;
+        public ICommand EditSettings
+        {
+            get { return _editSettings; }
+            set { _editSettings = value; AnnouncePropertyChanged(); }
+        }
+
         private ICommand _editEvents;
         public ICommand EditEvents
         {
