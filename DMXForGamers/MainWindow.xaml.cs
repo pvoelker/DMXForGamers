@@ -142,7 +142,7 @@ namespace DMXForGamers
 
             m_Data.Protocols.AddRange(dmxPortAdapters);
 
-            m_Data.SelectedProtocol = m_Data.Protocols.First(x => x.ID == m_AppSettings.PortAdapterGuid);
+            m_Data.SelectedProtocol = m_Data.Protocols.FirstOrDefault(x => x.ID == m_AppSettings.PortAdapterGuid);
 
             m_Data.EventsFile = m_AppSettings.EventDefinitionsFilePath;
             m_Data.DMXFile = m_AppSettings.DMXFilePath;
