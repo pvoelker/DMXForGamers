@@ -6,11 +6,11 @@ namespace DMXForGamers.Models
 {
     public class DMXEvent : NotifyPropertyChangedWithErrorInfoBase
     {
-        private string _id;
-        public string ID
+        private string _eventID;
+        public string EventID
         {
-            get { return _id; }
-            set { _id = value; AnnouncePropertyChanged(); }
+            get { return _eventID; }
+            set { _eventID = value; AnnouncePropertyChanged(); }
         }
 
         private int _timeSpan;

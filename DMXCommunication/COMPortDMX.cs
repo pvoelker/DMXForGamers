@@ -5,6 +5,7 @@ using System.Threading;
 
 namespace DMXCommunication
 {
+    [Serializable]
     public class ComPortDMXSettings
     {
         [Category("Configuration")]
@@ -29,9 +30,14 @@ namespace DMXCommunication
 
         private static ComPortDMXSettings _settings = new ComPortDMXSettings();
 
-        public object Settings
+        public ComPortDMXSettings Settings
         {
             get { return _settings;  }
+        }
+
+        object IDMXCommunication.Settings
+        {
+            get { return Settings; }
         }
 
         public void Start()

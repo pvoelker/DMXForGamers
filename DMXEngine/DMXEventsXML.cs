@@ -32,24 +32,24 @@ namespace DMXEngine
         public Event()
         {
         }
-        public Event(string id, int timeSpan)
+        public Event(string eventId, int timeSpan)
         {
-            ID = id;
+            EventID = eventId;
             TimeSpan = timeSpan;
         }
-		public Event(string id, int timeSpan, int repeatCount)
+		public Event(string eventId, int timeSpan, int repeatCount)
 		{
-			ID = id;
+			EventID = eventId;
 			TimeSpan = timeSpan;
 			RepeatCount = repeatCount;
 		}
 
-		private string _id;
+		private string _eventId;
         [XmlAttribute]
-        public string ID
+        public string EventID
         {
-            get { return _id; }
-            set { _id = value; }
+            get { return _eventId; }
+            set { _eventId = value; }
         }
 
         private int _timeSpan;

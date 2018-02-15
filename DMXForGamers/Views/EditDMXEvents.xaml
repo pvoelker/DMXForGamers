@@ -30,7 +30,7 @@
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <GroupBox Header="{Binding Path='ID'}" Margin="5">
+                    <GroupBox Header="{Binding Path='EventID'}" Margin="5">
                         <local:EditDMXEvent ></local:EditDMXEvent>
                     </GroupBox>
                 </DataTemplate>

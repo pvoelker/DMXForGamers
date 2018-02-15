@@ -32,7 +32,7 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <TextBlock Grid.Row="0" Grid.Column="0" TextAlignment="Right">Event ID:</TextBlock>
-        <TextBox Grid.Row="0" Grid.Column="2" Width="100" HorizontalAlignment="Left" Text="{Binding Path='ID', ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" Validation.ErrorTemplate="{StaticResource ResourceKey=errorTemplateSilverlightStyle}"></TextBox>
+        <TextBox Grid.Row="0" Grid.Column="2" Width="100" HorizontalAlignment="Left" Text="{Binding Path='EventID', ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" Validation.ErrorTemplate="{StaticResource ResourceKey=errorTemplateSilverlightStyle}"></TextBox>
         <TextBlock Grid.Row="2" Grid.Column="0" TextAlignment="Right">Time Span:</TextBlock>
         <TextBox Grid.Row="2" Grid.Column="2" Width="100" HorizontalAlignment="Left" Text="{Binding Path='TimeSpan'}"></TextBox>
         <TextBlock Grid.Row="4" Grid.Column="0" TextAlignment="Right">Repeat Count:</TextBlock>

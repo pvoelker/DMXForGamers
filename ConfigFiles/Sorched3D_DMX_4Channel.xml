@@ -20,7 +20,7 @@
     <DMXValue Channel="16" Value="63" Delta="0" />
   </BaseDMXValues>
   <Events>
-    <Event ID="Game Start" TimeSpan="500" RepeatCount="10">
+    <Event EventID="Game Start" TimeSpan="500" RepeatCount="10">
       <TimeBlocks>
         <TimeBlock StartTime="0" TimeSpan="500">
           <DMXValues>
@@ -32,7 +32,7 @@
         </TimeBlock>
       </TimeBlocks>
     </Event>
-    <Event ID="Player Killed" TimeSpan="500" RepeatCount="8">
+    <Event EventID="Player Killed" TimeSpan="500" RepeatCount="8">
       <TimeBlocks>
         <TimeBlock StartTime="0" TimeSpan="125">
           <DMXValues>
@@ -68,7 +68,7 @@
         </TimeBlock>
       </TimeBlocks>
     </Event>
-    <Event ID="Winner" TimeSpan="1500" RepeatCount="4">
+    <Event EventID="Winner" TimeSpan="1500" RepeatCount="4">
       <TimeBlocks>
         <TimeBlock StartTime="0" TimeSpan="500">
           <DMXValues>

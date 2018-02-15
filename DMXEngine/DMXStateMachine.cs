@@ -71,7 +71,7 @@ namespace DMXEngine
                     {
                         TimeSpan ts = dt - element.Value.Start;
 
-                        var foundEvent = _dmx.Events.Find(x => String.Compare(x.ID, element.Key, true) == 0);
+                        var foundEvent = _dmx.Events.Find(x => String.Compare(x.EventID, element.Key, true) == 0);
                         if ((foundEvent != null) && ((int)ts.TotalMilliseconds > foundEvent.TimeSpan))
                         {
                             if (element.Value.Iteration > 1)
@@ -107,7 +107,7 @@ namespace DMXEngine
                     {
                         TimeSpan ts = dt - element.Value.Start;
 
-                        var foundEvent = _dmx.Events.Find(x => String.Compare(x.ID, element.Key, true) == 0);
+                        var foundEvent = _dmx.Events.Find(x => String.Compare(x.EventID, element.Key, true) == 0);
                         if ((foundEvent != null) && ((int)ts.TotalMilliseconds <= foundEvent.TimeSpan))
                         {
                             var eventEnum = foundEvent.TimeBlocks.GetEnumerator();
@@ -162,7 +162,7 @@ namespace DMXEngine
 
             lock (_activeEvents)
             {
-                var foundEvent = _dmx.Events.Find(x => String.Compare(x.ID, eventName, true) == 0);
+                var foundEvent = _dmx.Events.Find(x => String.Compare(x.EventID, eventName, true) == 0);
                 if (foundEvent != null)
                 {
                     _activeEvents.Add(eventName, new ActiveEvent(DateTime.Now, foundEvent.RepeatCount, continuous));
@@ -174,7 +174,7 @@ namespace DMXEngine
         {
             lock (_activeEvents)
             {
-                var foundEvent = _dmx.Events.Find(x => String.Compare(x.ID, eventName, true) == 0);
+                var foundEvent = _dmx.Events.Find(x => String.Compare(x.EventID, eventName, true) == 0);
                 if (foundEvent != null)
                 {
                     _activeEvents.Remove(eventName);
