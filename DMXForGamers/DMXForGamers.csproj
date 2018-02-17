@@ -96,6 +96,7 @@
     <Compile Include="Models\DMXDefinitions.cs" />
     <Compile Include="Models\DMXEvent.cs" />
     <Compile Include="Models\DMXProtocol.cs" />
+    <Compile Include="Models\DMXChannel.cs" />
     <Compile Include="Models\DMXValue.cs" />
     <Compile Include="Models\EventDefinitions.cs" />
     <Compile Include="Models\EventDefinition.cs" />

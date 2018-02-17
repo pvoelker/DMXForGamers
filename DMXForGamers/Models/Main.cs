@@ -14,10 +14,14 @@ namespace DMXForGamers.Models
     {
         public Main()
         {
+            for(ushort i = 1; i <= 512; i++)
+            {
+                Channels.Add(new DMXChannel(i));
+            }
         }
 
-        private ObservableCollection<byte> m_Channels = new ObservableCollection<byte>(Enumerable.Repeat((byte)0, 512));
-        public ObservableCollection<byte> Channels
+        private ObservableCollection<DMXChannel> m_Channels = new ObservableCollection<DMXChannel>();
+        public ObservableCollection<DMXChannel> Channels
         {
             get { return m_Channels; }
         }

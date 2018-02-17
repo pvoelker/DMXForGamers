@@ -208,12 +208,16 @@ namespace DMXForGamers
 
         private void UpdateChannel(DMXChannelChange value)
         {
-            if(m_Data != null)
+            if (m_Data != null)
             {
                 if (value.Channel < m_Data.Channels.Count())
                 {
                     Dispatcher.BeginInvoke(DispatcherPriority.Normal,
-                        new Action(() => m_Data.Channels[value.Channel - 1] = value.Value));
+                        new Action(() =>
+                        {
+                            var data = m_Data.Channels[value.Channel - 1];
+                            data.Value = value.Value;
+                        }));
                 }
             }
         }

@@ -7,7 +7,8 @@
              d:DesignHeight="60" d:DesignWidth="20">
     <Grid x:Name="_Grid" SizeChanged="Grid_SizeChanged">
         <Rectangle x:Name="_Bar" Fill="{Binding Path=BarColor, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" VerticalAlignment="Bottom" Height="{Binding Path=BarHeight, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
-        <Border Background="{Binding Path=Background, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"
+        <Rectangle Fill="{Binding Path=Background, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
+        <Border Background="Transparent"
                 BorderBrush="{Binding Path=BorderBrush, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"
                 BorderThickness="{Binding Path=BorderThickness, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"
                 Height="{Binding Path=Height, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
