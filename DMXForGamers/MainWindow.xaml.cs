@@ -311,6 +311,8 @@ namespace DMXForGamers
             _startButton.IsEnabled = true;
             _stopButton.IsEnabled = false;
 
+            m_Data.Events = null;
+
             if (_dmxUpdateTimer != null)
             {
                 _dmxUpdateTimer.Enabled = false;

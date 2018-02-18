@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 using System.Windows.Input;
 
 namespace DMXForGamers.Models
@@ -11,6 +12,8 @@ namespace DMXForGamers.Models
             get { return _channel; }
             set { _channel = value; }
         }
+        static public ushort MinChannel { get { return 1; } }
+        static public ushort MaxChannel { get { return 512; } }
 
         private byte _value;
         public byte Value
@@ -18,6 +21,8 @@ namespace DMXForGamers.Models
             get { return _value; }
             set { _value = value; }
         }
+        static public short MinValue { get { return 0; } }
+        static public short MaxValue { get { return 255; } }
 
         private short _delta;
         public short Delta
@@ -25,6 +30,8 @@ namespace DMXForGamers.Models
             get { return _delta; }
             set { _delta = value; }
         }
+        static public short MinDelta { get { return -255; } }
+        static public short MaxDelta { get { return 255; } }
 
         private ICommand _deleteDMXValue;
         public ICommand DeleteDMXValue
@@ -43,24 +50,24 @@ namespace DMXForGamers.Models
 
                 if ((columnName == nameof(Channel)) || (columnName == null))
                 {
-                    if ((Channel < 1) || (Channel > 512))
+                    if ((Channel < MinChannel) || (Channel > MaxChannel))
                     {
-                        errorStr.AppendLine("DMX Channels Must Be Between 1 and 512 Inclusive");
+                        errorStr.AppendLine(String.Format("DMX Channels Must Be Between {0} and {1} Inclusive", MinChannel, MaxChannel));
                     }
                 }
                 if ((columnName == nameof(Delta)) || (columnName == null))
                 {
                     if ((Delta < -255) || (Delta > 255))
                     {
-                        errorStr.AppendLine("Delta Must Be Between -255 and 255 Inclusive");
+                        errorStr.AppendLine(String.Format("Delta Must Be Between {0} and {1} Inclusive", MinDelta, MaxDelta));
                     }
                 }
                 if ((columnName == nameof(Delta)) || (columnName == nameof(Value)) || (columnName == null))
                 {
                     var total = Value + Delta;
-                    if ((total < -255) || (total > 255))
+                    if ((total < MinValue) || (total > MaxValue))
                     {
-                        errorStr.AppendLine("Total of Value and Delta Values Must Be Between -255 and 255 Inclusive");
+                        errorStr.AppendLine(String.Format("Total of Value and Delta Values Must Be Between {0} and {1} Inclusive", MinValue, MaxValue));
                     }
                 }
 

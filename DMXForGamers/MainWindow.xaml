@@ -85,8 +85,8 @@
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
-                    <Button Grid.Row="0" Grid.Column="0" Click="StartButton_Click" Name="_startButton" Padding="5" FontSize="18">Start</Button>
-                    <Button Grid.Row="0" Grid.Column="2" Click="StopButton_Click" Name="_stopButton" Padding="5" FontSize="18">Stop</Button>
+                    <Button Grid.Row="0" Grid.Column="0" Click="StartButton_Click" Name="_startButton" Padding="10,0" FontSize="18">Start</Button>
+                    <Button Grid.Row="0" Grid.Column="2" Click="StopButton_Click" Name="_stopButton" Padding="10,0" FontSize="18">Stop</Button>
                     <ScrollViewer Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" x:Name="m_OutputScroll">
                         <TextBlock Text="{Binding Path=Output, Converter={StaticResource listToStringConverter}}"></TextBlock>
                     </ScrollViewer>
@@ -108,7 +108,16 @@
                     </ItemsControl.ItemsPanel>
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <common:Bar MaxValue="255" Value="{Binding Path=Value}" Height="20" Width="10" BorderThickness="0.5" BorderBrush="Gray">
+                            <common:Bar MaxValue="255" Value="{Binding Path=Value}" Height="20" Width="10"
+                                        BorderThickness="0.2" BorderBrush="Gray">
+                                <common:Bar.BarColor>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                        <GradientStop Color="GreenYellow" Offset="0.0" />
+                                        <GradientStop Color="LightGreen" Offset="0.25" />
+                                        <GradientStop Color="Green" Offset="0.75" />
+                                        <GradientStop Color="LimeGreen" Offset="1.0" />
+                                    </LinearGradientBrush>
+                                </common:Bar.BarColor>
                                 <common:Bar.ToolTip>
                                     <ToolTip Content="{Binding Path=Channel}" ContentStringFormat="{}Channel #{0}" />
                                 </common:Bar.ToolTip>
