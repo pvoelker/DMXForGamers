@@ -28,10 +28,23 @@ namespace DMXForGamers.Models
             get { return _events; }
             set
             {
-                if(_events != null)
+                if (_events != null)
+                {
+                    foreach (var item in _events)
+                    {
+                        (item as EventDefinition).DeleteEvent = null;
+                    }
                     _events.CollectionChanged -= _events_CollectionChanged;
+                }
                 _events = value;
-                _events.CollectionChanged += _events_CollectionChanged;
+                if (_events != null)
+                {
+                    foreach (var item in _events)
+                    {
+                        (item as EventDefinition).DeleteEvent = new RelayCommand(x => _events.Remove((x as EventDefinition)));
+                    }
+                    _events.CollectionChanged += _events_CollectionChanged;
+                }
                 AnnouncePropertyChanged();
             }
         }
@@ -40,19 +53,18 @@ namespace DMXForGamers.Models
         {
             if (e.OldItems != null)
             {
-                foreach (INotifyPropertyChanged item in e.OldItems)
-                    item.PropertyChanged -= item_PropertyChanged;
+                foreach (var item in e.OldItems)
+                {
+                    (item as EventDefinition).DeleteEvent = null;
+                }
             }
             if (e.NewItems != null)
             {
-                foreach (INotifyPropertyChanged item in e.NewItems)
-                    item.PropertyChanged += item_PropertyChanged;
+                foreach (var item in e.NewItems)
+                {
+                    (item as EventDefinition).DeleteEvent = new RelayCommand(x => _events.Remove((x as EventDefinition)));
+                }
             }
-        }
-
-        private void item_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            
         }
 
         private ICommand _addEvent;

@@ -28,12 +28,17 @@
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="10"/>
             <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="10"/>
+            <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
+        <Button Grid.Row="0" Grid.Column="4" Command="{Binding Path='DeleteTimeBlock'}" CommandParameter="{Binding}" HorizontalAlignment="Right">
+            <Image Source="/DMXForGamers;component/Images/Delete16.png" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" />
+        </Button>
         <TextBlock Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right">Start Time:</TextBlock>
         <TextBox Grid.Row="0" Grid.Column="2" Width="100" HorizontalAlignment="Left" Text="{Binding Path='StartTime', ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" Validation.ErrorTemplate="{StaticResource ResourceKey=errorTemplateSilverlightStyle}"></TextBox>
         <TextBlock Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right">Time Span:</TextBlock>
         <TextBox Grid.Row="2" Grid.Column="2" Width="100" HorizontalAlignment="Left" Text="{Binding Path='TimeSpan'}"></TextBox>
-        <DataGrid Grid.Row="4" Grid.ColumnSpan="3" AutoGenerateColumns="False" ItemsSource="{Binding Path=DMXValues}" GridLinesVisibility="None" AlternationCount="1" HeadersVisibility="Column" CanUserResizeRows="False" CanUserResizeColumns="False" CanUserReorderColumns="False" CanUserSortColumns="False" CanUserAddRows="False" CanUserDeleteRows="False">
+        <DataGrid Grid.Row="4" Grid.ColumnSpan="5" AutoGenerateColumns="False" ItemsSource="{Binding Path=DMXValues}" GridLinesVisibility="None" AlternationCount="1" HeadersVisibility="Column" CanUserResizeRows="False" CanUserResizeColumns="False" CanUserReorderColumns="False" CanUserSortColumns="False" CanUserAddRows="False" CanUserDeleteRows="False">
             <DataGrid.AlternatingRowBackground>
                 <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
             </DataGrid.AlternatingRowBackground>
@@ -62,7 +67,7 @@
                 <DataGridTemplateColumn Header="" Width="Auto" IsReadOnly="False">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button Command="{Binding Path=DeleteDMXValue}">
+                            <Button Command="{Binding Path=DeleteDMXValue}" CommandParameter="{Binding}">
                                 <Image Source="/DMXForGamers;component/Images/Delete16.png" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" />
                             </Button>
                         </DataTemplate>
@@ -71,7 +76,7 @@
                 <DataGridTemplateColumn Header="" Width="Auto" IsReadOnly="False">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button Command="{Binding Path=DeleteDMXValue}">
+                            <Button>
                                 <Button.Visibility>
                                     <MultiBinding Converter="{StaticResource IsLastInEnumVisibilityConverter}">
                                         <Binding Path="ItemsSource" RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type DataGrid}}"/>

@@ -31,7 +31,45 @@ namespace DMXForGamers.Models
         public ObservableCollection<DMXTimeBlock> TimeBlocks
         {
             get { return _timeBlocks; }
-            set { _timeBlocks = value; AnnouncePropertyChanged(); }
+            set
+            {
+                if (_timeBlocks != null)
+                {
+                    foreach (var item in _timeBlocks)
+                    {
+                        (item as DMXTimeBlock).DeleteTimeBlock = null;
+                    }
+                    _timeBlocks.CollectionChanged -= _timeBlocks_CollectionChanged;
+                }
+                _timeBlocks = value;
+                if (_timeBlocks != null)
+                {
+                    foreach (var item in _timeBlocks)
+                    {
+                        (item as DMXTimeBlock).DeleteTimeBlock = new RelayCommand(x => _timeBlocks.Remove((x as DMXTimeBlock)));
+                    }
+                    _timeBlocks.CollectionChanged += _timeBlocks_CollectionChanged;
+                }
+                AnnouncePropertyChanged();
+            }
+        }
+
+        private void _timeBlocks_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            if (e.OldItems != null)
+            {
+                foreach (var item in e.OldItems)
+                {
+                    (item as DMXTimeBlock).DeleteTimeBlock = null;
+                }
+            }
+            if (e.NewItems != null)
+            {
+                foreach (var item in e.NewItems)
+                {
+                    (item as DMXTimeBlock).DeleteTimeBlock = new RelayCommand(x => _timeBlocks.Remove((x as DMXTimeBlock)));
+                }
+            }
         }
 
         private ICommand _addTimeBlock;

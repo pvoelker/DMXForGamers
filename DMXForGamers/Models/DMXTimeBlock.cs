@@ -24,7 +24,47 @@ namespace DMXForGamers.Models
         public ObservableCollection<DMXValue> DMXValues
         {
             get { return _dmxValues; }
-            set { _dmxValues = value; AnnouncePropertyChanged(); }
+            set
+            {
+                if (_dmxValues != null)
+                {
+                    foreach (var item in _dmxValues)
+                    {
+                        (item as DMXValue).DeleteDMXValue = null;
+                    }
+                    _dmxValues.CollectionChanged -= _dmxValues_CollectionChanged;
+                }
+                _dmxValues = value;
+                if (_dmxValues != null)
+                {
+                    foreach (var item in _dmxValues)
+                    {
+                        (item as DMXValue).DeleteDMXValue = new RelayCommand(x =>
+                        _dmxValues.Remove((x as DMXValue))
+                        );
+                    }
+                    _dmxValues.CollectionChanged += _dmxValues_CollectionChanged;
+                }
+                AnnouncePropertyChanged();
+            }
+        }
+
+        private void _dmxValues_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            if (e.OldItems != null)
+            {
+                foreach (var item in e.OldItems)
+                {
+                    (item as DMXValue).DeleteDMXValue = null;
+                }
+            }
+            if (e.NewItems != null)
+            {
+                foreach (var item in e.NewItems)
+                {
+                    (item as DMXValue).DeleteDMXValue = new RelayCommand(x => _dmxValues.Remove((x as DMXValue)));
+                }
+            }
         }
 
         private ICommand _addDMXValue;
@@ -32,6 +72,13 @@ namespace DMXForGamers.Models
         {
             get { return _addDMXValue; }
             set { _addDMXValue = value; AnnouncePropertyChanged(); }
+        }
+
+        private ICommand _deleteTimeBlock;
+        public ICommand DeleteTimeBlock
+        {
+            get { return _deleteTimeBlock; }
+            set { _deleteTimeBlock = value; AnnouncePropertyChanged(); }
         }
 
         #region IErrorInfo
