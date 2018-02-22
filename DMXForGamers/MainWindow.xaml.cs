@@ -102,6 +102,14 @@ namespace DMXForGamers
             {
                 return String.IsNullOrWhiteSpace(m_Data.EventsFile) == false;
             });
+
+            m_Data.NewDMXEvents = new RelayCommand(x =>
+            {
+                var frm = new EditDMXEventsWindow();
+                var data = Mapper.Map<DMXEngine.DMX, Models.DMXDefinitions>(new DMXEngine.DMX());
+                frm.DataContext = data;
+                frm.ShowDialog();
+            });
         }
 
         private Main m_Data = new Main();

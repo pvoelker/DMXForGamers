@@ -6,6 +6,17 @@ namespace DMXForGamers.Models
 {
     public class DMXDefinitions : NotifyPropertyChangedWithErrorInfoBase
     {
+        public DMXDefinitions()
+        {
+            BaseDMXValues = new ObservableCollection<DMXValue>();
+            Events = new ObservableCollection<DMXEvent>();
+
+            AddEvent = new RelayCommand(x =>
+            {
+                Events.Add(new DMXEvent());
+            });
+        }
+
         private string _description;
         public string Description
         {

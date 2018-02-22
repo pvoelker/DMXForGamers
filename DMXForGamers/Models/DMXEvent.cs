@@ -6,6 +6,16 @@ namespace DMXForGamers.Models
 {
     public class DMXEvent : NotifyPropertyChangedWithErrorInfoBase
     {
+        public DMXEvent()
+        {
+            TimeBlocks = new ObservableCollection<DMXTimeBlock>();
+
+            AddTimeBlock = new RelayCommand(x =>
+            {
+                TimeBlocks.Add(new DMXTimeBlock());
+            });
+        }
+
         private string _eventID;
         public string EventID
         {

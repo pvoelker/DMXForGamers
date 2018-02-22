@@ -13,6 +13,12 @@ namespace DMXForGamers.Models
     {
         public EventDefinitions()
         {
+            Events = new ObservableCollection<EventDefinition>();
+
+            AddEvent = new RelayCommand(x =>
+            {
+                Events.Add(new EventDefinition());
+            });
         }
 
         private string _description;

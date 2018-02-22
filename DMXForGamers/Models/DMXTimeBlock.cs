@@ -6,6 +6,16 @@ namespace DMXForGamers.Models
 {
     public class DMXTimeBlock : NotifyPropertyChangedWithErrorInfoBase
     {
+        public DMXTimeBlock()
+        {
+            DMXValues = new ObservableCollection<DMXValue>();
+
+            AddDMXValue = new RelayCommand(x =>
+            {
+                DMXValues.Add(new DMXValue());
+            });
+        }
+
         private int _startTime;
         public int StartTime
         {
