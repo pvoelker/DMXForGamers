@@ -11,6 +11,10 @@ namespace DMXForGamers.Models
             BaseDMXValues = new ObservableCollection<DMXValue>();
             Events = new ObservableCollection<DMXEvent>();
 
+            AddBaseValue = new RelayCommand(x =>
+            {
+                BaseDMXValues.Add(new DMXValue());
+            });
             AddEvent = new RelayCommand(x =>
             {
                 Events.Add(new DMXEvent());
@@ -112,6 +116,13 @@ namespace DMXForGamers.Models
                     (item as DMXEvent).DeleteEvent = new RelayCommand(x => _events.Remove((x as DMXEvent)));
                 }
             }
+        }
+
+        private ICommand _addBaseValue;
+        public ICommand AddBaseValue
+        {
+            get { return _addBaseValue; }
+            set { _addBaseValue = value; AnnouncePropertyChanged(); }
         }
 
         private ICommand _addEvent;
