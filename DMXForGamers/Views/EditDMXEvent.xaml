@@ -61,7 +61,7 @@
         <Button Grid.Row="8" Grid.Column="0" Command="{Binding Path='AddTimeBlock'}" HorizontalAlignment="Left">
             <StackPanel Orientation="Horizontal">
                 <Image Source="/DMXForGamers;component/Images/Add16.png" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                <TextBlock FontSize="10">Add Time Block</TextBlock>
+                <TextBlock Margin="5,0,0,0">Add Time Block</TextBlock>
             </StackPanel>            
         </Button>
         <Button Grid.Row="8" Grid.Column="2" Command="{Binding Path='DeleteEvent'}" CommandParameter="{Binding}" HorizontalAlignment="Right">

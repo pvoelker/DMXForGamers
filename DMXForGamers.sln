@@ -33,6 +33,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Images", "Images", "{2749FA
 		Images\New16.png = Images\New16.png
 		Images\New32.png = Images\New32.png
 		Images\New64.png = Images\New64.png
+		Images\Save16.png = Images\Save16.png
+		Images\Save32.png = Images\Save32.png
+		Images\Save64.png = Images\Save64.png
 		Images\Warning.svg = Images\Warning.svg
 	EndProjectSection
 EndProject

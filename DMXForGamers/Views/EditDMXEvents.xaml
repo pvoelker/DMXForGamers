@@ -61,7 +61,7 @@
                     <Button Grid.Row="2" Grid.Column="0" Command="{Binding Path='AddEvent'}">
                         <StackPanel Orientation="Horizontal">
                             <Image Source="/DMXForGamers;component/Images/Add16.png" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                            <TextBlock>Add Event</TextBlock>
+                            <TextBlock Margin="5,0,0,0">Add Event</TextBlock>
                         </StackPanel>
                     </Button>
                 </Grid>

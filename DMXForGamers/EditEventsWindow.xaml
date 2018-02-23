@@ -7,7 +7,16 @@
         xmlns:views="clr-namespace:DMXForGamers.Views"
         mc:Ignorable="d"
         Title="Edit Events" Height="600" Width="800" DataContextChanged="Window_DataContextChanged">
-    <Grid>
-        <views:EditEvents Margin="10"></views:EditEvents>
-    </Grid>
+    <DockPanel LastChildFill="True">
+        <StackPanel DockPanel.Dock="Bottom" Margin="10"  Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button>
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="/DMXForGamers;component/Images/Save16.png" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    <TextBlock Margin="5,0,0,0">Save</TextBlock>
+                </StackPanel>
+            </Button>
+            <Button Margin="10,0,0,0">Cancel</Button>
+        </StackPanel>
+        <views:EditEvents Margin="10" />
+    </DockPanel>
 </Window>
