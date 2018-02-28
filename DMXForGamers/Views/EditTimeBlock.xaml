@@ -13,7 +13,6 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="ControlStyles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
-            <converters:IsLastInEnumVisibilityConverter x:Key="IsLastInEnumVisibilityConverter"/>
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid>

@@ -25,19 +25,18 @@ namespace DMXForGamers
             InitializeComponent();            
         }
 
-        private void Window_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+        public bool IsSave { get; set; } = false;
+
+        private void Save_Button_Click(object sender, RoutedEventArgs e)
         {
-            if(DataContext != null)
-            {
-                var data = DataContext as Models.DMXDefinitions;
+            IsSave = true;
+            this.Close();
+        }
 
-                //data.AddEvent = new RelayCommand(x =>
-                //{
-                //    var events = DataContext as Models.DMXDefinitions;
-
-                //    events.Events.Add(new DMXEvent());
-                //});
-            }
+        private void Cancel_Button_Click(object sender, RoutedEventArgs e)
+        {
+            IsSave = false;
+            this.Close();
         }
     }
 }

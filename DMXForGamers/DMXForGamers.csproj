@@ -85,7 +85,6 @@
     <Compile Include="AppSettings\AppSettingsFile.cs" />
     <Compile Include="Views\Common\BindingProxy.cs" />
     <Compile Include="Converters\BooleanOrConverter.cs" />
-    <Compile Include="Converters\IsLastInEnumVisibilityConverter.cs" />
     <Compile Include="Converters\ListToStringConverter.cs" />
     <Compile Include="EditDMXEventsWindow.xaml.cs">
       <DependentUpon>EditDMXEventsWindow.xaml</DependentUpon>
@@ -234,7 +233,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Timers;
 using System.Threading.Tasks;
@@ -35,22 +36,35 @@ namespace DMXForGamers
 
             Mapper.Initialize(cfg =>
             {
-                cfg.CreateMap<DMXEngine.EventDefinitions, Models.EventDefinitions>();
+                cfg.CreateMap<DMXEngine.EventDefinitions, Models.EventDefinitions>().
+                    ForMember(x => x.AddEvent, opt => opt.Ignore());
                 cfg.CreateMap<Models.EventDefinitions, DMXEngine.EventDefinitions>();
-                cfg.CreateMap<DMXEngine.EventDefinition, Models.EventDefinition>();
+                cfg.CreateMap<DMXEngine.EventDefinition, Models.EventDefinition>().
+                    ForMember(x => x.DeleteEvent, opt => opt.Ignore()).
+                    ForMember(x => x.EventOff, opt => opt.Ignore()).
+                    ForMember(x => x.EventOn, opt => opt.Ignore());
                 cfg.CreateMap<Models.EventDefinition, DMXEngine.EventDefinition>();
 
-                cfg.CreateMap<DMXEngine.DMX, Models.DMXDefinitions>();
+                cfg.CreateMap<DMXEngine.DMX, Models.DMXDefinitions>().
+                    ForMember(x => x.AddBaseValue, opt => opt.Ignore()).
+                    ForMember(x => x.AddEvent, opt => opt.Ignore());
                 cfg.CreateMap<Models.DMXDefinitions, DMXEngine.DMX>();
-                cfg.CreateMap<DMXEngine.Event, Models.DMXEvent>();
+                cfg.CreateMap<DMXEngine.Event, Models.DMXEvent>().
+                    ForMember(x => x.AddTimeBlock, opt => opt.Ignore()).
+                    ForMember(x => x.DeleteEvent, opt => opt.Ignore());
                 cfg.CreateMap<Models.DMXEvent, DMXEngine.Event>();
-                cfg.CreateMap<DMXEngine.TimeBlock, Models.DMXTimeBlock>();
+                cfg.CreateMap<DMXEngine.TimeBlock, Models.DMXTimeBlock>().
+                    ForMember(x => x.AddDMXValue, opt => opt.Ignore()).
+                    ForMember(x => x.DeleteTimeBlock, opt => opt.Ignore());
                 cfg.CreateMap<Models.DMXTimeBlock, DMXEngine.TimeBlock>();
-                cfg.CreateMap<DMXEngine.DMXValue, Models.DMXValue>();
+                cfg.CreateMap<DMXEngine.DMXValue, Models.DMXValue>().
+                    ForMember(x => x.DeleteDMXValue, opt => opt.Ignore());
                 cfg.CreateMap<Models.DMXValue, DMXEngine.DMXValue>();
 
                 cfg.CreateMap<DMXCommunication.DMXPortAdapter, Models.DMXProtocol>();
             });
+
+            Mapper.AssertConfigurationIsValid();
 
             LoadData();
 
@@ -71,11 +85,8 @@ namespace DMXForGamers
 
             m_Data.EditEvents = new RelayCommand(x =>
             {
-                var frm = new EditEventsWindow();
-                var filedata = EventDefinitionsFile.LoadFile(m_Data.EventsFile);
-                var data = Mapper.Map<DMXEngine.EventDefinitions, Models.EventDefinitions>(filedata);
-                frm.DataContext = data;
-                frm.ShowDialog();
+                var fileData = EventDefinitionsFile.LoadFile(m_Data.EventsFile);
+                CreateOrEditEvents(m_Data.EventsFile, fileData);
             },
             x =>
             {
@@ -84,19 +95,13 @@ namespace DMXForGamers
 
             m_Data.NewEvents = new RelayCommand(x =>
             {
-                var frm = new EditEventsWindow();
-                var data = Mapper.Map<DMXEngine.EventDefinitions, Models.EventDefinitions>(new DMXEngine.EventDefinitions());
-                frm.DataContext = data;
-                frm.ShowDialog();
+                CreateOrEditEvents(m_Data.EventsFile, new DMXEngine.EventDefinitions());
             });
 
             m_Data.EditDMXEvents = new RelayCommand(x =>
             {
-                var frm = new EditDMXEventsWindow();
-                var filedata = DMXEventsFile.LoadFile(m_Data.DMXFile);
-                var data = Mapper.Map<DMXEngine.DMX, Models.DMXDefinitions>(filedata);
-                frm.DataContext = data;
-                frm.ShowDialog();
+                var fileData = DMXEventsFile.LoadFile(m_Data.DMXFile);
+                CreateOrEditDMXEvents(m_Data.DMXFile, fileData);
             },
             x =>
             {
@@ -105,10 +110,7 @@ namespace DMXForGamers
 
             m_Data.NewDMXEvents = new RelayCommand(x =>
             {
-                var frm = new EditDMXEventsWindow();
-                var data = Mapper.Map<DMXEngine.DMX, Models.DMXDefinitions>(new DMXEngine.DMX());
-                frm.DataContext = data;
-                frm.ShowDialog();
+                CreateOrEditDMXEvents(m_Data.DMXFile, new DMXEngine.DMX());
             });
         }
 
@@ -386,6 +388,32 @@ namespace DMXForGamers
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             StopButton_Click(this, null);
+        }
+
+        private static void CreateOrEditEvents(string fileName, DMXEngine.EventDefinitions fileData)
+        {
+            var frm = new EditEventsWindow();
+            var data = Mapper.Map<DMXEngine.EventDefinitions, Models.EventDefinitions>(fileData);
+            frm.DataContext = data;
+            frm.ShowDialog();
+            if (frm.IsSave == true)
+            {
+                fileData = Mapper.Map<Models.EventDefinitions, DMXEngine.EventDefinitions>(data);
+                EventDefinitionsFile.SaveFile(fileData, fileName);
+            }
+        }
+
+        private static void CreateOrEditDMXEvents(string fileName, DMXEngine.DMX fileData)
+        {
+            var frm = new EditDMXEventsWindow();
+            var data = Mapper.Map<DMXEngine.DMX, Models.DMXDefinitions>(fileData);
+            frm.DataContext = data;
+            frm.ShowDialog();
+            if (frm.IsSave == true)
+            {
+                fileData = Mapper.Map<Models.DMXDefinitions, DMXEngine.DMX>(data);
+                DMXEventsFile.SaveFile(fileData, fileName);
+            }
         }
     }
 }
