@@ -45,21 +45,21 @@
                 <DataGridTemplateColumn Header="Channel" Width="Auto" IsReadOnly="False">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <tk:IntegerUpDown Value="{Binding Path=Channel}" Minimum="{Binding Path=MinChannel}" Maximum="{Binding Path=MaxChannel}"/>
+                            <tk:IntegerUpDown Value="{Binding Path=Channel, UpdateSourceTrigger=PropertyChanged}" Minimum="{Binding Path=MinChannel}" Maximum="{Binding Path=MaxChannel}"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 <DataGridTemplateColumn Header="Value" Width="Auto" IsReadOnly="False">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <tk:ByteUpDown Value="{Binding Path=Value}" Minimum="{Binding Path=MinValue}" Maximum="{Binding Path=MaxValue}"/>
+                            <tk:ByteUpDown Value="{Binding Path=Value, UpdateSourceTrigger=PropertyChanged}" Minimum="{Binding Path=MinValue}" Maximum="{Binding Path=MaxValue}"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 <DataGridTemplateColumn Header="Delta" Width="Auto" IsReadOnly="False">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <tk:ShortUpDown Value="{Binding Path=Delta}" Minimum="{Binding Path=MinDelta}" Maximum="{Binding Path=MaxDelta}"/>
+                            <tk:ShortUpDown Value="{Binding Path=Delta, UpdateSourceTrigger=PropertyChanged}" Minimum="{Binding Path=MinDelta}" Maximum="{Binding Path=MaxDelta}"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WPFSpark;
 
 namespace DMXForGamers.Views
 {
@@ -39,9 +40,9 @@ namespace DMXForGamers.Views
                     data.EventOn.Execute(data.EventID);
                 }
             }
-            else if(sender is ToggleButton)
+            else if(sender is ToggleSwitch)
             {
-                var control = sender as ToggleButton;
+                var control = sender as ToggleSwitch;
                 var data = control.DataContext as EventDefinition;
 
                 if(control.IsChecked == false)
@@ -58,6 +59,10 @@ namespace DMXForGamers.Views
                         data.EventOn.Execute(data.EventID);
                     }
                 }
+            }
+            else
+            {
+                throw new Exception("Unknown control type encountered in button click event");
             }
         }
     }

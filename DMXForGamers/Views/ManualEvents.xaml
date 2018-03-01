@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DMXForGamers.Views"
              xmlns:tk="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit"
+             xmlns:spark="clr-namespace:WPFSpark;assembly=WPFSpark"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
@@ -20,7 +21,9 @@
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <ToggleButton Content="{Binding Path=EventID}" ToolTip="{Binding Path=Description}" Margin="10" Padding="10" FontSize="18" Click="Button_Click"/>
+                    <GroupBox Header="{Binding Path=EventID}" ToolTip="{Binding Path=Description}" Margin="10,10" Padding="10,0">
+                        <spark:ToggleSwitch Margin="10" Click="Button_Click" CheckedText="On" UncheckedText="Off" CheckedToolTip="Event is Continuously On" UncheckedToolTip="Event is Off"/>
+                    </GroupBox>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
