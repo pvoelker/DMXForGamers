@@ -112,6 +112,8 @@ namespace DMXForGamers
             {
                 CreateOrEditDMXEvents(m_Data.DMXFile, new DMXEngine.DMX());
             });
+
+            _stopButton.IsEnabled = false;
         }
 
         private Main m_Data = new Main();
@@ -305,6 +307,8 @@ namespace DMXForGamers
                     }
 
                     m_Data.Events = new ObservableCollection<Models.EventDefinition>(events);
+
+                    _progressBar.Visibility = Visibility.Visible;
                 }
             }
             catch (Exception ex)
@@ -318,6 +322,8 @@ namespace DMXForGamers
 
         private void StopButton_Click(object sender, RoutedEventArgs e)
         {
+            _progressBar.Visibility = Visibility.Hidden;
+
             _startButton.IsEnabled = true;
             _stopButton.IsEnabled = false;
 

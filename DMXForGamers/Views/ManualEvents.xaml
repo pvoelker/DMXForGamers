@@ -12,6 +12,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <ItemsControl Grid.Row="0" ItemsSource="{Binding Path=ContinuousEvents}">
             <ItemsControl.ItemsPanel>
@@ -21,13 +22,15 @@
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <GroupBox Header="{Binding Path=EventID}" ToolTip="{Binding Path=Description}" Margin="10,10" Padding="10,0">
-                        <spark:ToggleSwitch Margin="10" Click="Button_Click" CheckedText="On" UncheckedText="Off" CheckedToolTip="Event is Continuously On" UncheckedToolTip="Event is Off"/>
+                    <GroupBox Header="{Binding Path=EventID}" ToolTip="{Binding Path=Description}" Margin="10">
+                        <spark:ToggleSwitch Margin="10" Click="Button_Click" CheckedText="On" UncheckedText="Off" CheckedToolTip="Event is Continuously On" UncheckedToolTip="Event is Off"
+                                            Style="{StaticResource {ComponentResourceKey TypeInTargetAssembly=spark:ToggleSwitch, ResourceId=ToggleSwitch.Basic.Style}}" />
                     </GroupBox>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
-        <ItemsControl Grid.Row="1" ItemsSource="{Binding Path=NonContinuousEvents}">
+        <Separator Grid.Row="1" />
+        <ItemsControl Grid.Row="2" ItemsSource="{Binding Path=NonContinuousEvents}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <WrapPanel />

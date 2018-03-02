@@ -9,6 +9,7 @@
         xmlns:common="clr-namespace:DMXForGamers.Views.Common"
         xmlns:tk="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit"
         xmlns:tkpg="clr-namespace:Xceed.Wpf.Toolkit.PropertyGrid;assembly=Xceed.Wpf.Toolkit"
+        xmlns:spark="clr-namespace:WPFSpark;assembly=WPFSpark"
         xmlns:converters="clr-namespace:DMXForGamers.Converters"
         mc:Ignorable="d"
         Title="DMX For Gamers" Height="600" Width="800" Icon="DMXForGamers.ico" Closed="Window_Closed" Closing="Window_Closing">
@@ -86,6 +87,7 @@
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
                     <Button Grid.Row="0" Grid.Column="0" Click="StartButton_Click" Name="_startButton" Padding="10,0" FontSize="18">Start</Button>
+                    <spark:FluidProgressBar Grid.Row="0" Grid.Column="1" Visibility="Hidden" Name="_progressBar" Margin="5" Oscillate="True" />
                     <Button Grid.Row="0" Grid.Column="2" Click="StopButton_Click" Name="_stopButton" Padding="10,0" FontSize="18">Stop</Button>
                     <ScrollViewer Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" x:Name="m_OutputScroll">
                         <TextBlock Text="{Binding Path=Output, Converter={StaticResource listToStringConverter}}"></TextBlock>
