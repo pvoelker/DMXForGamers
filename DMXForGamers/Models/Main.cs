@@ -88,6 +88,20 @@ namespace DMXForGamers.Models
             set { m_DMXFile = value; AnnouncePropertyChanged(); }
         }
 
+        private bool m_EnableRemote;
+        public bool EnabledRemote
+        {
+            get { return m_EnableRemote; }
+            set { m_EnableRemote = value; AnnouncePropertyChanged(); }
+        }
+
+        private ushort m_RemotePort;
+        public ushort RemotePort
+        {
+            get { return m_RemotePort; }
+            set { m_RemotePort = value; AnnouncePropertyChanged(); }
+        }
+
         private ObservableCollection<EventDefinition> m_Events;
         public ObservableCollection<EventDefinition> Events
         {

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.2020
+VisualStudioVersion = 15.0.27130.2036
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMXCommunication", "DMXCommunication\DMXCommunication.csproj", "{574E1761-FFDA-4D62-9444-EC23AD1E7E99}"
 EndProject
@@ -47,6 +47,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ConfigFiles", "ConfigFiles"
 		ConfigFiles\Sorched3D_Events.xml = ConfigFiles\Sorched3D_Events.xml
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMXForGamersWeb", "DMXForGamersWeb\DMXForGamersWeb.csproj", "{B600EB00-2DBE-47B0-9E3C-D81A679EB30C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -79,6 +81,14 @@ Global
 		{F8486EF4-2748-4E96-852D-7C50DD57D69B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F8486EF4-2748-4E96-852D-7C50DD57D69B}.Release|x86.ActiveCfg = Release|Any CPU
 		{F8486EF4-2748-4E96-852D-7C50DD57D69B}.Release|x86.Build.0 = Release|Any CPU
+		{B600EB00-2DBE-47B0-9E3C-D81A679EB30C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B600EB00-2DBE-47B0-9E3C-D81A679EB30C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B600EB00-2DBE-47B0-9E3C-D81A679EB30C}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{B600EB00-2DBE-47B0-9E3C-D81A679EB30C}.Debug|x86.Build.0 = Debug|Any CPU
+		{B600EB00-2DBE-47B0-9E3C-D81A679EB30C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B600EB00-2DBE-47B0-9E3C-D81A679EB30C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B600EB00-2DBE-47B0-9E3C-D81A679EB30C}.Release|x86.ActiveCfg = Release|Any CPU
+		{B600EB00-2DBE-47B0-9E3C-D81A679EB30C}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

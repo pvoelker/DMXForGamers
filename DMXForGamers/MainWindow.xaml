@@ -26,6 +26,8 @@
             <RowDefinition Height="5"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="5"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="5"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="5"/>
             <RowDefinition Height="Auto"/>
@@ -73,7 +75,19 @@
         <Button Grid.Row="6" Grid.Column="6" Command="{Binding Path='NewDMXEvents'}" ToolTip="New">
             <Image Source="/DMXForGamers;component/Images/New16.png" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" />
         </Button>
-        <TabControl Grid.Row="8" Grid.ColumnSpan="8">
+        <Grid Grid.Row="8" Grid.Column="2" Grid.ColumnSpan="6">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="50" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="5" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <CheckBox Grid.Column="0" IsChecked="{Binding Path=EnabledRemote}">Enabled Web Remote Control</CheckBox>
+            <TextBlock Grid.Column="2" IsEnabled="{Binding Path=EnabledRemote}">Remote Port:</TextBlock>
+            <tk:IntegerUpDown Grid.Column="4" Value="{Binding Path=RemotePort}" Width="75" Minimum="0" Maximum="65535" IsEnabled="{Binding Path=EnabledRemote}"/>
+        </Grid>
+        <TabControl Grid.Row="10" Grid.ColumnSpan="8">
             <TabItem Header="Main Control">
                 <Grid Margin="10">
                     <Grid.RowDefinitions>
@@ -87,6 +101,7 @@
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
                     <Button Grid.Row="0" Grid.Column="0" Click="StartButton_Click" Name="_startButton" Padding="10,0" FontSize="18">Start</Button>
+                    <TextBlock Grid.Row="0" Grid.Column="1" TextAlignment="Center" Name="_progressStatus" />
                     <spark:FluidProgressBar Grid.Row="0" Grid.Column="1" Visibility="Hidden" Name="_progressBar" Margin="5" Oscillate="True" />
                     <Button Grid.Row="0" Grid.Column="2" Click="StopButton_Click" Name="_stopButton" Padding="10,0" FontSize="18">Stop</Button>
                     <ScrollViewer Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" x:Name="m_OutputScroll">
@@ -100,7 +115,7 @@
                 </Grid>
             </TabItem>
         </TabControl>
-        <Border Grid.Row="10" Grid.ColumnSpan="8" BorderThickness="1" BorderBrush="Black">
+        <Border Grid.Row="12" Grid.ColumnSpan="8" BorderThickness="1" BorderBrush="Black">
             <Expander Header='DMX Channels Visualizer'>
                 <ItemsControl ItemsSource="{Binding Path=Channels}">
                     <ItemsControl.ItemsPanel>

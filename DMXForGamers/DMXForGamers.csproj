@@ -44,6 +44,12 @@
     <Reference Include="Microsoft.Expression.Interactions, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\WPFSpark.1.4.0\lib\net462\Microsoft.Expression.Interactions.dll</HintPath>
     </Reference>
+    <Reference Include="Nancy, Version=1.4.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Nancy.1.4.4\lib\net40\Nancy.dll</HintPath>
+    </Reference>
+    <Reference Include="Nancy.Hosting.Self, Version=1.4.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Nancy.Hosting.Self.1.4.1\lib\net40\Nancy.Hosting.Self.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Runtime.Serialization" />
@@ -269,6 +275,10 @@
     <ProjectReference Include="..\DMXEngine\DMXEngine.csproj">
       <Project>{58e6905d-9a37-4c12-9ab5-b268aab823e2}</Project>
       <Name>DMXEngine</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DMXForGamersWeb\DMXForGamersWeb.csproj">
+      <Project>{b600eb00-2dbe-47b0-9e3c-d81a679eb30c}</Project>
+      <Name>DMXForGamersWeb</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

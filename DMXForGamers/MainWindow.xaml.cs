@@ -22,6 +22,10 @@ using System.Windows.Threading;
 using DMXCommunication;
 using DMXEngine;
 using DMXForGamers.Models;
+using DMXForGamers.Web;
+using Nancy.Hosting.Self;
+using System.Net;
+using System.Net.Sockets;
 
 namespace DMXForGamers
 {
@@ -126,6 +130,8 @@ namespace DMXForGamers
         private Timer _dmxUpdateTimer = null;
         private const int MAX_LINE_COUNT = 100;
 
+        private NancyHost _webHost = null;
+
         private void LoadData()
         {
             m_AppSettingsFilePath = Environment.CurrentDirectory + "\\appsetting.xml";
@@ -166,6 +172,9 @@ namespace DMXForGamers
 
             m_Data.SelectedMonitorIndex = m_AppSettings.TextMonitorOption;
 
+            m_Data.EnabledRemote = m_AppSettings.EnableRemoteControl;
+            m_Data.RemotePort = m_AppSettings.RemoteControlPort;
+
             this.DataContext = m_Data;
         }
 
@@ -182,6 +191,9 @@ namespace DMXForGamers
             m_AppSettings.EXEFilePath = m_Data.NewProcessMonitor.ExeFilePath;
 
             m_AppSettings.TextMonitorOption = m_Data.SelectedMonitorIndex;
+
+            m_AppSettings.EnableRemoteControl = m_Data.EnabledRemote;
+            m_AppSettings.RemoteControlPort = m_Data.RemotePort;
 
             MessageBoxResult response = MessageBoxResult.Yes;
             while (response == MessageBoxResult.Yes)
@@ -308,6 +320,24 @@ namespace DMXForGamers
 
                     m_Data.Events = new ObservableCollection<Models.EventDefinition>(events);
 
+                    var hostConfig = new Nancy.Hosting.Self.HostConfiguration();
+                    hostConfig.UrlReservations.CreateAutomatically = true;
+
+                    if (m_Data.EnabledRemote == true)
+                    {
+                        try
+                        {
+                            _webHost = new Nancy.Hosting.Self.NancyHost(new Uri("http://localhost:" + m_Data.RemotePort), new CustomBootstrapper(), hostConfig);
+                            _webHost.Start();
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show(ex.ToString(), "Unable to Start Web Server", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        }
+
+                        _progressStatus.Text = "Remote Control: http://" + GetLocalIP() + ":" + m_Data.RemotePort;
+                    }
+
                     _progressBar.Visibility = Visibility.Visible;
                 }
             }
@@ -323,6 +353,13 @@ namespace DMXForGamers
         private void StopButton_Click(object sender, RoutedEventArgs e)
         {
             _progressBar.Visibility = Visibility.Hidden;
+            _progressStatus.Text = String.Empty;
+
+            if (_webHost != null)
+            {
+                _webHost.Dispose();
+                _webHost = null;
+            }
 
             _startButton.IsEnabled = true;
             _stopButton.IsEnabled = false;
@@ -420,6 +457,27 @@ namespace DMXForGamers
                 fileData = Mapper.Map<Models.DMXDefinitions, DMXEngine.DMX>(data);
                 DMXEventsFile.SaveFile(fileData, fileName);
             }
+        }
+
+        private static string GetLocalIP()
+        {
+            var localIPs = Dns.GetHostAddresses(Dns.GetHostName());
+
+            var addr = localIPs.SingleOrDefault(x => x.AddressFamily == AddressFamily.InterNetwork);
+
+            if(addr != null)
+            {
+                return addr.ToString();
+            }
+
+            addr = localIPs.SingleOrDefault(x => x.AddressFamily == AddressFamily.InterNetworkV6);
+
+            if (addr != null)
+            {
+                return addr.ToString();
+            }
+
+            return null;
         }
     }
 }

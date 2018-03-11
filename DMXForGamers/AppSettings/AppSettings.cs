@@ -14,6 +14,9 @@ namespace DMXForGamers
 		public string MonitorFilePath { get; set; }
 		public string DMXFilePath { get; set; }
 		public string EventDefinitionsFilePath { get; set; }
+
+        public bool EnableRemoteControl { get; set; }
+        public ushort RemoteControlPort { get; set; }
 	}
 }
 
