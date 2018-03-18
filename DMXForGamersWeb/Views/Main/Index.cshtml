@@ -1,0 +1,39 @@
+﻿@inherits Nancy.ViewEngines.Razor.NancyRazorViewBase<DMXForGamers.Models.Main>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>DMX For Gamers Remote Control</title>
+</head>
+<body>
+    <table>
+        <tr>
+            <td>Remote Port:</td>
+            <td>@Model.RemotePort</td>
+        </tr>
+    </table>
+
+    @foreach (var item in Model.Events)
+    {
+        <div>
+            @item.EventID
+            <hr />
+        </div>
+    }
+
+    @*@foreach (var item in Model.ContinuousEvents)
+    {
+        <div>
+            @item
+            <hr />
+        </div>
+    }
+
+    @foreach (var item in Model.NonContinuousEvents)
+    {
+        <div>
+            @item
+            <hr />
+        </div>
+    }*@
+</body>
+</html>

@@ -120,7 +120,7 @@ namespace DMXForGamers
             _stopButton.IsEnabled = false;
         }
 
-        private Main m_Data = new Main();
+        private Main m_Data = Main.Instance;
 
         private AppSettings m_AppSettings = null;
         private string m_AppSettingsFilePath = null;

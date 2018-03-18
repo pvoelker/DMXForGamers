@@ -1,5 +1,7 @@
-﻿using Nancy;
+﻿using DMXForGamers.Models;
+using Nancy;
 using Nancy.ModelBinding;
+using Nancy.ViewEngines.Razor;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,12 +14,11 @@ namespace DMXForGamers.Web
     {
         public MainModule()
         {
-            //https://github.com/NancyFx/Nancy/wiki/Model-binding
-
             Get["/"] = _ =>
             {
-                this.BindTo(new object());
-                return View["index.html"];
+                //http://www.jhovgaard.com/from-aspnet-mvc-to-nancy-part-1/
+
+                return View["Index", Main.Instance];
             };
         }
     }

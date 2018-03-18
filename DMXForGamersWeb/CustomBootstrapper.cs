@@ -17,6 +17,23 @@ namespace DMXForGamers.Web
 {
     public class CustomBootstrapper : DefaultNancyBootstrapper
     {
+        private byte[] m_FavIcon;
+
+        protected override byte[] FavIcon
+        {
+            get { return this.m_FavIcon ?? (this.m_FavIcon = LoadFavIcon()); }
+        }
+
+        private byte[] LoadFavIcon()
+        {
+            using (var resourceStream = GetType().Assembly.GetManifestResourceStream("DMXForGamers.Web.favicon.ico"))
+            {
+                var memoryStream = new MemoryStream();
+                resourceStream.CopyTo(memoryStream);
+                return memoryStream.GetBuffer();
+            }
+        }
+
         protected override void ConfigureApplicationContainer(TinyIoCContainer container)
         {
             base.ConfigureApplicationContainer(container);

@@ -12,12 +12,23 @@ namespace DMXForGamers.Models
 {
     public class Main : NotifyPropertyChangedWithErrorInfoBase
     {
-        public Main()
-        {
-            for(ushort i = 1; i <= 512; i++)
+        private static readonly Lazy<Main> lazy =
+            new Lazy<Main>(() =>
             {
-                Channels.Add(new DMXChannel(i));
-            }
+                var value = new Main();
+
+                for (ushort i = 1; i <= 512; i++)
+                {
+                    value.Channels.Add(new DMXChannel(i));
+                }
+
+                return value;
+            });
+
+        public static Main Instance { get { return lazy.Value; } }
+
+        private Main()
+        {
         }
 
         private ObservableCollection<DMXChannel> m_Channels = new ObservableCollection<DMXChannel>();
