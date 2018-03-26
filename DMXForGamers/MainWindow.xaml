@@ -16,140 +16,155 @@
     <Window.Resources>
         <converters:ListToStringConverter x:Key="listToStringConverter" />
     </Window.Resources>
-    <Grid Margin="5">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="5"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="5"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="5"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="5"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="5"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="5"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="5"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="5"/>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="5"/>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="5"/>
-            <ColumnDefinition Width="Auto"/>
-        </Grid.ColumnDefinitions>
-        <TextBlock Grid.Row="0">Protocol:</TextBlock>
-        <ComboBox Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="3" ItemsSource="{Binding Path=Protocols}" DisplayMemberPath="Description" SelectedItem="{Binding Path=SelectedProtocol}"></ComboBox>
-        <Button Grid.Row="0" Grid.Column="6" Command="{Binding Path='EditSettings'}" ToolTip="Protocol Settings">
-            <Image Source="/DMXForGamers;component/Images/Gear16.png" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" />
-        </Button>        
-        <TabControl Grid.Row="2" Grid.ColumnSpan="8" SelectedIndex="{Binding Path=SelectedMonitorIndex}">
-            <TabItem Header="New Process Monitor">
-                <monitors:NewProcessMonitor DataContext="{Binding Path=NewProcessMonitor}"></monitors:NewProcessMonitor>
-            </TabItem>
-            <TabItem Header="File Monitor">
-                <monitors:FileMonitor DataContext="{Binding Path=FileMonitor}"></monitors:FileMonitor>
-            </TabItem>
-            <TabItem Header="No Monitor">
-                <TextBlock>Manual triggering of events only...</TextBlock>
-            </TabItem>
-        </TabControl>
-        <TextBlock Grid.Row="4">Events File:</TextBlock>
-        <common:FileTextBox Grid.Row="4" Grid.Column="2" FilePath="{Binding Path=EventsFile}"></common:FileTextBox>
-        <Button Grid.Row="4" Grid.Column="4" Command="{Binding Path='EditEvents'}" ToolTip="Edit">
-            <Image Source="/DMXForGamers;component/Images/Edit16.png" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" />
-        </Button>
-        <Button Grid.Row="4" Grid.Column="6" Command="{Binding Path='NewEvents'}" ToolTip="New">
-            <Image Source="/DMXForGamers;component/Images/New16.png" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" />
-        </Button>
-        <TextBlock Grid.Row="6">DMX File:</TextBlock>
-        <common:FileTextBox Grid.Row="6" Grid.Column="2" FilePath="{Binding Path=DMXFile}"></common:FileTextBox>
-        <Button Grid.Row="6" Grid.Column="4" Command="{Binding Path='EditDMXEvents'}" ToolTip="Edit">
-            <Image Source="/DMXForGamers;component/Images/Edit16.png" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" />
-        </Button>
-        <Button Grid.Row="6" Grid.Column="6" Command="{Binding Path='NewDMXEvents'}" ToolTip="New">
-            <Image Source="/DMXForGamers;component/Images/New16.png" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" />
-        </Button>
-        <Grid Grid.Row="8" Grid.Column="2" Grid.ColumnSpan="6">
+    <Grid>
+        <Grid Margin="5">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="5"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="5"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="5"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="5"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="5"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="5"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="50" />
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="5" />
-                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="5"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="5"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="5"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="5"/>
+                <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
-            <CheckBox Grid.Column="0" IsChecked="{Binding Path=EnabledRemote}">Enabled Web Remote Control</CheckBox>
-            <TextBlock Grid.Column="2" IsEnabled="{Binding Path=EnabledRemote}">Remote Port:</TextBlock>
-            <tk:IntegerUpDown Grid.Column="4" Value="{Binding Path=RemotePort}" Width="75" Minimum="0" Maximum="65535" IsEnabled="{Binding Path=EnabledRemote}"/>
-        </Grid>
-        <TabControl Grid.Row="10" Grid.ColumnSpan="8">
-            <TabItem Header="Main Control">
-                <Grid Margin="10">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="10"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
-                    <Button Grid.Row="0" Grid.Column="0" Click="StartButton_Click" Name="_startButton" Padding="10,0" FontSize="18">Start</Button>
-                    <TextBlock Grid.Row="0" Grid.Column="1" TextAlignment="Center" Name="_progressStatus" />
-                    <spark:FluidProgressBar Grid.Row="0" Grid.Column="1" Visibility="Hidden" Name="_progressBar" Margin="5" Oscillate="True" />
-                    <Button Grid.Row="0" Grid.Column="2" Click="StopButton_Click" Name="_stopButton" Padding="10,0" FontSize="18">Stop</Button>
-                    <ScrollViewer Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" x:Name="m_OutputScroll">
-                        <TextBlock Text="{Binding Path=Output, Converter={StaticResource listToStringConverter}}"></TextBlock>
-                    </ScrollViewer>
-                </Grid>
-            </TabItem>
-            <TabItem Header="Manual Triggering">
-                <Grid>
-                    <views:ManualEvents></views:ManualEvents>
-                </Grid>
-            </TabItem>
-        </TabControl>
-        <Border Grid.Row="12" Grid.ColumnSpan="8" BorderThickness="1" BorderBrush="Black">
-            <Expander Header='DMX Channels Visualizer'>
-                <ItemsControl ItemsSource="{Binding Path=Channels}">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <WrapPanel />
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <common:Bar MaxValue="255" Value="{Binding Path=Value}" Height="20" Width="10"
+            <TextBlock Grid.Row="0">Protocol:</TextBlock>
+            <ComboBox Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="3" ItemsSource="{Binding Path=Protocols}" DisplayMemberPath="Description" SelectedItem="{Binding Path=SelectedProtocol}"></ComboBox>
+            <Button Grid.Row="0" Grid.Column="6" Command="{Binding Path='EditSettings'}" ToolTip="Protocol Settings">
+                <Image Source="/DMXForGamers;component/Images/Gear16.png" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            </Button>
+            <TabControl Grid.Row="2" Grid.ColumnSpan="8" SelectedIndex="{Binding Path=SelectedMonitorIndex}">
+                <TabItem Header="New Process Monitor">
+                    <monitors:NewProcessMonitor DataContext="{Binding Path=NewProcessMonitor}"></monitors:NewProcessMonitor>
+                </TabItem>
+                <TabItem Header="File Monitor">
+                    <monitors:FileMonitor DataContext="{Binding Path=FileMonitor}"></monitors:FileMonitor>
+                </TabItem>
+                <TabItem Header="No Monitor">
+                    <TextBlock>Manual triggering of events only...</TextBlock>
+                </TabItem>
+            </TabControl>
+            <TextBlock Grid.Row="4">Events File:</TextBlock>
+            <common:FileTextBox Grid.Row="4" Grid.Column="2" FilePath="{Binding Path=EventsFile}"></common:FileTextBox>
+            <Button Grid.Row="4" Grid.Column="4" Command="{Binding Path='EditEvents'}" ToolTip="Edit">
+                <Image Source="/DMXForGamers;component/Images/Edit16.png" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            </Button>
+            <Button Grid.Row="4" Grid.Column="6" Command="{Binding Path='NewEvents'}" ToolTip="New">
+                <Image Source="/DMXForGamers;component/Images/New16.png" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            </Button>
+            <TextBlock Grid.Row="6">DMX File:</TextBlock>
+            <common:FileTextBox Grid.Row="6" Grid.Column="2" FilePath="{Binding Path=DMXFile}"></common:FileTextBox>
+            <Button Grid.Row="6" Grid.Column="4" Command="{Binding Path='EditDMXEvents'}" ToolTip="Edit">
+                <Image Source="/DMXForGamers;component/Images/Edit16.png" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            </Button>
+            <Button Grid.Row="6" Grid.Column="6" Command="{Binding Path='NewDMXEvents'}" ToolTip="New">
+                <Image Source="/DMXForGamers;component/Images/New16.png" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            </Button>
+            <Grid Grid.Row="8" Grid.Column="2" Grid.ColumnSpan="6">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="50" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="5" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <CheckBox Grid.Column="0" IsChecked="{Binding Path=EnabledRemote}">Enabled Web Remote Control</CheckBox>
+                <TextBlock Grid.Column="2" IsEnabled="{Binding Path=EnabledRemote}">Remote Port:</TextBlock>
+                <tk:IntegerUpDown Grid.Column="4" Value="{Binding Path=RemotePort}" Width="75" Minimum="0" Maximum="65535" IsEnabled="{Binding Path=EnabledRemote}"/>
+            </Grid>
+            <TabControl Grid.Row="10" Grid.ColumnSpan="8">
+                <TabItem Header="Main Control">
+                    <Grid Margin="10">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="10"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Button Grid.Row="0" Grid.Column="0" Click="StartButton_Click" Name="_startButton" Padding="10,0" FontSize="18">Start</Button>
+                        <TextBlock Grid.Row="0" Grid.Column="1" TextAlignment="Center" Name="_progressStatus" />
+                        <spark:FluidProgressBar Grid.Row="0" Grid.Column="1" Visibility="Hidden" Name="_progressBar" Margin="5" Oscillate="True" />
+                        <Button Grid.Row="0" Grid.Column="2" Click="StopButton_Click" Name="_stopButton" Padding="10,0" FontSize="18">Stop</Button>
+                        <ScrollViewer Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" x:Name="m_OutputScroll">
+                            <TextBlock Text="{Binding Path=Output, Converter={StaticResource listToStringConverter}}"></TextBlock>
+                        </ScrollViewer>
+                    </Grid>
+                </TabItem>
+                <TabItem Header="Manual Triggering">
+                    <Grid>
+                        <views:ManualEvents></views:ManualEvents>
+                    </Grid>
+                </TabItem>
+            </TabControl>
+            <Border Grid.Row="12" Grid.ColumnSpan="8" BorderThickness="1" BorderBrush="Black">
+                <Expander Header='DMX Channels Visualizer'>
+                    <ItemsControl ItemsSource="{Binding Path=Channels}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <common:Bar MaxValue="255" Value="{Binding Path=Value}" Height="20" Width="10"
                                         BorderThickness="0.2" BorderBrush="Gray">
-                                <common:Bar.BarColor>
-                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                                        <GradientStop Color="GreenYellow" Offset="0.0" />
-                                        <GradientStop Color="LightGreen" Offset="0.25" />
-                                        <GradientStop Color="Green" Offset="0.75" />
-                                        <GradientStop Color="LimeGreen" Offset="1.0" />
-                                    </LinearGradientBrush>
-                                </common:Bar.BarColor>
-                                <common:Bar.ToolTip>
-                                    <ToolTip Content="{Binding Path=Channel}" ContentStringFormat="{}Channel #{0}" />
-                                </common:Bar.ToolTip>
-                            </common:Bar>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                    <ItemsControl.Template>
-                        <ControlTemplate TargetType="{x:Type ItemsControl}">
-                            <ScrollViewer VerticalScrollBarVisibility="Auto">
-                                <ItemsPresenter />
-                            </ScrollViewer>
-                        </ControlTemplate>
-                    </ItemsControl.Template>
-                </ItemsControl>
-            </Expander>
-        </Border>
+                                    <common:Bar.BarColor>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                            <GradientStop Color="GreenYellow" Offset="0.0" />
+                                            <GradientStop Color="LightGreen" Offset="0.25" />
+                                            <GradientStop Color="Green" Offset="0.75" />
+                                            <GradientStop Color="LimeGreen" Offset="1.0" />
+                                        </LinearGradientBrush>
+                                    </common:Bar.BarColor>
+                                    <common:Bar.ToolTip>
+                                        <ToolTip Content="{Binding Path=Channel}" ContentStringFormat="{}Channel #{0}" />
+                                    </common:Bar.ToolTip>
+                                </common:Bar>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                        <ItemsControl.Template>
+                            <ControlTemplate TargetType="{x:Type ItemsControl}">
+                                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                                    <ItemsPresenter />
+                                </ScrollViewer>
+                            </ControlTemplate>
+                        </ItemsControl.Template>
+                    </ItemsControl>
+                </Expander>
+            </Border>
+        </Grid>
+        <Grid Visibility="Visible">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <tk:BusyIndicator Grid.Column="1" Grid.Row="1" IsBusy="{Binding Path=IsBusy}"/>
+        </Grid>
     </Grid>
 </Window>

@@ -1,6 +1,7 @@
 ﻿using Nancy;
 using Nancy.Bootstrapper;
 using Nancy.Conventions;
+using Nancy.Diagnostics;
 using Nancy.Responses;
 using Nancy.Session;
 using Nancy.TinyIoc;
@@ -17,6 +18,8 @@ namespace DMXForGamers.Web
 {
     public class CustomBootstrapper : DefaultNancyBootstrapper
     {
+        #region Favorite Icon
+
         private byte[] m_FavIcon;
 
         protected override byte[] FavIcon
@@ -34,6 +37,8 @@ namespace DMXForGamers.Web
             }
         }
 
+        #endregion
+
         protected override void ConfigureApplicationContainer(TinyIoCContainer container)
         {
             base.ConfigureApplicationContainer(container);
@@ -48,9 +53,21 @@ namespace DMXForGamers.Web
 
         protected override void ConfigureConventions(NancyConventions conventions)
         {
+            conventions.StaticContentsConventions.Add(StaticResourceConventionBuilder.AddDirectory("/Contents", Assembly.GetAssembly(typeof(MainModule)), "DMXForGamers.Web.Contents"));
             base.ConfigureConventions(conventions);
-            conventions.StaticContentsConventions.Add(AddStaticResourcePath("/content", Assembly.GetAssembly(typeof(MainModule)), "DMXForGamers.Web.Views.Content"));
         }
+
+#if DEBUG
+
+        protected override DiagnosticsConfiguration DiagnosticsConfiguration
+        {
+            get
+            {
+                return new DiagnosticsConfiguration { Password = @"1234" };
+            }
+        }
+
+#endif
 
         protected override NancyInternalConfiguration InternalConfiguration
         {
@@ -63,34 +80,6 @@ namespace DMXForGamers.Web
         void OnConfigurationBuilder(NancyInternalConfiguration x)
         {
             x.ViewLocationProvider = typeof(ResourceViewLocationProvider);
-        }
-
-        public static Func<NancyContext, string, Response> AddStaticResourcePath(string requestedPath, Assembly assembly, string namespacePrefix)
-        {
-            return (context, s) =>
-            {
-                var path = context.Request.Path;
-                if (!path.StartsWith(requestedPath))
-                {
-                    return null;
-                }
-
-                string resourcePath;
-                string name;
-
-                var adjustedPath = path.Substring(requestedPath.Length + 1);
-                if (adjustedPath.IndexOf('/') >= 0)
-                {
-                    name = Path.GetFileName(adjustedPath);
-                    resourcePath = namespacePrefix + "." + adjustedPath.Substring(0, adjustedPath.Length - name.Length - 1).Replace('/', '.');
-                }
-                else
-                {
-                    name = adjustedPath;
-                    resourcePath = namespacePrefix;
-                }
-                return new EmbeddedFileResponse(assembly, resourcePath, name);
-            };
         }
     }
 }

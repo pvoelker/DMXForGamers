@@ -20,6 +20,23 @@ namespace DMXForGamers.Web
 
                 return View["Index", Main.Instance];
             };
+
+            Put["/events/{id}/enable"] = parameters =>
+            {
+                var dummy = parameters.id;
+
+
+                var data = Main.Instance;
+
+                var foundEvent = data.Events.SingleOrDefault(x => String.Compare(x.Description, dummy, true) == 0);
+
+                if(foundEvent != null)
+                {
+                    foundEvent.EventOn.Execute(null);
+                }
+
+                return null;
+            };
         }
     }
 }

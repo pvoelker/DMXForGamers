@@ -26,6 +26,7 @@ using DMXForGamers.Web;
 using Nancy.Hosting.Self;
 using System.Net;
 using System.Net.Sockets;
+using Nancy.Bootstrapper;
 
 namespace DMXForGamers
 {
@@ -130,6 +131,7 @@ namespace DMXForGamers
         private Timer _dmxUpdateTimer = null;
         private const int MAX_LINE_COUNT = 100;
 
+        private INancyBootstrapper _webHostBootstrapper = null;
         private NancyHost _webHost = null;
 
         private void LoadData()
@@ -253,6 +255,11 @@ namespace DMXForGamers
 
             try
             {
+                m_Data.IsBusy = true;
+
+                // PEV - 3/21/2018 - Wait for UI to update and 'busy' to show...
+                this.Dispatcher.Invoke(new Action(() => { }), DispatcherPriority.ContextIdle, null);
+
                 CheckAndKillExistingProcesses();
 
                 IDMXCommunication dmxComm = null;
@@ -327,7 +334,9 @@ namespace DMXForGamers
                     {
                         try
                         {
-                            _webHost = new Nancy.Hosting.Self.NancyHost(new Uri("http://localhost:" + m_Data.RemotePort), new CustomBootstrapper(), hostConfig);
+                            _webHostBootstrapper = new CustomBootstrapper();
+
+                            _webHost = new Nancy.Hosting.Self.NancyHost(new Uri("http://localhost:" + m_Data.RemotePort), _webHostBootstrapper, hostConfig);
                             _webHost.Start();
                         }
                         catch (Exception ex)
@@ -348,6 +357,10 @@ namespace DMXForGamers
 
                 StopButton_Click(this, null);
             }
+            finally
+            {
+                m_Data.IsBusy = false;
+            }
         }
 
         private void StopButton_Click(object sender, RoutedEventArgs e)
@@ -359,6 +372,12 @@ namespace DMXForGamers
             {
                 _webHost.Dispose();
                 _webHost = null;
+            }
+
+            if(_webHostBootstrapper != null)
+            {
+                _webHostBootstrapper.Dispose();
+                _webHostBootstrapper = null;
             }
 
             _startButton.IsEnabled = true;

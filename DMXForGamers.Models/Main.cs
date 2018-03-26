@@ -31,6 +31,13 @@ namespace DMXForGamers.Models
         {
         }
 
+        private bool m_IsBusy;
+        public bool IsBusy
+        {
+            get { return m_IsBusy;  }
+            set { m_IsBusy = value; AnnouncePropertyChanged(); }
+        }
+
         private ObservableCollection<DMXChannel> m_Channels = new ObservableCollection<DMXChannel>();
         public ObservableCollection<DMXChannel> Channels
         {
