@@ -2,6 +2,7 @@
 using Nancy;
 using Nancy.ModelBinding;
 using Nancy.ViewEngines.Razor;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,21 +22,20 @@ namespace DMXForGamers.Web
                 return View["Index", Main.Instance];
             };
 
-            Put["/events/{id}/enable"] = parameters =>
+            Get["/events/{id}/enable"] = parameters =>
             {
-                var dummy = parameters.id;
-
+                var eventID = (string)(parameters.id);
 
                 var data = Main.Instance;
 
-                var foundEvent = data.Events.SingleOrDefault(x => String.Compare(x.Description, dummy, true) == 0);
+                var foundEvent = data.Events.SingleOrDefault(x => String.Compare(x.EventID, eventID, true) == 0);
 
                 if(foundEvent != null)
                 {
-                    foundEvent.EventOn.Execute(null);
+                    foundEvent.EventOn.Execute(eventID);
                 }
 
-                return null;
+                return @"{ ""success"":true }";
             };
         }
     }
