@@ -93,6 +93,7 @@
                     <Grid Margin="10">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
                             <RowDefinition Height="10"/>
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
@@ -101,11 +102,11 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
-                        <Button Grid.Row="0" Grid.Column="0" Click="StartButton_Click" Name="_startButton" Padding="10,0" FontSize="18">Start</Button>
+                        <Button Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" Click="StartButton_Click" Name="_startButton" Padding="10,0" FontSize="18">Start</Button>
                         <TextBlock Grid.Row="0" Grid.Column="1" TextAlignment="Center" Name="_progressStatus" />
-                        <spark:FluidProgressBar Grid.Row="0" Grid.Column="1" Visibility="Hidden" Name="_progressBar" Margin="5" Oscillate="True" />
-                        <Button Grid.Row="0" Grid.Column="2" Click="StopButton_Click" Name="_stopButton" Padding="10,0" FontSize="18">Stop</Button>
-                        <ScrollViewer Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" x:Name="m_OutputScroll">
+                        <spark:FluidProgressBar Grid.Row="1" Grid.Column="1" Visibility="Hidden" Name="_progressBar" Margin="5" Oscillate="True" />
+                        <Button Grid.Row="0" Grid.RowSpan="2" Grid.Column="2" Click="StopButton_Click" Name="_stopButton" Padding="10,0" FontSize="18">Stop</Button>
+                        <ScrollViewer Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" x:Name="m_OutputScroll">
                             <TextBlock Text="{Binding Path=Output, Converter={StaticResource listToStringConverter}}"></TextBlock>
                         </ScrollViewer>
                     </Grid>

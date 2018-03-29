@@ -37,6 +37,22 @@ namespace DMXForGamers.Web
 
                 return @"{ ""success"":true }";
             };
+
+            Get["/events/{id}/disable"] = parameters =>
+            {
+                var eventID = (string)(parameters.id);
+
+                var data = Main.Instance;
+
+                var foundEvent = data.Events.SingleOrDefault(x => String.Compare(x.EventID, eventID, true) == 0);
+
+                if (foundEvent != null)
+                {
+                    foundEvent.EventOff.Execute(eventID);
+                }
+
+                return @"{ ""success"":true }";
+            };
         }
     }
 }

@@ -128,13 +128,9 @@ namespace DMXForGamers.Models
             {
                 m_Events = value;
 
-                m_ContinuousEvents = new CollectionViewSource();
-                m_ContinuousEvents.Source = Events;
-                m_ContinuousEvents.Filter += (x, y) => { y.Accepted = ((EventDefinition)y.Item).Continuous; };
+                m_ContinuousEvents = (m_Events == null) ? null : new ObservableCollection<EventDefinition>(m_Events.Where(x => x.Continuous == true));
 
-                m_NonContinuousEvents = new CollectionViewSource();
-                m_NonContinuousEvents.Source = Events;
-                m_NonContinuousEvents.Filter += (x, y) => { y.Accepted = !((EventDefinition)y.Item).Continuous; };
+                m_NonContinuousEvents = (m_Events == null) ? null : new ObservableCollection<EventDefinition>(m_Events.Where(x => x.Continuous == false));
 
                 AnnouncePropertyChanged();
                 OnPropertyChanged(nameof(ContinuousEvents));
@@ -142,11 +138,11 @@ namespace DMXForGamers.Models
             }
         }
 
-        private CollectionViewSource m_ContinuousEvents;
-        public ICollectionView ContinuousEvents { get { return (m_ContinuousEvents == null) ? null : m_ContinuousEvents.View; } }
+        private ObservableCollection<EventDefinition> m_ContinuousEvents;
+        public ObservableCollection<EventDefinition> ContinuousEvents { get { return m_ContinuousEvents; } }
 
-        private CollectionViewSource m_NonContinuousEvents;
-        public ICollectionView NonContinuousEvents { get { return (m_NonContinuousEvents == null) ? null : m_NonContinuousEvents.View; } }
+        private ObservableCollection<EventDefinition> m_NonContinuousEvents;
+        public ObservableCollection<EventDefinition> NonContinuousEvents { get { return m_NonContinuousEvents; } }
 
         #region Commands
 
