@@ -53,7 +53,9 @@ namespace DMXForGamers.Web
 
         protected override void ConfigureConventions(NancyConventions conventions)
         {
-            conventions.StaticContentsConventions.Add(StaticResourceConventionBuilder.AddDirectory("/Contents", Assembly.GetAssembly(typeof(MainModule)), "DMXForGamers.Web.Contents"));
+            conventions.StaticContentsConventions.Add(StaticResourceConventionBuilder.AddDirectory("/Contents/Scripts", Assembly.GetAssembly(typeof(MainModule)), "DMXForGamers.Web.Contents.Scripts"));
+            conventions.StaticContentsConventions.Add(StaticResourceConventionBuilder.AddDirectory("/Contents/Bootstrap/css", Assembly.GetAssembly(typeof(MainModule)), "DMXForGamers.Web.Contents.Bootstrap.css"));
+            conventions.StaticContentsConventions.Add(StaticResourceConventionBuilder.AddDirectory("/Contents/Bootstrap/js", Assembly.GetAssembly(typeof(MainModule)), "DMXForGamers.Web.Contents.Bootstrap.js"));
             base.ConfigureConventions(conventions);
         }
 

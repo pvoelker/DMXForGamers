@@ -89,7 +89,14 @@
     <EmbeddedResource Include="favicon.ico" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Contents\jquery-3.3.1.min.js" />
+    <EmbeddedResource Include="Contents\Scripts\jquery-3.3.1.min.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Contents\Bootstrap\css\bootstrap-grid.min.css" />
+    <EmbeddedResource Include="Contents\Bootstrap\css\bootstrap-reboot.min.css" />
+    <EmbeddedResource Include="Contents\Bootstrap\css\bootstrap.min.css" />
+    <EmbeddedResource Include="Contents\Bootstrap\js\bootstrap.bundle.min.js" />
+    <EmbeddedResource Include="Contents\Bootstrap\js\bootstrap.min.js" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Nancy.Viewengines.Razor.1.4.3\build\Nancy.ViewEngines.Razor.targets" Condition="Exists('..\packages\Nancy.Viewengines.Razor.1.4.3\build\Nancy.ViewEngines.Razor.targets')" />
