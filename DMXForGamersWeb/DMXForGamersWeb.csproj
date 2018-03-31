@@ -98,6 +98,12 @@
     <EmbeddedResource Include="Contents\Bootstrap\js\bootstrap.bundle.min.js" />
     <EmbeddedResource Include="Contents\Bootstrap\js\bootstrap.min.js" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Contents\Images\DMXForGamers.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Contents\CSS\DMXForGamers.css" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Nancy.Viewengines.Razor.1.4.3\build\Nancy.ViewEngines.Razor.targets" Condition="Exists('..\packages\Nancy.Viewengines.Razor.1.4.3\build\Nancy.ViewEngines.Razor.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

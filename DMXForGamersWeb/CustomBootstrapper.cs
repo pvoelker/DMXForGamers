@@ -56,6 +56,8 @@ namespace DMXForGamers.Web
             conventions.StaticContentsConventions.Add(StaticResourceConventionBuilder.AddDirectory("/Contents/Scripts", Assembly.GetAssembly(typeof(MainModule)), "DMXForGamers.Web.Contents.Scripts"));
             conventions.StaticContentsConventions.Add(StaticResourceConventionBuilder.AddDirectory("/Contents/Bootstrap/css", Assembly.GetAssembly(typeof(MainModule)), "DMXForGamers.Web.Contents.Bootstrap.css"));
             conventions.StaticContentsConventions.Add(StaticResourceConventionBuilder.AddDirectory("/Contents/Bootstrap/js", Assembly.GetAssembly(typeof(MainModule)), "DMXForGamers.Web.Contents.Bootstrap.js"));
+            conventions.StaticContentsConventions.Add(StaticResourceConventionBuilder.AddDirectory("/Contents/Images", Assembly.GetAssembly(typeof(MainModule)), "DMXForGamers.Web.Contents.Images"));
+            conventions.StaticContentsConventions.Add(StaticResourceConventionBuilder.AddDirectory("/Contents/CSS", Assembly.GetAssembly(typeof(MainModule)), "DMXForGamers.Web.Contents.CSS"));
             base.ConfigureConventions(conventions);
         }
 
