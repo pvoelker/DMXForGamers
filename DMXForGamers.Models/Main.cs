@@ -31,6 +31,13 @@ namespace DMXForGamers.Models
         {
         }
 
+        private string m_CopyrightInfo;
+        public string CopyrightInfo
+        {
+            get { return m_CopyrightInfo; }
+            set { m_CopyrightInfo = value; AnnouncePropertyChanged(); }
+        }
+
         private bool m_IsBusy;
         public bool IsBusy
         {

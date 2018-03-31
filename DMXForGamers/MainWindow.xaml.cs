@@ -1,32 +1,22 @@
 ﻿using AutoMapper;
+using DMXCommunication;
+using DMXEngine;
+using DMXForGamers.Models;
+using DMXForGamers.Web;
+using Nancy.Bootstrapper;
+using Nancy.Hosting.Self;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using System.Timers;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.Windows.Threading;
-using DMXCommunication;
-using DMXEngine;
-using DMXForGamers.Models;
-using DMXForGamers.Web;
-using Nancy.Hosting.Self;
 using System.Net;
 using System.Net.Sockets;
-using Nancy.Bootstrapper;
+using System.Reflection;
+using System.Timers;
+using System.Windows;
+using System.Windows.Threading;
 
 namespace DMXForGamers
 {
@@ -136,6 +126,9 @@ namespace DMXForGamers
 
         private void LoadData()
         {
+            var versionInfo = FileVersionInfo.GetVersionInfo(Assembly.GetEntryAssembly().Location);
+            m_Data.CopyrightInfo = versionInfo.LegalCopyright;
+
             m_AppSettingsFilePath = Environment.CurrentDirectory + "\\appsetting.xml";
 
             if (File.Exists(m_AppSettingsFilePath) == true)
