@@ -51,6 +51,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMXForGamersWeb", "DMXForGa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMXForGamers.Models", "DMXForGamers.Models\DMXForGamers.Models.csproj", "{6702EB60-74FE-480E-81A5-9EFB4962AF2A}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Install", "Install", "{16DB6150-CA65-482C-AE13-918B95CC1B91}"
+	ProjectSection(SolutionItems) = preProject
+		DMXForGamers.nsi = DMXForGamers.nsi
+		DMXForGamersUninstall.ico = DMXForGamersUninstall.ico
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
