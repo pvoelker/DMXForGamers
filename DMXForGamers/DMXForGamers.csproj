@@ -291,4 +291,7 @@
     <Resource Include="Images\Save16.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>IF $(ConfigurationName) == Release "C:\Program Files (x86)\NSIS\makensis.exe" "$(SolutionDir)DMXForGamers.nsi"</PostBuildEvent>
+  </PropertyGroup>
 </Project>

@@ -126,10 +126,17 @@ namespace DMXForGamers
 
         private void LoadData()
         {
+            string appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+            appDataPath = Path.Combine(appDataPath, "DMX for Gamers");
+            if(Directory.Exists(appDataPath) == false)
+            {
+                Directory.CreateDirectory(appDataPath);
+            }
+
             var versionInfo = FileVersionInfo.GetVersionInfo(Assembly.GetEntryAssembly().Location);
             m_Data.CopyrightInfo = versionInfo.LegalCopyright;
 
-            m_AppSettingsFilePath = Environment.CurrentDirectory + "\\appsetting.xml";
+            m_AppSettingsFilePath = Path.Combine(appDataPath, "appsetting.xml");
 
             if (File.Exists(m_AppSettingsFilePath) == true)
             {

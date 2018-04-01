@@ -56,6 +56,7 @@ Section
   
   FILE .\DMXForGamers\bin\Release\*.exe
   FILE .\DMXForGamers\bin\Release\*.dll
+  FILE .\DMXForGamers\bin\Release\DMXForGamers.exe.config
   
   ;Store installation folder
   WriteRegStr HKCU "Software\DMX for Gamers" "" $INSTDIR
@@ -69,12 +70,12 @@ SectionEnd
 ;Descriptions
 
   ;Language strings
-  LangString DESC_SecDummy ${LANG_ENGLISH} "A test section."
+  ;LangString DESC_SecDummy ${LANG_ENGLISH} "A test section."
 
   ;Assign language strings to sections
-  !insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
-  !insertmacro MUI_DESCRIPTION_TEXT ${SecDummy} $(DESC_SecDummy)
-  !insertmacro MUI_FUNCTION_DESCRIPTION_END
+  ;!insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
+  ;!insertmacro MUI_DESCRIPTION_TEXT ${SecDummy} $(DESC_SecDummy)
+  ;!insertmacro MUI_FUNCTION_DESCRIPTION_END
 
 ;--------------------------------
 ;Uninstaller Section
@@ -85,6 +86,7 @@ Section "Uninstall"
 
   Delete "$INSTDIR\*.exe"
   Delete "$INSTDIR\*.dll"
+  Delete "$INSTDIR\DMXForGamers.exe.config"
 
   RMDir "$INSTDIR"
 
