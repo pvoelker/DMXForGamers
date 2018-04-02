@@ -11,6 +11,10 @@
   !define MUI_UNICON ".\DMXForGamersUninstall.ico"
 
 ;--------------------------------
+
+  !define APP_NAME "DMX for Gamers"
+
+;--------------------------------
 ;General
 
   ;Name and file
@@ -18,10 +22,10 @@
   OutFile "DMXForGamersInstall.exe"
 
   ;Default installation folder
-  InstallDir "$PROGRAMFILES\DMX for Gamers"
+  InstallDir "$PROGRAMFILES\${APP_NAME}"
   
   ;Get installation folder from registry if available
-  InstallDirRegKey HKCU "Software\DMX for Gamers" ""
+  InstallDirRegKey HKCU "Software\${APP_NAME}" ""
 
   ;Request application privileges for Windows Vista
   RequestExecutionLevel admin
@@ -62,15 +66,15 @@ Section
   WriteRegStr HKCU "Software\DMX for Gamers" "" $INSTDIR
   
   ;'Programs and Features' entry (http://nsis.sourceforge.net/Add_uninstall_information_to_Add/Remove_Programs)
-  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\DMX for Gamers" \
+  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${APP_NAME}" \
                    "DisplayName" "DMX for Gamers"
-  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\DMX for Gamers" \
+  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${APP_NAME}" \
                    "Publisher" "Paul Voelker"
-  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\DMX for Gamers" \
+  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${APP_NAME}" \
                    "UninstallString" "$\"$INSTDIR\uninstall.exe$\""
-  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\DMX for Gamers" \
+  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${APP_NAME}" \
                    "QuietUninstallString" "$\"$INSTDIR\uninstall.exe$\" /S"
-  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\DMX for Gamers" \
+  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${APP_NAME}" \
                    "DisplayIcon" "$\"$INSTDIR\DMXForGamers.exe$\""
 
   ;Create uninstaller
@@ -102,8 +106,31 @@ Section "Uninstall"
 
   RMDir "$INSTDIR"
 
-  DeleteRegKey /ifempty HKCU "Software\DMX for Gamers"
+  DeleteRegKey /ifempty HKCU "Software\${APP_NAME}"
 
-  DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\DMX for Gamers"
+  DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${APP_NAME}"
 
 SectionEnd
+
+;--------------------------------
+
+Function .onInit
+ 
+  ReadRegStr $R0 HKLM \
+  "Software\Microsoft\Windows\CurrentVersion\Uninstall\DMX for Gamers" \
+  "QuietUninstallString"
+  StrCmp $R0 "" done
+ 
+  MessageBox MB_OKCANCEL|MB_ICONEXCLAMATION \
+  "'${APP_NAME}' is already installed. $\n$\nClick `OK` to remove the \
+  previous version or `Cancel` to cancel this upgrade." \
+  IDOK uninst
+  Abort
+ 
+;Run the uninstaller
+  uninst:
+    ClearErrors
+    Exec $R0
+  done:
+ 
+FunctionEnd
