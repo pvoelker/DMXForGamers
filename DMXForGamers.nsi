@@ -61,6 +61,18 @@ Section
   ;Store installation folder
   WriteRegStr HKCU "Software\DMX for Gamers" "" $INSTDIR
   
+  ;'Programs and Features' entry (http://nsis.sourceforge.net/Add_uninstall_information_to_Add/Remove_Programs)
+  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\DMX for Gamers" \
+                   "DisplayName" "DMX for Gamers"
+  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\DMX for Gamers" \
+                   "Publisher" "Paul Voelker"
+  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\DMX for Gamers" \
+                   "UninstallString" "$\"$INSTDIR\uninstall.exe$\""
+  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\DMX for Gamers" \
+                   "QuietUninstallString" "$\"$INSTDIR\uninstall.exe$\" /S"
+  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\DMX for Gamers" \
+                   "DisplayIcon" "$\"$INSTDIR\DMXForGamers.exe$\""
+
   ;Create uninstaller
   WriteUninstaller "$INSTDIR\Uninstall.exe"
 
@@ -91,5 +103,7 @@ Section "Uninstall"
   RMDir "$INSTDIR"
 
   DeleteRegKey /ifempty HKCU "Software\DMX for Gamers"
+
+  DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\DMX for Gamers"
 
 SectionEnd
