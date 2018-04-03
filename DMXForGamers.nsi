@@ -77,6 +77,10 @@ Section
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${APP_NAME}" \
                    "DisplayIcon" "$\"$INSTDIR\DMXForGamers.exe$\""
 
+  ; Start Menu
+  CreateDirectory "$SMPROGRAMS\${APP_NAME}"
+  CreateShortCut "$SMPROGRAMS\${APP_NAME}\${APP_NAME}.lnk" "$INSTDIR\DMXForGamers.exe"
+
   ;Create uninstaller
   WriteUninstaller "$INSTDIR\Uninstall.exe"
 
@@ -98,13 +102,17 @@ SectionEnd
 
 Section "Uninstall"
 
+  ; Start Menu
+  Delete "$SMPROGRAMS\${APP_NAME}\${APP_NAME}.lnk"
+  RmDir "$SMPROGRAMS\${APP_NAME}"
+
   Delete "$INSTDIR\Uninstall.exe"
 
   Delete "$INSTDIR\*.exe"
   Delete "$INSTDIR\*.dll"
   Delete "$INSTDIR\DMXForGamers.exe.config"
 
-  RMDir "$INSTDIR"
+  RmDir "$INSTDIR"
 
   DeleteRegKey /ifempty HKCU "Software\${APP_NAME}"
 
