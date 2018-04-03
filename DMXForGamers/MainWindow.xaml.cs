@@ -37,7 +37,8 @@ namespace DMXForGamers
                 cfg.CreateMap<DMXEngine.EventDefinition, Models.EventDefinition>().
                     ForMember(x => x.DeleteEvent, opt => opt.Ignore()).
                     ForMember(x => x.EventOff, opt => opt.Ignore()).
-                    ForMember(x => x.EventOn, opt => opt.Ignore());
+                    ForMember(x => x.EventOn, opt => opt.Ignore()).
+                    ForMember(x => x.State, opt => opt.Ignore());
                 cfg.CreateMap<Models.EventDefinition, DMXEngine.EventDefinition>();
 
                 cfg.CreateMap<DMXEngine.DMX, Models.DMXDefinitions>().
@@ -248,6 +249,18 @@ namespace DMXForGamers
             }
         }
 
+        private void UpdateEvent(EventChange value)
+        {
+            if (m_Data != null)
+            {
+                var foundEvent = m_Data.Events.SingleOrDefault(x => x.EventID == value.EventID);
+                if(foundEvent != null)
+                {
+                    foundEvent.State = value.State;
+                }
+            }
+        }
+
         private void StartButton_Click(object sender, RoutedEventArgs e)
         {
             _startButton.IsEnabled = false;
@@ -280,7 +293,7 @@ namespace DMXForGamers
                 else
                 {
                     var dmxEvents = DMXEventsFile.LoadFile(m_Data.DMXFile);
-                    DMXStateMachine dmx = new DMXStateMachine(dmxEvents, dmxComm, UpdateChannel);
+                    DMXStateMachine dmx = new DMXStateMachine(dmxEvents, dmxComm, UpdateChannel, UpdateEvent);
 
                     var eventDefs = EventDefinitionsFile.LoadFile(m_Data.EventsFile);
                     _engine = new TextEventEngine(dmx, eventDefs);

@@ -32,6 +32,18 @@ namespace DMXEngine
         public byte Value { get; set; }
     }
 
+    public class EventChange
+    {
+        public EventChange(string eventID, bool state)
+        {
+            EventID = eventID;
+            State = state;
+        }
+
+        public string EventID { get; set; }
+        public bool State { get; set; }
+    }
+
     public class DMXStateMachine : IDisposable
     {
         private DMX _dmx;
@@ -39,8 +51,9 @@ namespace DMXEngine
         private Dictionary<string, ActiveEvent> _activeEvents = new Dictionary<string, ActiveEvent>();
         private bool _disposing = false;
         private ThreadedProcessingQueue<DMXChannelChange> _channelChangeQueue;
+        private ThreadedProcessingQueue<EventChange> _eventChangeQueue;
 
-        public DMXStateMachine(DMX dmx, IDMXCommunication dmxComm, Action<DMXChannelChange> change)
+        public DMXStateMachine(DMX dmx, IDMXCommunication dmxComm, Action<DMXChannelChange> channelChange, Action<EventChange> eventChange)
         {
             if (dmx == null)
                 throw new ArgumentNullException("dmx");
@@ -49,10 +62,16 @@ namespace DMXEngine
 
             _dmx = dmx;
 
-            if (change != null)
+            if (channelChange != null)
             {
-                _channelChangeQueue = new ThreadedProcessingQueue<DMXChannelChange>(change);
+                _channelChangeQueue = new ThreadedProcessingQueue<DMXChannelChange>(channelChange);
                 _channelChangeQueue.Start();
+            }
+
+            if (eventChange != null)
+            {
+                _eventChangeQueue = new ThreadedProcessingQueue<EventChange>(eventChange);
+                _eventChangeQueue.Start();
             }
 
             _dmxComm = dmxComm;
@@ -97,6 +116,11 @@ namespace DMXEngine
                     foreach (var element in finishedEvents)
                     {
                         _activeEvents.Remove(element);
+
+                        if (_eventChangeQueue != null)
+                        {
+                            _eventChangeQueue.AddToQueue(new EventChange(element, false));
+                        }
                     }
 
                     finishedEvents = null;
@@ -166,6 +190,11 @@ namespace DMXEngine
                 if (foundEvent != null)
                 {
                     _activeEvents.Add(eventName, new ActiveEvent(DateTime.Now, foundEvent.RepeatCount, continuous));
+
+                    if (_eventChangeQueue != null)
+                    {
+                        _eventChangeQueue.AddToQueue(new EventChange(eventName, true));
+                    }
                 }
             }
         }
@@ -178,6 +207,11 @@ namespace DMXEngine
                 if (foundEvent != null)
                 {
                     _activeEvents.Remove(eventName);
+
+                    if (_eventChangeQueue != null)
+                    {
+                        _eventChangeQueue.AddToQueue(new EventChange(eventName, false));
+                    }
                 }
             }
         }
@@ -220,6 +254,12 @@ namespace DMXEngine
                 {
                     _channelChangeQueue.Dispose();
                     _channelChangeQueue = null;
+                }
+
+                if (_eventChangeQueue != null)
+                {
+                    _eventChangeQueue.Dispose();
+                    _eventChangeQueue = null;
                 }
             }
 

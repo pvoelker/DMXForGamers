@@ -98,6 +98,7 @@
     </ApplicationDefinition>
     <Compile Include="AppSettings\AppSettings.cs" />
     <Compile Include="AppSettings\AppSettingsFile.cs" />
+    <Compile Include="Converters\InvertBooleanConverter.cs" />
     <Compile Include="Views\Common\BindingProxy.cs" />
     <Compile Include="Converters\BooleanOrConverter.cs" />
     <Compile Include="Converters\ListToStringConverter.cs" />

@@ -27,6 +27,13 @@ namespace DMXForGamers.Models
             set { _eventID = value; AnnouncePropertyChanged(); }
         }
 
+        private bool _state;
+        public bool State
+        {
+            get { return _state; }
+            set { _state = value; AnnouncePropertyChanged(); }
+        }
+
         public string EventIDNoSpaces
         {
             get { return _eventID.Replace(" ", String.Empty);  }
