@@ -42,7 +42,11 @@ namespace DMXForGamers.Web
         protected override void ConfigureApplicationContainer(TinyIoCContainer container)
         {
             base.ConfigureApplicationContainer(container);
-            ResourceViewLocationProvider.RootNamespaces.Add(Assembly.GetAssembly(typeof(MainModule)), "DMXForGamers.Web.Views");
+
+            if (ResourceViewLocationProvider.RootNamespaces.ContainsKey(Assembly.GetAssembly(typeof(MainModule))) == false)
+            {
+                ResourceViewLocationProvider.RootNamespaces.Add(Assembly.GetAssembly(typeof(MainModule)), "DMXForGamers.Web.Views");
+            }
         }
 
         protected override void ApplicationStartup(TinyIoCContainer container, IPipelines pipelines)
