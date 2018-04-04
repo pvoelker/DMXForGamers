@@ -31,6 +31,20 @@ namespace DMXForGamers.Models
         {
         }
 
+        private bool m_IsRunning;
+        public bool IsRunning
+        {
+            get { return m_IsRunning; }
+            set { m_IsRunning = value; AnnouncePropertyChanged(); }
+        }
+
+        private string m_RunningText;
+        public string RunningText
+        {
+            get { return m_RunningText; }
+            set { m_RunningText = value; AnnouncePropertyChanged(); }
+        }
+
         private string m_CopyrightInfo;
         public string CopyrightInfo
         {

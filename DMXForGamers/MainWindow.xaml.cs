@@ -108,8 +108,6 @@ namespace DMXForGamers
             {
                 CreateOrEditDMXEvents(m_Data.DMXFile, new DMXEngine.DMX());
             });
-
-            _stopButton.IsEnabled = false;
         }
 
         private Main m_Data = Main.Instance;
@@ -263,8 +261,7 @@ namespace DMXForGamers
 
         private void StartButton_Click(object sender, RoutedEventArgs e)
         {
-            _startButton.IsEnabled = false;
-            _stopButton.IsEnabled = true;
+            m_Data.IsRunning = true;
 
             try
             {
@@ -357,10 +354,8 @@ namespace DMXForGamers
                             MessageBox.Show(ex.ToString(), "Unable to Start Web Server", MessageBoxButton.OK, MessageBoxImage.Warning);
                         }
 
-                        _progressStatus.Text = "Remote Control: http://" + GetLocalIP() + ":" + m_Data.RemotePort;
+                        m_Data.RunningText = "Remote Control: http://" + GetLocalIP() + ":" + m_Data.RemotePort;
                     }
-
-                    _progressBar.Visibility = Visibility.Visible;
                 }
             }
             catch (Exception ex)
@@ -378,9 +373,6 @@ namespace DMXForGamers
 
         private void StopButton_Click(object sender, RoutedEventArgs e)
         {
-            _progressBar.Visibility = Visibility.Hidden;
-            _progressStatus.Text = String.Empty;
-
             if (_webHost != null)
             {
                 _webHost.Dispose();
@@ -393,8 +385,7 @@ namespace DMXForGamers
                 _webHostBootstrapper = null;
             }
 
-            _startButton.IsEnabled = true;
-            _stopButton.IsEnabled = false;
+            m_Data.IsRunning = false;
 
             m_Data.Events = null;
 
