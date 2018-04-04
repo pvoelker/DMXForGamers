@@ -282,10 +282,23 @@ namespace DMXForGamers
                     }
                 }
 
-                if (dmxComm == null)
+                if(File.Exists(m_Data.DMXFile) == false)
+                {
+                    MessageBox.Show(String.Format("DMX file ('{0}') does not exist", m_Data.DMXFile),
+                        "Unable to Start", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                    StopButton_Click(this, null);
+                }
+                else if (File.Exists(m_Data.EventsFile) == false)
+                {
+                    MessageBox.Show(String.Format("Event file ('{0}') does not exist", m_Data.EventsFile),
+                        "Unable to Start", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                    StopButton_Click(this, null);
+                }
+                else if (dmxComm == null)
                 {
                     MessageBox.Show("DMX Adapter/Port is Not Selected",
-                        "", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                        "Unable to Start", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                    StopButton_Click(this, null);
                 }
                 else
                 {

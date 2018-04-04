@@ -31,11 +31,21 @@ namespace DMXForGamers.Models
         {
         }
 
+        public bool CanRun
+        {
+            get { return !m_IsRunning && (String.IsNullOrWhiteSpace(EventsFile) == false) && (String.IsNullOrWhiteSpace(DMXFile) == false); }
+        }
+            
         private bool m_IsRunning;
         public bool IsRunning
         {
             get { return m_IsRunning; }
-            set { m_IsRunning = value; AnnouncePropertyChanged(); }
+            set
+            {
+                m_IsRunning = value;
+                AnnouncePropertyChanged();
+                OnPropertyChanged(nameof(CanRun));
+            }
         }
 
         private string m_RunningText;
@@ -117,14 +127,24 @@ namespace DMXForGamers.Models
         public string EventsFile
         {
             get { return m_EventsFile; }
-            set { m_EventsFile = value; AnnouncePropertyChanged(); }
+            set
+            {
+                m_EventsFile = value;
+                AnnouncePropertyChanged();
+                OnPropertyChanged(nameof(CanRun));
+            }
         }
 
         private string m_DMXFile;
         public string DMXFile
         {
             get { return m_DMXFile; }
-            set { m_DMXFile = value; AnnouncePropertyChanged(); }
+            set
+            {
+                m_DMXFile = value;
+                AnnouncePropertyChanged();
+                OnPropertyChanged(nameof(CanRun));
+            }
         }
 
         private bool m_EnableRemote;
