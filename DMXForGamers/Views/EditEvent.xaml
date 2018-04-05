@@ -39,8 +39,11 @@
         <TextBox Grid.Row="4" Grid.Column="2" Text="{Binding Path='Pattern', ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" Validation.ErrorTemplate="{StaticResource ResourceKey=errorTemplateSilverlightStyle}"></TextBox>
         <CheckBox Grid.Row="6" Grid.Column="2" IsChecked="{Binding Path='UseRegEx'}">Use Regular Expression for Pattern</CheckBox>
         <CheckBox Grid.Row="8" Grid.Column="2" IsChecked="{Binding Path='Continuous'}">Continuous</CheckBox>
-        <Button Grid.Row="8" Grid.Column="0" Command="{Binding Path='DeleteEvent'}" CommandParameter="{Binding}" HorizontalAlignment="Left">
+        <Button Grid.Row="8" Grid.Column="0" HorizontalAlignment="Left">
             <Image Source="/DMXForGamers;component/Images/Delete16.png" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            <Button.InputBindings>
+                <MouseBinding Gesture="LeftDoubleClick" Command="{Binding Path='DeleteEvent'}" CommandParameter="{Binding}" />
+            </Button.InputBindings>            
         </Button>
     </Grid>
 </UserControl>

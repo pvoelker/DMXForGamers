@@ -64,8 +64,11 @@
                 <TextBlock Margin="5,0,0,0">Add Time Block</TextBlock>
             </StackPanel>            
         </Button>
-        <Button Grid.Row="8" Grid.Column="2" Command="{Binding Path='DeleteEvent'}" CommandParameter="{Binding}" HorizontalAlignment="Right">
+        <Button Grid.Row="8" Grid.Column="2" HorizontalAlignment="Right">
             <Image Source="/DMXForGamers;component/Images/Delete16.png" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            <Button.InputBindings>
+                <MouseBinding Gesture="LeftDoubleClick" Command="{Binding Path='DeleteEvent'}" CommandParameter="{Binding}" />
+            </Button.InputBindings>
         </Button>
     </Grid>
 </UserControl>

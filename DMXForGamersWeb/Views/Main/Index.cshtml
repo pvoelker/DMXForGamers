@@ -18,34 +18,47 @@
             </div>
         </div>
 
-        <div class="card m-4 box-shadow">
-            <h2 class="card-header">Continuous Events</h2>
-            <div class="card-body">
-                <div class="d-flex flex-row flex-wrap my-flex-container">
-                    @foreach (var item in Model.ContinuousEvents)
-                    {
-                        <form id="@item.EventID" class="m-2">
-                            <button type="button" class="btn btn-primary btn-lg m-2" onclick="eventclickon('@item.EventID')">Enabled @item.EventID</button>
-                            <button type="button" class="btn btn-secondary btn-lg m-2" onclick="eventclickoff('@item.EventID')">Disable @item.EventID</button>
-                        </form>
-                    }
-                </div>
+        @if ((Model.ContinuousEvents.Count == 0) && (Model.ContinuousEvents.Count == 0))
+        {
+            <div class="m -4 alert alert-warning">
+                <h2>No Events Are Configured</h2>
             </div>
-        </div>
+        }
 
-        <div class="card m-4 box-shadow">
-            <h2 class="card-header">Non-Continuous Events</h2>
-            <div class="card-body">
-                <div class="d-flex flex-row flex-wrap my-flex-container">
-                    @foreach (var item in Model.NonContinuousEvents)
-                    {
-                        <form id="@item.EventID">
-                            <button type="button" class="btn btn-primary btn-lg m-2" onclick="eventclickon('@item.EventID')">@item.EventID</button>
-                        </form>
-                    }
+        @if (Model.ContinuousEvents.Count > 0)
+        {
+            <div class="card m-4 box-shadow">
+                <h2 class="card-header">Continuous Events</h2>
+                <div class="card-body">
+                    <div class="d-flex flex-row flex-wrap my-flex-container">
+                        @foreach (var item in Model.ContinuousEvents)
+                        {
+                            <form id="@item.EventID" class="m-2">
+                                <button type="button" class="btn btn-primary btn-lg m-2" onclick="eventclickon('@item.EventID')">Enabled @item.EventID</button>
+                                <button type="button" class="btn btn-secondary btn-lg m-2" onclick="eventclickoff('@item.EventID')">Disable @item.EventID</button>
+                            </form>
+                        }
+                    </div>
                 </div>
             </div>
-        </div>
+        }
+
+        @if (Model.NonContinuousEvents.Count > 0)
+        {
+            <div class="card m-4 box-shadow">
+                <h2 class="card-header">Non-Continuous Events</h2>
+                <div class="card-body">
+                    <div class="d-flex flex-row flex-wrap my-flex-container">
+                        @foreach (var item in Model.NonContinuousEvents)
+                        {
+                            <form id="@item.EventID">
+                                <button type="button" class="btn btn-primary btn-lg m-2" onclick="eventclickon('@item.EventID')">@item.EventID</button>
+                            </form>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
 
         <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded box-shadow">
             <p class="mb-0 text-white lh-100">@Model.CopyrightInfo</p>
@@ -102,6 +115,5 @@
                 });
         }
     </script>
-
 </body>
 </html>

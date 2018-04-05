@@ -30,8 +30,11 @@
             <ColumnDefinition Width="10"/>
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
-        <Button Grid.Row="0" Grid.Column="4" Command="{Binding Path='DeleteTimeBlock'}" CommandParameter="{Binding}" HorizontalAlignment="Right">
+        <Button Grid.Row="0" Grid.Column="4" HorizontalAlignment="Right">
             <Image Source="/DMXForGamers;component/Images/Delete16.png" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            <Button.InputBindings>
+                <MouseBinding Gesture="LeftDoubleClick" Command="{Binding Path='DeleteTimeBlock'}" CommandParameter="{Binding}" />
+            </Button.InputBindings>
         </Button>
         <TextBlock Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right">Start Time:</TextBlock>
         <TextBox Grid.Row="0" Grid.Column="2" Width="100" HorizontalAlignment="Left" Text="{Binding Path='StartTime', ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" Validation.ErrorTemplate="{StaticResource ResourceKey=errorTemplateSilverlightStyle}"></TextBox>
@@ -71,8 +74,11 @@
                     </DataGridTemplateColumn.Header>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button Command="{Binding Path=DeleteDMXValue}" CommandParameter="{Binding}" HorizontalAlignment="Center">
+                            <Button HorizontalAlignment="Center">
                                 <Image Source="/DMXForGamers;component/Images/Delete16.png" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                <Button.InputBindings>
+                                    <MouseBinding Gesture="LeftDoubleClick" Command="{Binding Path='DeleteDMXValue'}" CommandParameter="{Binding}" />
+                                </Button.InputBindings>
                             </Button>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
