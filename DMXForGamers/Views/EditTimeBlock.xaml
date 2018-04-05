@@ -85,5 +85,9 @@
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
+        <Button Grid.Row="2" Grid.Column="4" Command="{Binding Path=SortDMXValues}" HorizontalAlignment="Right">
+            <Image Source="/DMXForGamers;component/Images/SortAsc16.png" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            <Button.ToolTip>Sort DMX Values by Channel</Button.ToolTip>
+        </Button>
     </Grid>
 </UserControl>

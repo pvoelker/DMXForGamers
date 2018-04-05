@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Linq;
 using System.Text;
 using System.Windows.Input;
 
@@ -15,9 +16,15 @@ namespace DMXForGamers.Models
             {
                 BaseDMXValues.Add(new DMXValue());
             });
+
             AddEvent = new RelayCommand(x =>
             {
                 Events.Add(new DMXEvent());
+            });
+
+            SortBaseDMXValues = new RelayCommand(x =>
+            {
+                BaseDMXValues = new ObservableCollection<DMXValue>(BaseDMXValues.OrderBy(y => y.Channel));
             });
         }
 
@@ -130,6 +137,13 @@ namespace DMXForGamers.Models
         {
             get { return _addEvent; }
             set { _addEvent = value; AnnouncePropertyChanged(); }
+        }
+
+        private ICommand _sortBaseDMXValues;
+        public ICommand SortBaseDMXValues
+        {
+            get { return _sortBaseDMXValues; }
+            set { _sortBaseDMXValues = value; AnnouncePropertyChanged(); }
         }
 
         #region IErrorInfo

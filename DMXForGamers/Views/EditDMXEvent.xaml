@@ -30,6 +30,8 @@
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="10"/>
             <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="10"/>
+            <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
         <TextBlock Grid.Row="0" Grid.Column="0" TextAlignment="Right">Event ID:</TextBlock>
         <TextBox Grid.Row="0" Grid.Column="2" Width="100" HorizontalAlignment="Left" Text="{Binding Path='EventID', ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" Validation.ErrorTemplate="{StaticResource ResourceKey=errorTemplateSilverlightStyle}"></TextBox>
@@ -37,7 +39,7 @@
         <TextBox Grid.Row="2" Grid.Column="2" Width="100" HorizontalAlignment="Left" Text="{Binding Path='TimeSpan'}"></TextBox>
         <TextBlock Grid.Row="4" Grid.Column="0" TextAlignment="Right">Repeat Count:</TextBlock>
         <TextBox Grid.Row="4" Grid.Column="2" Width="100" HorizontalAlignment="Left" Text="{Binding Path='RepeatCount', ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" Validation.ErrorTemplate="{StaticResource ResourceKey=errorTemplateSilverlightStyle}"></TextBox>
-        <ItemsControl Grid.Row="6" Grid.ColumnSpan="3" ItemsSource="{Binding Path=TimeBlocks}">
+        <ItemsControl Grid.Row="6" Grid.ColumnSpan="5" ItemsSource="{Binding Path=TimeBlocks}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <WrapPanel />
@@ -62,9 +64,15 @@
             <StackPanel Orientation="Horizontal">
                 <Image Source="/DMXForGamers;component/Images/Add16.png" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" />
                 <TextBlock Margin="5,0,0,0">Add Time Block</TextBlock>
-            </StackPanel>            
+            </StackPanel>
         </Button>
-        <Button Grid.Row="8" Grid.Column="2" HorizontalAlignment="Right">
+        <Button Grid.Row="8" Grid.Column="2" Command="{Binding Path='SortTimeBlocks'}" HorizontalAlignment="Right">
+            <StackPanel Orientation="Horizontal">
+                <Image Source="/DMXForGamers;component/Images/SortAsc16.png" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                <TextBlock Margin="5,0,0,0">Sort Time Blocks</TextBlock>
+            </StackPanel>
+        </Button>
+        <Button Grid.Row="8" Grid.Column="4">
             <Image Source="/DMXForGamers;component/Images/Delete16.png" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" />
             <Button.InputBindings>
                 <MouseBinding Gesture="LeftDoubleClick" Command="{Binding Path='DeleteEvent'}" CommandParameter="{Binding}" />

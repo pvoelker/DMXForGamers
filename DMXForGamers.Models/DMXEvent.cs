@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Linq;
 using System.Text;
 using System.Windows.Input;
 
@@ -13,6 +14,11 @@ namespace DMXForGamers.Models
             AddTimeBlock = new RelayCommand(x =>
             {
                 TimeBlocks.Add(new DMXTimeBlock());
+            });
+
+            SortTimeBlocks = new RelayCommand(x =>
+            {
+                TimeBlocks = new ObservableCollection<DMXTimeBlock>(TimeBlocks.OrderBy(y => y.StartTime));
             });
         }
 
@@ -94,6 +100,13 @@ namespace DMXForGamers.Models
         {
             get { return _deleteEvent; }
             set { _deleteEvent = value; AnnouncePropertyChanged(); }
+        }
+
+        private ICommand _sortTimeBlocks;
+        public ICommand SortTimeBlocks
+        {
+            get { return _sortTimeBlocks; }
+            set { _sortTimeBlocks = value; AnnouncePropertyChanged(); }
         }
 
         #region IErrorInfo

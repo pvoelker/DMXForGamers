@@ -40,18 +40,20 @@ namespace DMXForGamers
                     ForMember(x => x.EventOn, opt => opt.Ignore()).
                     ForMember(x => x.State, opt => opt.Ignore());
                 cfg.CreateMap<Models.EventDefinition, DMXEngine.EventDefinition>();
-
                 cfg.CreateMap<DMXEngine.DMX, Models.DMXDefinitions>().
                     ForMember(x => x.AddBaseValue, opt => opt.Ignore()).
-                    ForMember(x => x.AddEvent, opt => opt.Ignore());
+                    ForMember(x => x.AddEvent, opt => opt.Ignore()).
+                    ForMember(x => x.SortBaseDMXValues, opt => opt.Ignore());
                 cfg.CreateMap<Models.DMXDefinitions, DMXEngine.DMX>();
                 cfg.CreateMap<DMXEngine.Event, Models.DMXEvent>().
                     ForMember(x => x.AddTimeBlock, opt => opt.Ignore()).
-                    ForMember(x => x.DeleteEvent, opt => opt.Ignore());
+                    ForMember(x => x.DeleteEvent, opt => opt.Ignore()).
+                    ForMember(x => x.SortTimeBlocks, opt => opt.Ignore());
                 cfg.CreateMap<Models.DMXEvent, DMXEngine.Event>();
                 cfg.CreateMap<DMXEngine.TimeBlock, Models.DMXTimeBlock>().
                     ForMember(x => x.AddDMXValue, opt => opt.Ignore()).
-                    ForMember(x => x.DeleteTimeBlock, opt => opt.Ignore());
+                    ForMember(x => x.DeleteTimeBlock, opt => opt.Ignore()).
+                    ForMember(x => x.SortDMXValues, opt => opt.Ignore());
                 cfg.CreateMap<Models.DMXTimeBlock, DMXEngine.TimeBlock>();
                 cfg.CreateMap<DMXEngine.DMXValue, Models.DMXValue>().
                     ForMember(x => x.DeleteDMXValue, opt => opt.Ignore());
