@@ -18,10 +18,10 @@
             </div>
         </div>
 
-        @if ((Model.ContinuousEvents.Count == 0) && (Model.ContinuousEvents.Count == 0))
+        @if ((Model.ContinuousEvents.Count == 0) && (Model.NonContinuousEvents.Count == 0))
         {
-            <div class="m -4 alert alert-warning">
-                <h2>No Events Are Configured</h2>
+            <div class="m-4 alert alert-warning">
+                <h2 lh-100>No Events Are Configured</h2>
             </div>
         }
 
