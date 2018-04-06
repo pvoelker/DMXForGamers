@@ -84,14 +84,14 @@
                             <DataGridTemplateColumn Header="Channel" Width="Auto" IsReadOnly="False">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <tk:IntegerUpDown Value="{Binding Path=Channel}" Minimum="{Binding Path=MinChannel}" Maximum="{Binding Path=MaxChannel}" Margin="10,0"/>
+                                        <tk:IntegerUpDown Value="{Binding Path=Channel, UpdateSourceTrigger=PropertyChanged}" Minimum="{Binding Path=MinChannel}" Maximum="{Binding Path=MaxChannel}" Margin="10,0"/>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
                             <DataGridTemplateColumn Header="Value" Width="Auto" IsReadOnly="False">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <tk:ByteUpDown Value="{Binding Path=Value}" Minimum="{Binding Path=MinValue}" Maximum="{Binding Path=MaxValue}"  Margin="10,0"/>
+                                        <tk:ByteUpDown Value="{Binding Path=Value, UpdateSourceTrigger=PropertyChanged}" Minimum="{Binding Path=MinValue}" Maximum="{Binding Path=MaxValue}"  Margin="10,0"/>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
