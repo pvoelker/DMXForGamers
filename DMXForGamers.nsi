@@ -17,9 +17,18 @@
 ;--------------------------------
 ;General
 
+  !getdllversion ".\DMXForGamers\bin\Release\DMXForGamers.exe" MyVer_
+
   ;Name and file
-  Name "DMX for Gamers"
+  Name "DMX for Gamers v${MyVer_1}.${MyVer_2}"
   OutFile "DMXForGamersInstall.exe"
+
+  VIProductVersion "${MyVer_1}.${MyVer_2}.${MyVer_3}.${MyVer_4}"
+  VIAddVersionKey ProductName "DMX for Gamers Install"
+  VIAddVersionKey FileVersion "${MyVer_1}.${MyVer_2}.${MyVer_3}.${MyVer_4}"
+  VIAddVersionKey ProductVersion "${MyVer_1}.${MyVer_2}.${MyVer_3}.${MyVer_4}"
+  VIAddVersionKey FileDescription "Installation Package for DMX for Gamers"
+  VIAddVersionKey LegalCopyright "Copyright © 2014 Paul Voelker"
 
   ;Default installation folder
   InstallDir "$PROGRAMFILES\${APP_NAME}"
