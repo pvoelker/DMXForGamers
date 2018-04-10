@@ -359,7 +359,11 @@ namespace DMXForGamers
                     {
                         try
                         {
-                            _webHostBootstrapper = new CustomBootstrapper();
+                            _webHostBootstrapper = new CustomBootstrapper(x =>
+                            {
+                                var result = MessageBox.Show(x.ClientAddress, "Allow New Client?", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                                return result == MessageBoxResult.Yes;
+                            });
 
                             _webHost = new Nancy.Hosting.Self.NancyHost(new Uri("http://localhost:" + m_Data.RemotePort), _webHostBootstrapper, hostConfig);
                             _webHost.Start();
@@ -397,6 +401,7 @@ namespace DMXForGamers
             if(_webHostBootstrapper != null)
             {
                 _webHostBootstrapper.Dispose();
+                (_webHostBootstrapper as CustomBootstrapper).Cleanup();
                 _webHostBootstrapper = null;
             }
 

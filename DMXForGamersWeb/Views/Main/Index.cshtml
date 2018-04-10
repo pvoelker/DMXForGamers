@@ -1,4 +1,7 @@
 ﻿@inherits Nancy.ViewEngines.Razor.NancyRazorViewBase<DMXForGamers.Models.Main>
+@{
+    Layout = "layout.cshtml";
+}
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -9,19 +12,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 </head>
 <body>
-    <div class="container-fluid">
-        <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded box-shadow">
-            <img class="mr-3 rounded" src="/Contents/Images/DMXForGamers.png" alt="DMX for Gamers" />
-            <div class="lh-100">
-                <h3 class="mb-0 text-white lh-100">DMX For Gamers</h3>
-                <small>Remote Control</small>
-            </div>
-        </div>
-
+    <div class="container">
         @if ((Model.ContinuousEvents.Count == 0) && (Model.NonContinuousEvents.Count == 0))
         {
             <div class="m-4 alert alert-warning">
-                <h2 lh-100>No Events Are Configured</h2>
+                <h2 lh-100=lh-100>No Events Are Configured</h2>
             </div>
         }
 
@@ -59,10 +54,6 @@
                 </div>
             </div>
         }
-
-        <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded box-shadow">
-            <p class="mb-0 text-white lh-100">@Model.CopyrightInfo</p>
-        </div>
     </div>
 
     <!-- Modal Error Dialog-->

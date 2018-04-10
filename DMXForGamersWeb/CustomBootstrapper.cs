@@ -18,6 +18,12 @@ namespace DMXForGamers.Web
 {
     public class CustomBootstrapper : DefaultNancyBootstrapper
     {
+        private ThreadedProcessingQueue<NewClientArgs> m_newClientQueue;
+
+        private Func<NewClientArgs, bool> m_newClientCallback { get; set; }
+
+        private Dictionary<string, NancyClient> m_Clients = new Dictionary<string, NancyClient>();
+
         #region Favorite Icon
 
         private byte[] m_FavIcon;
@@ -39,6 +45,16 @@ namespace DMXForGamers.Web
 
         #endregion
 
+        private CustomBootstrapper()
+        {
+            // Do NOT use this constructor
+        }
+
+        public CustomBootstrapper(Func<NewClientArgs, bool> newClientCallback)
+        {
+            m_newClientCallback = newClientCallback;
+        }
+
         protected override void ConfigureApplicationContainer(TinyIoCContainer container)
         {
             base.ConfigureApplicationContainer(container);
@@ -51,8 +67,28 @@ namespace DMXForGamers.Web
 
         protected override void ApplicationStartup(TinyIoCContainer container, IPipelines pipelines)
         {
+            CustomStatusCode.AddCode(403);
+
             base.ApplicationStartup(container, pipelines);
             CookieBasedSessions.Enable(pipelines);
+
+            if (m_newClientCallback != null)
+            {
+                m_newClientQueue = new ThreadedProcessingQueue<NewClientArgs>(x =>
+                {
+                    if (m_newClientCallback(x) == true)
+                    {
+                        m_Clients[x.ClientAddress].IsAllowed = true;
+                    }
+                    else
+                    {
+                        m_Clients[x.ClientAddress].IsAllowed = false;
+                    }
+                });
+                m_newClientQueue.Start();
+            }
+
+            pipelines.BeforeRequest += ProcessBeforeRequest;
         }
 
         protected override void ConfigureConventions(NancyConventions conventions)
@@ -89,5 +125,69 @@ namespace DMXForGamers.Web
         {
             x.ViewLocationProvider = typeof(ResourceViewLocationProvider);
         }
+
+        // PEV - 4/6/2018 - This is needed because Dispose in the base class is NOT virutal in version 1.4.4
+        public void Cleanup()
+        {
+            if (m_newClientQueue != null)
+            {
+                m_newClientQueue.Dispose();
+                m_newClientQueue = null;
+            }
+        }
+
+        #region Before/After Request Processing
+
+        Response ProcessBeforeRequest(NancyContext ctx)
+        {
+            var hostAddress = ctx.Request.UserHostAddress;
+
+            if (hostAddress != "::1")
+            {
+                NancyClient client;
+                if (m_Clients.TryGetValue(hostAddress, out client) == true)
+                {
+                    if (client.IsAllowed.HasValue == false)
+                    {
+                        return new Response()
+                        {
+                            StatusCode = HttpStatusCode.Forbidden
+                        };
+                    }
+                    else
+                    {
+                        if (client.IsAllowed.Value == true)
+                        {
+                            return null;
+                        }
+                        else
+                        {
+                            return new Response()
+                            {
+                                StatusCode = HttpStatusCode.NotFound
+                            };
+                        }
+                    }
+                }
+                else
+                {
+                    if (m_Clients != null)
+                    {
+                        m_Clients.Add(hostAddress, new NancyClient() { Address = hostAddress });
+
+                        m_newClientQueue.AddToQueue(new NewClientArgs(hostAddress));
+                    }
+
+                    return new Response()
+                    {
+                        StatusCode = HttpStatusCode.Forbidden
+                    };
+                }
+            }
+
+            return null;
+        }
+
+        #endregion
     }
 }
