@@ -1,0 +1,49 @@
+﻿<UserControl x:Class="DMXForGamers.Views.EditEvent"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:DMXForGamers.Views"
+             xmlns:tk="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit"
+             mc:Ignorable="d" 
+             d:DesignHeight="150" d:DesignWidth="300">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="ControlStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="10" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="10" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="10" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="10" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="10"/>
+            <ColumnDefinition Width="Auto" MinWidth="200"/>
+        </Grid.ColumnDefinitions>
+        <TextBlock Grid.Row="0" Grid.Column="0" TextAlignment="Right">Event ID:</TextBlock>
+        <TextBox Grid.Row="0" Grid.Column="2" Text="{Binding Path='EventID', ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" Validation.ErrorTemplate="{StaticResource ResourceKey=errorTemplateSilverlightStyle}"></TextBox>
+        <TextBlock Grid.Row="2" Grid.Column="0" TextAlignment="Right">Description:</TextBlock>
+        <TextBox Grid.Row="2" Grid.Column="2" Text="{Binding Path='Description'}"></TextBox>
+        <TextBlock Grid.Row="4" Grid.Column="0" TextAlignment="Right">Pattern:</TextBlock>
+        <TextBox Grid.Row="4" Grid.Column="2" Text="{Binding Path='Pattern', ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" Validation.ErrorTemplate="{StaticResource ResourceKey=errorTemplateSilverlightStyle}"></TextBox>
+        <CheckBox Grid.Row="6" Grid.Column="2" IsChecked="{Binding Path='UseRegEx'}">Use Regular Expression for Pattern</CheckBox>
+        <CheckBox Grid.Row="8" Grid.Column="2" IsChecked="{Binding Path='Continuous'}">Continuous</CheckBox>
+        <Button Grid.Row="8" Grid.Column="0" HorizontalAlignment="Left">
+            <Image Source="/DMXForGamers;component/Images/Delete16.png" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            <Button.InputBindings>
+                <MouseBinding Gesture="LeftDoubleClick" Command="{Binding Path='DeleteEvent'}" CommandParameter="{Binding}" />
+            </Button.InputBindings>            
+        </Button>
+    </Grid>
+</UserControl>

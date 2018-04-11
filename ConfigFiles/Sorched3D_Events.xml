@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<EventDefinitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Description>Event definitions for Scorched3D game</Description>
+  <Events>
+    <EventDefinition Description="" UseRegEx="false">
+      <EventID>Game Start</EventID>
+      <Pattern>Game starting in 5</Pattern>
+      <Continuous>0</Continuous>
+    </EventDefinition>
+    <EventDefinition Description="" UseRegEx="false">
+      <EventID>Player Killed</EventID>
+      <Pattern>killed</Pattern>
+      <Continuous>0</Continuous>
+    </EventDefinition>
+    <EventDefinition Description="" UseRegEx="false">
+      <EventID>Winner</EventID>
+      <Pattern>winner</Pattern>
+    </EventDefinition>
+  </Events>
+</EventDefinitions>

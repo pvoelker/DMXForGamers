@@ -1,44 +1,120 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMXForGamers", "DMXForGamers\DMXForGamers.csproj", "{14630851-96A6-4964-B587-FD86C1EC33C5}"
-EndProject
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2036
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMXCommunication", "DMXCommunication\DMXCommunication.csproj", "{574E1761-FFDA-4D62-9444-EC23AD1E7E99}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMXEngine", "DMXEngine\DMXEngine.csproj", "{58E6905D-9A37-4C12-9AB5-B268AAB823E2}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Images", "Images", "{2749FADA-4337-413E-8EFE-D2BDB95AF552}"
 	ProjectSection(SolutionItems) = preProject
+		Images\Add16.png = Images\Add16.png
+		Images\Add32.png = Images\Add32.png
+		Images\Add48.png = Images\Add48.png
+		Images\Add64.png = Images\Add64.png
+		Images\Delete16.png = Images\Delete16.png
+		Images\Delete32.png = Images\Delete32.png
+		Images\Delete48.png = Images\Delete48.png
+		Images\Delete64.png = Images\Delete64.png
 		Images\DMXForGamers.svg = Images\DMXForGamers.svg
-		Images\DMXForGamers2.svg = Images\DMXForGamers2.svg
+		Images\DMXForGamers128.png = Images\DMXForGamers128.png
 		Images\DMXForGamers16.png = Images\DMXForGamers16.png
+		Images\DMXForGamers2.svg = Images\DMXForGamers2.svg
 		Images\DMXForGamers32.png = Images\DMXForGamers32.png
 		Images\DMXForGamers48.png = Images\DMXForGamers48.png
 		Images\DMXForGamers64.png = Images\DMXForGamers64.png
-		Images\DMXForGamers128.png = Images\DMXForGamers128.png
+		Images\Edit16.png = Images\Edit16.png
+		Images\Edit32.png = Images\Edit32.png
+		Images\Edit64.png = Images\Edit64.png
+		Images\Gear16.png = Images\Gear16.png
+		Images\Gear32.png = Images\Gear32.png
+		Images\Gear64.png = Images\Gear64.png
+		Images\New16.png = Images\New16.png
+		Images\New32.png = Images\New32.png
+		Images\New64.png = Images\New64.png
+		Images\Save16.png = Images\Save16.png
+		Images\Save32.png = Images\Save32.png
+		Images\Save64.png = Images\Save64.png
+		Images\SortAsc16.png = Images\SortAsc16.png
+		Images\SortAsc32.png = Images\SortAsc32.png
+		Images\SortDesc16.png = Images\SortDesc16.png
+		Images\SortDesc32.png = Images\SortDesc32.png
 		Images\Warning.svg = Images\Warning.svg
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMXForGamers", "DMXForGamers\DMXForGamers.csproj", "{F8486EF4-2748-4E96-852D-7C50DD57D69B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ConfigFiles", "ConfigFiles", "{32EBFEB2-3831-445A-A231-44C6EDA60B9D}"
+	ProjectSection(SolutionItems) = preProject
+		ConfigFiles\Sorched3D_DMX_4Channel.xml = ConfigFiles\Sorched3D_DMX_4Channel.xml
+		ConfigFiles\Sorched3D_Events.xml = ConfigFiles\Sorched3D_Events.xml
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMXForGamersWeb", "DMXForGamersWeb\DMXForGamersWeb.csproj", "{B600EB00-2DBE-47B0-9E3C-D81A679EB30C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMXForGamers.Models", "DMXForGamers.Models\DMXForGamers.Models.csproj", "{6702EB60-74FE-480E-81A5-9EFB4962AF2A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Install", "Install", "{16DB6150-CA65-482C-AE13-918B95CC1B91}"
+	ProjectSection(SolutionItems) = preProject
+		DMXForGamers.nsi = DMXForGamers.nsi
+		DMXForGamersUninstall.ico = DMXForGamersUninstall.ico
 	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
 		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{14630851-96A6-4964-B587-FD86C1EC33C5}.Debug|x86.ActiveCfg = Debug|x86
-		{14630851-96A6-4964-B587-FD86C1EC33C5}.Debug|x86.Build.0 = Debug|x86
-		{14630851-96A6-4964-B587-FD86C1EC33C5}.Release|x86.ActiveCfg = Release|x86
-		{14630851-96A6-4964-B587-FD86C1EC33C5}.Release|x86.Build.0 = Release|x86
+		{574E1761-FFDA-4D62-9444-EC23AD1E7E99}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{574E1761-FFDA-4D62-9444-EC23AD1E7E99}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{574E1761-FFDA-4D62-9444-EC23AD1E7E99}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{574E1761-FFDA-4D62-9444-EC23AD1E7E99}.Debug|x86.Build.0 = Debug|Any CPU
+		{574E1761-FFDA-4D62-9444-EC23AD1E7E99}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{574E1761-FFDA-4D62-9444-EC23AD1E7E99}.Release|Any CPU.Build.0 = Release|Any CPU
 		{574E1761-FFDA-4D62-9444-EC23AD1E7E99}.Release|x86.ActiveCfg = Release|Any CPU
 		{574E1761-FFDA-4D62-9444-EC23AD1E7E99}.Release|x86.Build.0 = Release|Any CPU
+		{58E6905D-9A37-4C12-9AB5-B268AAB823E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{58E6905D-9A37-4C12-9AB5-B268AAB823E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{58E6905D-9A37-4C12-9AB5-B268AAB823E2}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{58E6905D-9A37-4C12-9AB5-B268AAB823E2}.Debug|x86.Build.0 = Debug|Any CPU
+		{58E6905D-9A37-4C12-9AB5-B268AAB823E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{58E6905D-9A37-4C12-9AB5-B268AAB823E2}.Release|Any CPU.Build.0 = Release|Any CPU
 		{58E6905D-9A37-4C12-9AB5-B268AAB823E2}.Release|x86.ActiveCfg = Release|Any CPU
 		{58E6905D-9A37-4C12-9AB5-B268AAB823E2}.Release|x86.Build.0 = Release|Any CPU
+		{F8486EF4-2748-4E96-852D-7C50DD57D69B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F8486EF4-2748-4E96-852D-7C50DD57D69B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F8486EF4-2748-4E96-852D-7C50DD57D69B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F8486EF4-2748-4E96-852D-7C50DD57D69B}.Debug|x86.Build.0 = Debug|Any CPU
+		{F8486EF4-2748-4E96-852D-7C50DD57D69B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F8486EF4-2748-4E96-852D-7C50DD57D69B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F8486EF4-2748-4E96-852D-7C50DD57D69B}.Release|x86.ActiveCfg = Release|Any CPU
+		{F8486EF4-2748-4E96-852D-7C50DD57D69B}.Release|x86.Build.0 = Release|Any CPU
+		{B600EB00-2DBE-47B0-9E3C-D81A679EB30C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B600EB00-2DBE-47B0-9E3C-D81A679EB30C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B600EB00-2DBE-47B0-9E3C-D81A679EB30C}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{B600EB00-2DBE-47B0-9E3C-D81A679EB30C}.Debug|x86.Build.0 = Debug|Any CPU
+		{B600EB00-2DBE-47B0-9E3C-D81A679EB30C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B600EB00-2DBE-47B0-9E3C-D81A679EB30C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B600EB00-2DBE-47B0-9E3C-D81A679EB30C}.Release|x86.ActiveCfg = Release|Any CPU
+		{B600EB00-2DBE-47B0-9E3C-D81A679EB30C}.Release|x86.Build.0 = Release|Any CPU
+		{6702EB60-74FE-480E-81A5-9EFB4962AF2A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6702EB60-74FE-480E-81A5-9EFB4962AF2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6702EB60-74FE-480E-81A5-9EFB4962AF2A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{6702EB60-74FE-480E-81A5-9EFB4962AF2A}.Debug|x86.Build.0 = Debug|Any CPU
+		{6702EB60-74FE-480E-81A5-9EFB4962AF2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6702EB60-74FE-480E-81A5-9EFB4962AF2A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6702EB60-74FE-480E-81A5-9EFB4962AF2A}.Release|x86.ActiveCfg = Release|Any CPU
+		{6702EB60-74FE-480E-81A5-9EFB4962AF2A}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {68733434-1F2E-4957-A224-7A0C6A69E236}
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		Policies = $0

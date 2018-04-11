@@ -2,17 +2,19 @@
 
 namespace DMXCommunication
 {
-	public interface IDMXCommunication : IDisposable
-	{
-		Guid Identifier { get; }
-		string Description { get; }
+    public interface IDMXCommunication : IDisposable
+    {
+        Guid Identifier { get; }
+        string Description { get; }
 
-		void Start ();
+        void Start();
 
-		void Stop ();
+        void Stop();
 
-		void ClearChannelValues ();
+        void ClearChannelValues();
 
-		void SetChannelValue (ushort channel, byte value);
-	}
+        void SetChannelValue(ushort channel, byte value);
+
+        object Settings { get; }
+    }
 }

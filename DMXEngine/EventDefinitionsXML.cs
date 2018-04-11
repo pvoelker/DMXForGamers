@@ -18,6 +18,7 @@ namespace DMXEngine
 		public List<EventDefinition> Events
 		{
 			get { return _Events; }
+            set { _Events = value; }
 		}
 	}
 

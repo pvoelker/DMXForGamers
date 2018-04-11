@@ -1,146 +1,188 @@
 ﻿using System;
+using System.ComponentModel;
 using System.IO.Ports;
 using System.Threading;
 
 namespace DMXCommunication
 {
-	public class COMPortDMX : IDMXCommunication
-	{
-		private byte[] ZERO_BUFFER = new byte[] {0x00};
-		private byte[] _buffer = new byte[513];
-		private SerialPort _serialPort = null;
-		private EventWaitHandle _done = null;
-		private EventWaitHandle _doneComplete = null;
-		private bool _doneStarted = false;
+    [Serializable]
+    public class ComPortDMXSettings
+    {
+        [Category("Configuration")]
+        [DisplayName("Port Name")]
+        [Description("This property defined the serial port name to be used.")]
+        [DefaultValue("COM1")]
+        public string PortName { get; set; }
+    }
 
-		public Guid Identifier { get { return new Guid("2900cfbe-a150-41d9-bf92-fbbb27fe2f22");} }
-		public string Description { get { return "COM Port (RS485)"; } }
+    public class COMPortDMX : IDMXCommunication
+    {
+        private byte[] ZERO_BUFFER = new byte[] { 0x00 };
+        private byte[] _buffer = new byte[513];
+        private SerialPort _serialPort = null;
+        private EventWaitHandle _done = null;
+        private EventWaitHandle _doneComplete = null;
+        private bool _doneStarted = false;
 
-		public string PortName { get; set; }
+        static public Guid ID = new Guid("2900cfbe-a150-41d9-bf92-fbbb27fe2f22");
+        public Guid Identifier { get { return ID; } }
+        public string Description { get { return "COM Port (RS485)"; } }
 
-		public void Start ()
-		{
-			if (String.IsNullOrWhiteSpace (PortName) == true) {
-				throw new Exception ("Port name has not been set");
-			}
+        private static ComPortDMXSettings _settings = new ComPortDMXSettings();
 
-			_serialPort = new SerialPort (PortName, 250000, Parity.None, 8, StopBits.Two);
-			_doneStarted = false;
+        public ComPortDMXSettings Settings
+        {
+            get { return _settings;  }
+        }
 
-			ClearChannelValues ();
+        object IDMXCommunication.Settings
+        {
+            get { return Settings; }
+        }
 
-			_done = new EventWaitHandle (false, EventResetMode.ManualReset);
-			_doneComplete = new EventWaitHandle (false, EventResetMode.ManualReset);
+        public void Start()
+        {
+            if (String.IsNullOrWhiteSpace((Settings as ComPortDMXSettings).PortName) == true)
+            {
+                throw new Exception("Port name has not been set");
+            }
 
-			try {
-				Thread thread = new Thread (new ThreadStart (WriteData));
-				thread.Name = "COM Port DMX Comms";
-				thread.Start ();
-			} catch {
-				_done.Dispose ();
-				_done = null;
-				_doneComplete.Dispose ();
-				_doneComplete = null;
+            _serialPort = new SerialPort((Settings as ComPortDMXSettings).PortName, 250000, Parity.None, 8, StopBits.Two);
+            _serialPort.Open();
 
-				throw;
-			}
-		}
+            _doneStarted = false;
 
-		public void Stop ()
-		{
-			if (_done != null) {
-				try {
-					_doneStarted = true;
+            ClearChannelValues();
 
-					ClearChannelValuesInternal ();
+            _done = new EventWaitHandle(false, EventResetMode.ManualReset);
+            _doneComplete = new EventWaitHandle(false, EventResetMode.ManualReset);
 
-					// Wait for cleared channels to be written out
-					Thread.Sleep (50);
+            try
+            {
+                Thread thread = new Thread(new ThreadStart(WriteData));
+                thread.Name = "COM Port DMX Comms";
+                thread.Start();
+            }
+            catch
+            {
+                _done.Dispose();
+                _done = null;
+                _doneComplete.Dispose();
+                _doneComplete = null;
 
-					_done.Set();
-					_doneComplete.WaitOne();
+                throw;
+            }
+        }
 
-					if (_serialPort != null) {
-						_serialPort.Dispose();
-						_serialPort = null;
-					}
-				} finally {
-					_done.Dispose ();
-					_done = null;
-					_doneComplete.Dispose ();
-					_doneComplete = null;
-				}
-			}
-		}
+        public void Stop()
+        {
+            if (_done != null)
+            {
+                try
+                {
+                    _doneStarted = true;
 
-		public void ClearChannelValues ()
-		{
-			if (_doneStarted == false) {
-				ClearChannelValuesInternal ();
-			}
-		}
+                    ClearChannelValuesInternal();
 
-		private void ClearChannelValuesInternal()
-		{
-			lock (_buffer) {
-				for (ushort i = 1; i < _buffer.Length; i++) {
-					_buffer [i] = 0;
-				}
-			}
-		}
+                    // Wait for cleared channels to be written out
+                    Thread.Sleep(50);
 
-		public void SetChannelValue (ushort channel, byte value)
-		{
-			if ((channel < 1) || (channel > 512)) {
-				throw new ArgumentOutOfRangeException ("channel", channel, "Valid range is 1 through 512");
-			}
+                    _done.Set();
+                    _doneComplete.WaitOne();
 
-			if (_doneStarted == false) {
-				lock (_buffer) {
-					_buffer [channel] = value;
-				}
-			}
-		}
+                    if (_serialPort != null)
+                    {
+                        _serialPort.Dispose();
+                        _serialPort = null;
+                    }
+                }
+                finally
+                {
+                    _done.Dispose();
+                    _done = null;
+                    _doneComplete.Dispose();
+                    _doneComplete = null;
+                }
+            }
+        }
 
-		private void WriteData ()
-		{
-			while (_done.WaitOne (25) == false) {
-				lock (_buffer) {
-					_serialPort.BaudRate = 96000;
-					_serialPort.Write (ZERO_BUFFER, 0, ZERO_BUFFER.Length);
-					_serialPort.BaudRate = 250000;
-					_serialPort.Write (_buffer, 0, _buffer.Length);
-				}
-			}
+        public void ClearChannelValues()
+        {
+            if (_doneStarted == false)
+            {
+                ClearChannelValuesInternal();
+            }
+        }
 
-			_doneComplete.Set ();
-		}
+        private void ClearChannelValuesInternal()
+        {
+            lock (_buffer)
+            {
+                for (ushort i = 1; i < _buffer.Length; i++)
+                {
+                    _buffer[i] = 0;
+                }
+            }
+        }
 
-		#region IDisposable implementation
+        public void SetChannelValue(ushort channel, byte value)
+        {
+            if ((channel < 1) || (channel > 512))
+            {
+                throw new ArgumentOutOfRangeException("channel", channel, "Valid range is 1 through 512");
+            }
 
-		public void Dispose ()
-		{
-			Dispose (true);
-			GC.SuppressFinalize (this);
-		}
+            if (_doneStarted == false)
+            {
+                lock (_buffer)
+                {
+                    _buffer[channel] = value;
+                }
+            }
+        }
 
-		~COMPortDMX ()
-		{
-			Dispose (false);
-		}
+        private void WriteData()
+        {
+            while (_done.WaitOne(25) == false)
+            {
+                lock (_buffer)
+                {
+                    _serialPort.BaudRate = 96000;
+                    _serialPort.Write(ZERO_BUFFER, 0, ZERO_BUFFER.Length);
+                    _serialPort.BaudRate = 250000;
+                    _serialPort.Write(_buffer, 0, _buffer.Length);
+                }
+            }
 
-		protected virtual void Dispose (bool disposing)
-		{
-			Stop ();
+            _doneComplete.Set();
+        }
 
-			if (disposing) {
-				// Free managed resources
-			}
+        #region IDisposable implementation
 
-			// Free native resources if there are any
-		}
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
 
-		#endregion
-	}
+        ~COMPortDMX()
+        {
+            Dispose(false);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            Stop();
+
+            if (disposing)
+            {
+                // Free managed resources
+            }
+
+            // Free native resources if there are any
+        }
+
+        #endregion
+    }
 }
 
