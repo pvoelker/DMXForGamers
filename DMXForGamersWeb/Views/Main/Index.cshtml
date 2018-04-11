@@ -1,110 +1,100 @@
 ﻿@inherits Nancy.ViewEngines.Razor.NancyRazorViewBase<DMXForGamers.Models.Main>
 @{
     Layout = "layout.cshtml";
+    ViewBag.Title = "DMX For Gamers Remote Control TITLE!!!";
 }
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <title>DMX For Gamers Remote Control</title>
-    <link href="/Contents/Bootstrap/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="/Contents/CSS/DMXForGamers.css" rel="stylesheet" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-</head>
-<body>
-    <div class="container">
-        @if ((Model.ContinuousEvents.Count == 0) && (Model.NonContinuousEvents.Count == 0))
-        {
-            <div class="m-4 alert alert-warning">
-                <h2 lh-100=lh-100>No Events Are Configured</h2>
-            </div>
-        }
+<div id="events-body" class="container">
+    @if ((Model.ContinuousEvents.Count == 0) && (Model.NonContinuousEvents.Count == 0))
+    {
+        <div class="m-4 alert alert-warning">
+            <h2 lh-100=lh-100>No Events Are Configured</h2>
+        </div>
+    }
 
-        @if (Model.ContinuousEvents.Count > 0)
-        {
-            <div class="card m-4 box-shadow">
-                <h2 class="card-header">Continuous Events</h2>
-                <div class="card-body">
-                    <div class="d-flex flex-row flex-wrap my-flex-container">
-                        @foreach (var item in Model.ContinuousEvents)
-                        {
-                            <form id="@item.EventID" class="m-2">
-                                <button type="button" class="btn btn-primary btn-lg m-2" onclick="eventclickon('@item.EventID')">Enabled @item.EventID</button>
-                                <button type="button" class="btn btn-secondary btn-lg m-2" onclick="eventclickoff('@item.EventID')">Disable @item.EventID</button>
-                            </form>
-                        }
-                    </div>
-                </div>
-            </div>
-        }
-
-        @if (Model.NonContinuousEvents.Count > 0)
-        {
-            <div class="card m-4 box-shadow">
-                <h2 class="card-header">Non-Continuous Events</h2>
-                <div class="card-body">
-                    <div class="d-flex flex-row flex-wrap my-flex-container">
-                        @foreach (var item in Model.NonContinuousEvents)
-                        {
-                            <form id="@item.EventID">
-                                <button type="button" class="btn btn-primary btn-lg m-2" onclick="eventclickon('@item.EventID')">@item.EventID</button>
-                            </form>
-                        }
-                    </div>
-                </div>
-            </div>
-        }
-    </div>
-
-    <!-- Modal Error Dialog-->
-    <div class="modal fade" id="errorModal">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <!-- Modal Header -->
-                <div class="modal-header">
-                    <h4 class="modal-title">Error</h4>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                </div>
-
-                <!-- Modal body -->
-                <div class="modal-body">
-                    <p id="errorModalText">Nothing set...</p>
-                </div>
-
-                <!-- Modal footer -->
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+    @if (Model.ContinuousEvents.Count > 0)
+    {
+        <div class="card m-2 box-shadow">
+            <h2 class="card-header">Continuous Events</h2>
+            <div class="card-body">
+                <div class="d-flex flex-row flex-wrap my-flex-container">
+                    @foreach (var item in Model.ContinuousEvents)
+                    {
+                        <form id="@item.EventID" class="m-2">
+                            <button type="button" class="btn btn-primary btn-lg m-2" onclick="eventclickon('@item.EventID')">Enabled @item.EventID</button>
+                            <button type="button" class="btn btn-secondary btn-lg m-2" onclick="eventclickoff('@item.EventID')">Disable @item.EventID</button>
+                        </form>
+                    }
                 </div>
             </div>
         </div>
-    </div>
+    }
 
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="@Url.Content("/Contents/Scripts/jquery-3.3.1.min.js")" type="text/javascript"></script>
-    <script src="@Url.Content("/Contents/Bootstrap/js/bootstrap.min.js")"></script>
-    <script type="text/javascript">
-        function eventclickon(eventid) {
-            $.getJSON("events/" + eventid + "/enable",
-                function (Data) {
-                    // Nothing to do
-                })
-                .fail(
-                function (jqXHR, textStatus, err) {
-                    $(".modal-body #errorModalText").text(err)
-                    $('#errorModal').modal('show');
-                });
-        }
-        function eventclickoff(eventid) {
-            $.getJSON("events/" + eventid + "/disable",
-                function (Data) {
-                    // Nothing to do
-                })
-                .fail(
-                function (jqXHR, textStatus, err) {
-                    $(".modal-body #errorModalText").text(err)
-                    $('#errorModal').modal('show');
-                });
-        }
-    </script>
-</body>
-</html>
+    @if (Model.NonContinuousEvents.Count > 0)
+    {
+        <div class="card m-2 box-shadow">
+            <h2 class="card-header">Non-Continuous Events</h2>
+            <div class="card-body">
+                <div class="d-flex flex-row flex-wrap my-flex-container">
+                    @foreach (var item in Model.NonContinuousEvents)
+                    {
+                        <form id="@item.EventID">
+                            <button type="button" class="btn btn-primary btn-lg m-2" onclick="eventclickon('@item.EventID')">@item.EventID</button>
+                        </form>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<!-- Modal Error Dialog-->
+<div class="modal fade" id="errorModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Error</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <p id="errorModalText">Nothing set...</p>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="@Url.Content("/Contents/Scripts/jquery-3.3.1.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("/Contents/Bootstrap/js/bootstrap.min.js")"></script>
+<script type="text/javascript">
+    function eventclickon(eventid) {
+        $.getJSON("events/" + eventid + "/enable",
+            function (Data) {
+                // Nothing to do
+            })
+            .fail(
+            function (jqXHR, textStatus, err) {
+                $(".modal-body #errorModalText").text(err)
+                $('#errorModal').modal('show');
+            });
+    }
+    function eventclickoff(eventid) {
+        $.getJSON("events/" + eventid + "/disable",
+            function (Data) {
+                // Nothing to do
+            })
+            .fail(
+            function (jqXHR, textStatus, err) {
+                $(".modal-body #errorModalText").text(err)
+                $('#errorModal').modal('show');
+            });
+    }
+</script>

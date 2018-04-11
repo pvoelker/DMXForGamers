@@ -3,13 +3,13 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <title>DMX For Gamers Remote Control</title>
+    <title>@ViewBag.Title</title>
     <link href="/Contents/Bootstrap/css/bootstrap.min.css" rel="stylesheet" />
     <link href="/Contents/CSS/DMXForGamers.css" rel="stylesheet" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 </head>
 <body>
-    <div class="container-fluid">
+    <div class="container-fluid m-0">
         <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded box-shadow">
             <img class="mr-3 rounded" src="/Contents/Images/DMXForGamers.png" alt="DMX for Gamers" />
             <div class="lh-100">
@@ -18,7 +18,7 @@
             </div>
         </div>
 
-        <div class="container">
+        <div id="layout-body" class="container m-0 p-0">
             @RenderBody()
         </div>
 

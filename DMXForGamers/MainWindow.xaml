@@ -87,7 +87,7 @@
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
                 <CheckBox Grid.Column="0" IsChecked="{Binding Path=EnabledRemote}">Enabled Web Remote Control</CheckBox>
-                <TextBlock Grid.Column="2" IsEnabled="{Binding Path=EnabledRemote}">Remote Port:</TextBlock>
+                <Label Grid.Column="2" IsEnabled="{Binding Path=EnabledRemote}" Padding="5,0">Remote Port:</Label>
                 <tk:IntegerUpDown Grid.Column="4" Value="{Binding Path=RemotePort}" Width="75" Minimum="0" Maximum="65535" IsEnabled="{Binding Path=EnabledRemote}"/>
             </Grid>
             <TabControl Grid.Row="10" Grid.ColumnSpan="8">
