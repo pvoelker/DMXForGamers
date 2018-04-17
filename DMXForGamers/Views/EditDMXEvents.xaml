@@ -9,8 +9,13 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
-        <common:BindingProxy x:Key="proxy" Data="{Binding}" />
-    </UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="ControlStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <common:BindingProxy x:Key="proxy" Data="{Binding}" />
+        </ResourceDictionary>
+    </UserControl.Resources>    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -91,7 +96,7 @@
                             <DataGridTemplateColumn Header="Value" Width="Auto" IsReadOnly="False">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <tk:ByteUpDown Value="{Binding Path=Value, UpdateSourceTrigger=PropertyChanged}" Minimum="{Binding Path=MinValue}" Maximum="{Binding Path=MaxValue}"  Margin="10,0"/>
+                                        <tk:ByteUpDown Value="{Binding Path=Value, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" Validation.ErrorTemplate="{StaticResource ResourceKey=errorTemplateSilverlightStyle}" Minimum="{Binding Path=MinValue}" Maximum="{Binding Path=MaxValue}"  Margin="10,0"/>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>

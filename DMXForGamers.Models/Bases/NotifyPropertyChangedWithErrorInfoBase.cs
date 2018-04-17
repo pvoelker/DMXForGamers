@@ -1,5 +1,6 @@
-﻿using System.ComponentModel;
-using System.Runtime.CompilerServices;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace DMXForGamers.Models
 {
@@ -16,5 +17,23 @@ namespace DMXForGamers.Models
         public string Error { get { return this[null]; } }
 
         #endregion
+
+        public IEnumerable<string> Errors
+        {
+            get
+            {
+                var errors = this[null];
+
+                if (errors == null)
+                    return new List<string>();
+                else
+                    return this[null].Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+            }
+        }
+
+        virtual public IEnumerable<string> Validate()
+        {
+            return Errors;
+        }
     }
 }

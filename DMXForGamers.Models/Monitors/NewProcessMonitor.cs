@@ -43,6 +43,5 @@ namespace DMXForGamers.Models
         }
 
         #endregion
-
     }
 }

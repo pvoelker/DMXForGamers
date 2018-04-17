@@ -1,4 +1,6 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Windows.Input;
@@ -59,8 +61,11 @@ namespace DMXForGamers.Models
                     _baseDMXValues.CollectionChanged += _baseDMXValues_CollectionChanged;
                 }
                 AnnouncePropertyChanged();
+                OnPropertyChanged(nameof(UsedBaseChannels));
             }
         }
+
+        public IEnumerable<ushort> UsedBaseChannels { get { return BaseDMXValues.Select(x => x.Channel).Distinct(); } }
 
         private void _baseDMXValues_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
@@ -104,8 +109,11 @@ namespace DMXForGamers.Models
                     _events.CollectionChanged += _events_CollectionChanged;
                 }
                 AnnouncePropertyChanged();
+                OnPropertyChanged(nameof(UsedEventChannels));
             }
         }
+
+        public IEnumerable<ushort> UsedEventChannels { get { return Events.SelectMany(x => x.TimeBlocks).SelectMany(x => x.DMXValues).Select(x => x.Channel).Distinct(); } }
 
         private void _events_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
@@ -154,28 +162,55 @@ namespace DMXForGamers.Models
             {
                 var errorStr = new StringBuilder();
 
-                //if ((columnName == nameof(EventID)) || (columnName == null))
-                //{
-                //    if (String.IsNullOrWhiteSpace(EventID) == true)
-                //    {
-                //        errorStr.AppendLine("Event ID is required");
-                //    }
-                //}
-                //if ((columnName == nameof(Pattern)) || (columnName == null))
-                //{
-                //    if (UseRegEx == true)
-                //    {
-                //        if (String.IsNullOrWhiteSpace(Pattern) == true)
-                //        {
-                //            errorStr.AppendLine("Matching Pattern is required or disable Regular Expression option");
-                //        }
-                //    }
-                //}
-
                 return (errorStr.Length == 0) ? null : errorStr.ToString();
             }
         }
 
         #endregion
+
+        override public IEnumerable<string> Validate()
+        {
+            var errors = new List<string>();
+
+            errors.AddRange(Errors);
+
+            #region Children
+
+            var duplicateEventIDs = Events.GroupBy(x => x.EventID.ToUpper()).Where(y => y.Count() > 1).Select(z => z.Key);
+            errors.AddRange(duplicateEventIDs.Select(x => String.Format("Event ID '{0}' is used more than once", x)));
+
+            if (BaseDMXValues.Count == 0)
+            {
+                errors.Add("No Base DMX Value are defined");
+            }
+
+            if (Events.Count == 0)
+            {
+                errors.Add("No Events are defined");
+            }
+
+            var usedBaseChannels = UsedBaseChannels;
+            var usedEventChannels = UsedEventChannels;
+
+            var undefinedBaseChannels = usedEventChannels.Except(usedBaseChannels);
+
+            if (undefinedBaseChannels.Count() > 0)
+            {
+                errors.Add("Base DXM Channels have not been defined for the following channels used in events: " + String.Join(",", undefinedBaseChannels));
+            }
+
+            var duplicateDMXChannels = BaseDMXValues.GroupBy(x => x.Channel).Where(y => y.Count() > 1).Select(z => z.Key);
+            errors.AddRange(duplicateDMXChannels.Select(x => String.Format("DMX Channel '{0}' is defined more than once", x)));
+
+            errors.AddRange(BaseDMXValues.SelectMany(x => x.Validate().
+                Select(y => String.Format("Base DMX Channel {0} - {1}", x.Channel, y))));
+
+            errors.AddRange(Events.SelectMany(x => x.Validate().
+                Select(y => String.Format("Event '{0}' - {1}", x.FormattedEventID, y))));
+
+            #endregion
+
+            return errors;
+        }
     }
 }

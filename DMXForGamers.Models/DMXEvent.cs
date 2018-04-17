@@ -1,4 +1,6 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Windows.Input;
@@ -26,7 +28,16 @@ namespace DMXForGamers.Models
         public string EventID
         {
             get { return _eventID; }
-            set { _eventID = value; AnnouncePropertyChanged(); }
+            set
+            {
+                _eventID = value;
+                AnnouncePropertyChanged();
+                OnPropertyChanged(nameof(FormattedEventID));
+            }
+        }
+        public string FormattedEventID
+        {
+            get { return (String.IsNullOrWhiteSpace(EventID) == true) ? "[No ID]" : EventID; }
         }
 
         private int _timeSpan;
@@ -117,28 +128,26 @@ namespace DMXForGamers.Models
             {
                 var errorStr = new StringBuilder();
 
-                //if ((columnName == nameof(EventID)) || (columnName == null))
-                //{
-                //    if (String.IsNullOrWhiteSpace(EventID) == true)
-                //    {
-                //        errorStr.AppendLine("Event ID is required");
-                //    }
-                //}
-                //if ((columnName == nameof(Pattern)) || (columnName == null))
-                //{
-                //    if (UseRegEx == true)
-                //    {
-                //        if (String.IsNullOrWhiteSpace(Pattern) == true)
-                //        {
-                //            errorStr.AppendLine("Matching Pattern is required or disable Regular Expression option");
-                //        }
-                //    }
-                //}
-
                 return (errorStr.Length == 0) ? null : errorStr.ToString();
             }
         }
 
         #endregion
+
+        override public IEnumerable<string> Validate()
+        {
+            var errors = new List<string>();
+
+            errors.AddRange(Errors);
+
+            #region Children
+
+            errors.AddRange(TimeBlocks.SelectMany(x => x.Validate().
+                Select(y => String.Format("Time Block ({0}ms) - {1}", x.StartTime, y))));
+
+            #endregion
+
+            return errors;
+        }
     }
 }

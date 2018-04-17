@@ -252,5 +252,16 @@ namespace DMXForGamers.Models
         }
 
         #endregion
+
+        override public IEnumerable<string> Validate()
+        {
+            var errors = new List<string>();
+
+            errors.AddRange(Events.SelectMany(x => x.Validate().Select(y => String.Format("Event '{0}' - {1}", x.Description, y))));
+
+            errors.AddRange(Errors);
+
+            return errors;
+        }
     }
 }

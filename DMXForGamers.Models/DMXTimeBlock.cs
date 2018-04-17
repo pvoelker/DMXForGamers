@@ -1,4 +1,6 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Windows.Input;
@@ -112,28 +114,44 @@ namespace DMXForGamers.Models
             {
                 var errorStr = new StringBuilder();
 
-                //if ((columnName == nameof(EventID)) || (columnName == null))
-                //{
-                //    if (String.IsNullOrWhiteSpace(EventID) == true)
-                //    {
-                //        errorStr.AppendLine("Event ID is required");
-                //    }
-                //}
-                //if ((columnName == nameof(Pattern)) || (columnName == null))
-                //{
-                //    if (UseRegEx == true)
-                //    {
-                //        if (String.IsNullOrWhiteSpace(Pattern) == true)
-                //        {
-                //            errorStr.AppendLine("Matching Pattern is required or disable Regular Expression option");
-                //        }
-                //    }
-                //}
+                if ((columnName == nameof(StartTime)) || (columnName == null))
+                {
+                    if (StartTime < 0)
+                    {
+                        errorStr.AppendLine("Start Time must be greater than or equal to 0");
+                    }
+                }
+                if ((columnName == nameof(TimeSpan)) || (columnName == null))
+                {
+                    if (TimeSpan <= 0)
+                    {
+                        errorStr.AppendLine("Time Span must be greater than 0");
+                    }
+                }
 
                 return (errorStr.Length == 0) ? null : errorStr.ToString();
             }
         }
 
         #endregion
+
+        override public IEnumerable<string> Validate()
+        {
+            var errors = new List<string>();            
+
+            errors.AddRange(Errors);
+
+            #region Children
+
+            var duplicateDMXChannels = DMXValues.GroupBy(x => x.Channel).Where(y => y.Count() > 1).Select(z => z.Key);
+            errors.AddRange(duplicateDMXChannels.Select(x => String.Format("DMX Channel '{0}' is defined more than once", x)));
+
+            errors.AddRange(DMXValues.SelectMany(x => x.Validate().
+                Select(y => String.Format("DMX Channel {0} - {1}", x.Channel, y))));
+
+            #endregion
+
+            return errors;
+        }
     }
 }

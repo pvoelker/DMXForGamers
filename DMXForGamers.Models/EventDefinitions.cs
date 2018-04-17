@@ -101,5 +101,25 @@ namespace DMXForGamers.Models
         }
 
         #endregion
+
+        override public IEnumerable<string> Validate()
+        {
+            var errors = new List<string>();
+
+            errors.AddRange(Errors);
+
+            var duplicateEventIDs = Events.GroupBy(x => x.EventID.ToUpper()).Where(y => y.Count() > 1).Select(z => z.Key);
+
+            errors.AddRange(duplicateEventIDs.Select(x => String.Format("Event ID '{0}' is used more than once", x)));
+
+            #region Children
+
+            errors.AddRange(Events.SelectMany(x => x.Validate().
+                Select(y => String.Format("Event '{0}' - {1}", x.FormattedEventID, y))));
+
+            #endregion
+
+            return errors;
+        }
     }
 }

@@ -24,7 +24,16 @@ namespace DMXForGamers.Models
         public string EventID
         {
             get { return _eventID; }
-            set { _eventID = value; AnnouncePropertyChanged(); }
+            set
+            {
+                _eventID = value;
+                AnnouncePropertyChanged();
+                OnPropertyChanged(nameof(FormattedEventID));
+            }
+        }
+        public string FormattedEventID
+        {
+            get { return (String.IsNullOrWhiteSpace(EventID) == true) ? "[No ID]" : EventID; }
         }
 
         private bool _state;

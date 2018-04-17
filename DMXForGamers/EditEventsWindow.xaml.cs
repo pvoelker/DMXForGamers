@@ -29,8 +29,27 @@ namespace DMXForGamers
 
         private void Save_Button_Click(object sender, RoutedEventArgs e)
         {
-            IsSave = true;
-            this.Close();
+            var data = DataContext as Models.EventDefinitions;
+
+            var errors = data.Validate();
+
+            if (errors.Count() > 0)
+            {
+                var msg = new StringBuilder();
+                msg.AppendLine("The event definitions contain the following errors:");
+                msg.AppendLine(String.Empty);
+                foreach (var error in errors)
+                {
+                    msg.AppendLine("   • " + error);
+                }
+
+                MessageBox.Show(msg.ToString(), "Unable to Save", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            else
+            {
+                IsSave = true;
+                this.Close();
+            }
         }
 
         private void Cancel_Button_Click(object sender, RoutedEventArgs e)

@@ -39,7 +39,7 @@
         <TextBlock Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right">Start Time:</TextBlock>
         <TextBox Grid.Row="0" Grid.Column="2" Width="100" HorizontalAlignment="Left" Text="{Binding Path='StartTime', ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" Validation.ErrorTemplate="{StaticResource ResourceKey=errorTemplateSilverlightStyle}"></TextBox>
         <TextBlock Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right">Time Span:</TextBlock>
-        <TextBox Grid.Row="2" Grid.Column="2" Width="100" HorizontalAlignment="Left" Text="{Binding Path='TimeSpan'}"></TextBox>
+        <TextBox Grid.Row="2" Grid.Column="2" Width="100" HorizontalAlignment="Left" Text="{Binding Path='TimeSpan', ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" Validation.ErrorTemplate="{StaticResource ResourceKey=errorTemplateSilverlightStyle}"></TextBox>
         <DataGrid Grid.Row="4" Grid.ColumnSpan="5" AutoGenerateColumns="False" ItemsSource="{Binding Path=DMXValues}" GridLinesVisibility="None" AlternationCount="1" HeadersVisibility="Column" CanUserResizeRows="False" CanUserResizeColumns="False" CanUserReorderColumns="False" CanUserSortColumns="False" CanUserAddRows="False" CanUserDeleteRows="False">
             <DataGrid.AlternatingRowBackground>
                 <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
@@ -55,14 +55,14 @@
                 <DataGridTemplateColumn Header="Value" Width="Auto" IsReadOnly="False">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <tk:ByteUpDown Value="{Binding Path=Value, UpdateSourceTrigger=PropertyChanged}" Minimum="{Binding Path=MinValue}" Maximum="{Binding Path=MaxValue}"/>
+                            <tk:ByteUpDown Value="{Binding Path=Value, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" Validation.ErrorTemplate="{StaticResource ResourceKey=errorTemplateSilverlightStyle}" Minimum="{Binding Path=MinValue}" Maximum="{Binding Path=MaxValue}"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 <DataGridTemplateColumn Header="Delta" Width="Auto" IsReadOnly="False">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <tk:ShortUpDown Value="{Binding Path=Delta, UpdateSourceTrigger=PropertyChanged}" Minimum="{Binding Path=MinDelta}" Maximum="{Binding Path=MaxDelta}"/>
+                            <tk:ShortUpDown Value="{Binding Path=Delta, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" Validation.ErrorTemplate="{StaticResource ResourceKey=errorTemplateSilverlightStyle}" Minimum="{Binding Path=MinDelta}" Maximum="{Binding Path=MaxDelta}"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
