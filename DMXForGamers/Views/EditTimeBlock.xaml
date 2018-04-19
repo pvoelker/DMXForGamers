@@ -48,7 +48,7 @@
                 <DataGridTemplateColumn Header="Channel" Width="Auto" IsReadOnly="False">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <tk:IntegerUpDown Value="{Binding Path=Channel, UpdateSourceTrigger=PropertyChanged}" Minimum="{Binding Path=MinChannel}" Maximum="{Binding Path=MaxChannel}"/>
+                            <tk:IntegerUpDown Value="{Binding Path=Channel, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" Minimum="{Binding Path=MinChannel}" Maximum="{Binding Path=MaxChannel}"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Windows.Input;
 
@@ -6,6 +8,8 @@ namespace DMXForGamers.Models
 {
     public class DMXValue : NotifyPropertyChangedWithErrorInfoBase
     {
+        public IEnumerable<DMXValue> ParentCollection { get; set; }
+
         private ushort _channel;
         public ushort Channel
         {
@@ -53,6 +57,17 @@ namespace DMXForGamers.Models
                     if ((Channel < MinChannel) || (Channel > MaxChannel))
                     {
                         errorStr.AppendLine(String.Format("DMX Channels Must Be Between {0} and {1} Inclusive", MinChannel, MaxChannel));
+                    }
+                    else
+                    {
+                        if (ParentCollection != null)
+                        {
+                            var duplicateCount = ParentCollection.Where(x => x != this).Count(x => x.Channel == this.Channel);
+                            if (duplicateCount > 0)
+                            {
+                                errorStr.AppendLine("Channel is duplicated");
+                            }
+                        }
                     }
                 }
                 if ((columnName == nameof(Delta)) || (columnName == null))

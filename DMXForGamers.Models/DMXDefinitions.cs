@@ -47,7 +47,9 @@ namespace DMXForGamers.Models
                 {
                     foreach (var item in _baseDMXValues)
                     {
-                        (item as DMXValue).DeleteDMXValue = null;
+                        var dmxValue = item as DMXValue;
+                        dmxValue.DeleteDMXValue = null;
+                        dmxValue.ParentCollection = null;
                     }
                     _baseDMXValues.CollectionChanged -= _baseDMXValues_CollectionChanged;
                 }
@@ -56,7 +58,9 @@ namespace DMXForGamers.Models
                 {
                     foreach (var item in _baseDMXValues)
                     {
-                        (item as DMXValue).DeleteDMXValue = new RelayCommand(x => _baseDMXValues.Remove((x as DMXValue)));
+                        var dmxValue = item as DMXValue;
+                        dmxValue.DeleteDMXValue = new RelayCommand(x => _baseDMXValues.Remove((x as DMXValue)));
+                        dmxValue.ParentCollection = this.BaseDMXValues;
                     }
                     _baseDMXValues.CollectionChanged += _baseDMXValues_CollectionChanged;
                 }
@@ -73,14 +77,18 @@ namespace DMXForGamers.Models
             {
                 foreach (var item in e.OldItems)
                 {
-                    (item as DMXValue).DeleteDMXValue = null;
+                    var dmxValue = item as DMXValue;
+                    dmxValue.DeleteDMXValue = null;
+                    dmxValue.ParentCollection = null;
                 }
             }
             if (e.NewItems != null)
             {
                 foreach (var item in e.NewItems)
                 {
-                    (item as DMXValue).DeleteDMXValue = new RelayCommand(x => _baseDMXValues.Remove((x as DMXValue)));
+                    var dmxValue = item as DMXValue;
+                    dmxValue.DeleteDMXValue = new RelayCommand(x => _baseDMXValues.Remove((x as DMXValue)));
+                    dmxValue.ParentCollection = this.BaseDMXValues;
                 }
             }
         }
@@ -95,7 +103,9 @@ namespace DMXForGamers.Models
                 {
                     foreach (var item in _events)
                     {
-                        (item as DMXEvent).DeleteEvent = null;
+                        var dmxEvent = item as DMXEvent;
+                        dmxEvent.DeleteEvent = null;
+                        dmxEvent.ParentCollection = null;
                     }
                     _events.CollectionChanged -= _events_CollectionChanged;
                 }
@@ -104,7 +114,9 @@ namespace DMXForGamers.Models
                 {
                     foreach (var item in _events)
                     {
-                        (item as DMXEvent).DeleteEvent = new RelayCommand(x => _events.Remove((x as DMXEvent)));
+                        var dmxEvent = item as DMXEvent;
+                        dmxEvent.DeleteEvent = new RelayCommand(x => _events.Remove((x as DMXEvent)));
+                        dmxEvent.ParentCollection = Events;
                     }
                     _events.CollectionChanged += _events_CollectionChanged;
                 }
@@ -121,14 +133,18 @@ namespace DMXForGamers.Models
             {
                 foreach (var item in e.OldItems)
                 {
-                    (item as DMXEvent).DeleteEvent = null;
+                    var dmxEvent = item as DMXEvent;
+                    dmxEvent.DeleteEvent = null;
+                    dmxEvent.ParentCollection = null;
                 }
             }
             if (e.NewItems != null)
             {
                 foreach (var item in e.NewItems)
                 {
-                    (item as DMXEvent).DeleteEvent = new RelayCommand(x => _events.Remove((x as DMXEvent)));
+                    var dmxEvent = item as DMXEvent;
+                    dmxEvent.DeleteEvent = new RelayCommand(x => _events.Remove((x as DMXEvent)));
+                    dmxEvent.ParentCollection = Events;
                 }
             }
         }
@@ -176,9 +192,6 @@ namespace DMXForGamers.Models
 
             #region Children
 
-            var duplicateEventIDs = Events.GroupBy(x => x.EventID.ToUpper()).Where(y => y.Count() > 1).Select(z => z.Key);
-            errors.AddRange(duplicateEventIDs.Select(x => String.Format("Event ID '{0}' is used more than once", x)));
-
             if (BaseDMXValues.Count == 0)
             {
                 errors.Add("No Base DMX Value are defined");
@@ -198,9 +211,6 @@ namespace DMXForGamers.Models
             {
                 errors.Add("Base DXM Channels have not been defined for the following channels used in events: " + String.Join(",", undefinedBaseChannels));
             }
-
-            var duplicateDMXChannels = BaseDMXValues.GroupBy(x => x.Channel).Where(y => y.Count() > 1).Select(z => z.Key);
-            errors.AddRange(duplicateDMXChannels.Select(x => String.Format("DMX Channel '{0}' is defined more than once", x)));
 
             errors.AddRange(BaseDMXValues.SelectMany(x => x.Validate().
                 Select(y => String.Format("Base DMX Channel {0} - {1}", x.Channel, y))));

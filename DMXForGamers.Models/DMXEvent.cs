@@ -24,6 +24,8 @@ namespace DMXForGamers.Models
             });
         }
 
+        public IEnumerable<DMXEvent> ParentCollection { get; set; }
+
         private string _eventID;
         public string EventID
         {
@@ -127,6 +129,25 @@ namespace DMXForGamers.Models
             get
             {
                 var errorStr = new StringBuilder();
+
+                if ((columnName == nameof(EventID)) || (columnName == null))
+                {
+                    if (String.IsNullOrWhiteSpace(EventID) == true)
+                    {
+                        errorStr.AppendLine("Event ID is required");
+                    }
+                    else
+                    {
+                        if (ParentCollection != null)
+                        {
+                            var duplicateCount = ParentCollection.Where(x => x != this).Count(x => String.Compare(x.EventID, this.EventID) == 0);
+                            if (duplicateCount > 0)
+                            {
+                                errorStr.AppendLine("Event ID is duplicated in another event");
+                            }
+                        }
+                    }
+                }
 
                 return (errorStr.Length == 0) ? null : errorStr.ToString();
             }

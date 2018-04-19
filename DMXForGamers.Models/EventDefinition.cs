@@ -13,6 +13,8 @@ namespace DMXForGamers.Models
         {
         }
 
+        public IEnumerable<EventDefinition> ParentCollection { get; set; }
+
         private string _description;
         public string Description
         {
@@ -108,6 +110,17 @@ namespace DMXForGamers.Models
                     if (String.IsNullOrWhiteSpace(EventID) == true)
                     {
                         errorStr.AppendLine("Event ID is required");
+                    }
+                    else
+                    {
+                        if (ParentCollection != null)
+                        {
+                            var duplicateCount = ParentCollection.Where(x => x != this).Count(x => String.Compare(x.EventID, this.EventID) == 0);
+                            if (duplicateCount > 0)
+                            {
+                                errorStr.AppendLine("Event ID is duplicated in another event");
+                            }
+                        }
                     }
                 }
                 if ((columnName == nameof(Pattern)) || (columnName == null))

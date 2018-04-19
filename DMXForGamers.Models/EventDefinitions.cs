@@ -38,7 +38,10 @@ namespace DMXForGamers.Models
                 {
                     foreach (var item in _events)
                     {
-                        (item as EventDefinition).DeleteEvent = null;
+                        var eventDefinition = (item as EventDefinition);
+                        eventDefinition.DeleteEvent = null;
+                        eventDefinition.ParentCollection = null;
+
                     }
                     _events.CollectionChanged -= _events_CollectionChanged;
                 }
@@ -47,7 +50,10 @@ namespace DMXForGamers.Models
                 {
                     foreach (var item in _events)
                     {
-                        (item as EventDefinition).DeleteEvent = new RelayCommand(x => _events.Remove((x as EventDefinition)));
+                        var eventDefinition = (item as EventDefinition);
+                        eventDefinition.DeleteEvent = new RelayCommand(x => _events.Remove((x as EventDefinition)));
+                        eventDefinition.ParentCollection = Events;
+
                     }
                     _events.CollectionChanged += _events_CollectionChanged;
                 }
@@ -61,14 +67,18 @@ namespace DMXForGamers.Models
             {
                 foreach (var item in e.OldItems)
                 {
-                    (item as EventDefinition).DeleteEvent = null;
+                    var eventDefinition = (item as EventDefinition);
+                    eventDefinition.DeleteEvent = null;
+                    eventDefinition.ParentCollection = null;
                 }
             }
             if (e.NewItems != null)
             {
                 foreach (var item in e.NewItems)
                 {
-                    (item as EventDefinition).DeleteEvent = new RelayCommand(x => _events.Remove((x as EventDefinition)));
+                    var eventDefinition = (item as EventDefinition);
+                    eventDefinition.DeleteEvent = new RelayCommand(x => _events.Remove((x as EventDefinition)));
+                    eventDefinition.ParentCollection = Events;
                 }
             }
         }
@@ -88,14 +98,6 @@ namespace DMXForGamers.Models
             {
                 var errorStr = new StringBuilder();
 
-                //if ((columnName == nameof(EventID)) || (columnName == null))
-                //{
-                //    if (String.IsNullOrWhiteSpace(EventID) == true)
-                //    {
-                //        errorStr.AppendLine("Event ID is required");
-                //    }
-                //}
-
                 return (errorStr.Length == 0) ? null : errorStr.ToString();
             }
         }
@@ -107,10 +109,6 @@ namespace DMXForGamers.Models
             var errors = new List<string>();
 
             errors.AddRange(Errors);
-
-            var duplicateEventIDs = Events.GroupBy(x => x.EventID.ToUpper()).Where(y => y.Count() > 1).Select(z => z.Key);
-
-            errors.AddRange(duplicateEventIDs.Select(x => String.Format("Event ID '{0}' is used more than once", x)));
 
             #region Children
 

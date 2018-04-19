@@ -38,7 +38,8 @@ namespace DMXForGamers
                     ForMember(x => x.DeleteEvent, opt => opt.Ignore()).
                     ForMember(x => x.EventOff, opt => opt.Ignore()).
                     ForMember(x => x.EventOn, opt => opt.Ignore()).
-                    ForMember(x => x.State, opt => opt.Ignore());
+                    ForMember(x => x.State, opt => opt.Ignore()).
+                    ForMember(x => x.ParentCollection, opt => opt.Ignore());
                 cfg.CreateMap<Models.EventDefinition, DMXEngine.EventDefinition>();
                 cfg.CreateMap<DMXEngine.DMX, Models.DMXDefinitions>().
                     ForMember(x => x.AddBaseValue, opt => opt.Ignore()).
@@ -48,7 +49,8 @@ namespace DMXForGamers
                 cfg.CreateMap<DMXEngine.Event, Models.DMXEvent>().
                     ForMember(x => x.AddTimeBlock, opt => opt.Ignore()).
                     ForMember(x => x.DeleteEvent, opt => opt.Ignore()).
-                    ForMember(x => x.SortTimeBlocks, opt => opt.Ignore());
+                    ForMember(x => x.SortTimeBlocks, opt => opt.Ignore()).
+                    ForMember(x => x.ParentCollection, opt => opt.Ignore());
                 cfg.CreateMap<Models.DMXEvent, DMXEngine.Event>();
                 cfg.CreateMap<DMXEngine.TimeBlock, Models.DMXTimeBlock>().
                     ForMember(x => x.AddDMXValue, opt => opt.Ignore()).
@@ -56,7 +58,8 @@ namespace DMXForGamers
                     ForMember(x => x.SortDMXValues, opt => opt.Ignore());
                 cfg.CreateMap<Models.DMXTimeBlock, DMXEngine.TimeBlock>();
                 cfg.CreateMap<DMXEngine.DMXValue, Models.DMXValue>().
-                    ForMember(x => x.DeleteDMXValue, opt => opt.Ignore());
+                    ForMember(x => x.DeleteDMXValue, opt => opt.Ignore()).
+                    ForMember(x => x.ParentCollection, opt => opt.Ignore());
                 cfg.CreateMap<Models.DMXValue, DMXEngine.DMXValue>();
 
                 cfg.CreateMap<DMXCommunication.DMXPortAdapter, Models.DMXProtocol>();
@@ -129,7 +132,7 @@ namespace DMXForGamers
         {
             string appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
             appDataPath = Path.Combine(appDataPath, "DMX for Gamers");
-            if(Directory.Exists(appDataPath) == false)
+            if (Directory.Exists(appDataPath) == false)
             {
                 Directory.CreateDirectory(appDataPath);
             }
@@ -158,7 +161,7 @@ namespace DMXForGamers
                 m_AppSettings = new AppSettings();
                 m_AppSettings.PortAdapterGuid = OpenDMX.ID;
             }
-            
+
             var dmxPortAdapters = Mapper.Map<List<DMXCommunication.DMXPortAdapter>, List<Models.DMXProtocol>>(DMXPortAdapterHelpers.GetPortAdapters());
 
             m_Data.Protocols.AddRange(dmxPortAdapters);
@@ -254,7 +257,7 @@ namespace DMXForGamers
             if (m_Data != null)
             {
                 var foundEvent = m_Data.Events.SingleOrDefault(x => x.EventID == value.EventID);
-                if(foundEvent != null)
+                if (foundEvent != null)
                 {
                     foundEvent.State = value.State;
                 }
@@ -284,7 +287,7 @@ namespace DMXForGamers
                     }
                 }
 
-                if(File.Exists(m_Data.DMXFile) == false)
+                if (File.Exists(m_Data.DMXFile) == false)
                 {
                     MessageBox.Show(String.Format("DMX file ('{0}') does not exist", m_Data.DMXFile),
                         "Unable to Start", MessageBoxButton.OK, MessageBoxImage.Exclamation);
@@ -366,12 +369,12 @@ namespace DMXForGamers
                                 {
                                     hostInfo = Dns.GetHostEntry(x.ClientAddress);
                                 }
-                                catch(SocketException)
+                                catch (SocketException)
                                 {
                                     // Most likely host name could not be resolved, ignore and move on....
                                 }
                                 string msg;
-                                if(hostInfo == null)
+                                if (hostInfo == null)
                                 {
                                     msg = String.Format("Address '{0}' is attempting to access remote control.  Do you want to grant access?", x.ClientAddress);
                                 }
@@ -416,7 +419,7 @@ namespace DMXForGamers
                 _webHost = null;
             }
 
-            if(_webHostBootstrapper != null)
+            if (_webHostBootstrapper != null)
             {
                 _webHostBootstrapper.Dispose();
                 (_webHostBootstrapper as CustomBootstrapper).Cleanup();
@@ -526,7 +529,7 @@ namespace DMXForGamers
 
             var addr = localIPs.SingleOrDefault(x => x.AddressFamily == AddressFamily.InterNetwork);
 
-            if(addr != null)
+            if (addr != null)
             {
                 return addr.ToString();
             }
