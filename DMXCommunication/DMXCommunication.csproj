@@ -34,6 +34,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="NullAdapter.cs" />
+    <Compile Include="ArtNetDMX.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="OpenDMX.cs" />
     <Compile Include="FTD2XXNativeMethods.cs" />

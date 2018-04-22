@@ -10,9 +10,9 @@ namespace DMXCommunication
     {
         [Category("Configuration")]
         [DisplayName("Port Name")]
-        [Description("This property defined the serial port name to be used.")]
-        [DefaultValue("COM1")]
-        public string PortName { get; set; }
+        [Description("This property defines the serial port name to be used.")]
+        //[DefaultValue("COM1")]
+        public string PortName { get; set; } = "COM1";
     }
 
     public class COMPortDMX : IDMXCommunication
@@ -28,6 +28,8 @@ namespace DMXCommunication
         public Guid Identifier { get { return ID; } }
         public string Description { get { return "COM Port (RS485)"; } }
 
+        #region Settings
+
         private static ComPortDMXSettings _settings = new ComPortDMXSettings();
 
         public ComPortDMXSettings Settings
@@ -39,6 +41,8 @@ namespace DMXCommunication
         {
             get { return Settings; }
         }
+
+        #endregion
 
         public void Start()
         {
