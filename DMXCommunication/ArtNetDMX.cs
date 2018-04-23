@@ -10,13 +10,13 @@ namespace DMXCommunication
 {
     public class ArtNetMessage
     {
-        public ArtNetMessage(int universe, List<byte> dmxValues)
+        public ArtNetMessage(ushort universe, List<byte> dmxValues)
         {
             Universe = universe;
             DMXValues = dmxValues;
         }
 
-        public int Universe { get; set; }
+        public ushort Universe { get; set; }
 
         public List<byte> DMXValues { get; set; }
 
@@ -33,39 +33,39 @@ namespace DMXCommunication
             bytes[6] = (byte)'t';
             bytes[7] = 0;
 
-            // Opcode
-            bytes[8] = 0x50;
-            bytes[9] = 0x00;
+            // Opcode (ArtDMX)
+            bytes[8] = 0x00;
+            bytes[9] = 0x50;
 
-            // Protocl Version
+            // Protocol Version
             bytes[10] = 0;
             bytes[11] = 14;
 
             // Sequence (not used)
             bytes[12] = 0;
 
-            // Physical (not used???)
+            // Physical Port (informational only and hard coded to 0)
             bytes[13] = 0;
 
-            // Universe
-            var universeBytes = IntToByteArray(Universe);
+            // Universe/Port-Address
+            var universeBytes = UShortToByteArray(Universe);
             bytes[14] = universeBytes[0];
             bytes[15] = universeBytes[1];
 
             // Length (512)
-            var lengthBytes = IntToByteArray(512);
+            var lengthBytes = UShortToByteArray(512);
             bytes[16] = lengthBytes[0];
             bytes[17] = lengthBytes[1];
 
             for (int i = 0; i < 512; i++)
             {
-                bytes[18 + i] = DMXValues[i];
+                bytes[18 + i] = DMXValues[i + 1];
             }
 
             return bytes;
         }
 
-        private byte[] IntToByteArray(int value)
+        private byte[] UShortToByteArray(ushort value)
         {
             byte[] bytes = BitConverter.GetBytes(value);
             if (BitConverter.IsLittleEndian)
@@ -97,22 +97,19 @@ namespace DMXCommunication
     public class ArtNetDMXSettings
     {
         [Category("Configuration")]
-        [DisplayName("Universe")]
-        [Description("This property defines the 'universe' to be used.")]
-        //[DefaultValue((int)0)]
-        public int Universe { get; set; } = 0;
-
-        [Category("Configuration")]
         [DisplayName("Node IP Address")]
-        [Description("This property defines the 'universe' to be used.")]
-        //[DefaultValue(2130706433/*127.0.0.1*/)]
+        [Description("This property specifies the IP address to send the DMX data (ArtDmx) packets to.")]
         [TypeConverter(typeof(IPAddressConverter))]
         public IPAddress NodeIPAddress { get; set; } = IPAddress.Parse("127.0.0.1");
 
         [Category("Configuration")]
+        [DisplayName("Universe")]
+        [Description("This property defines the 'universe' to be used.")]
+        public ushort Universe { get; set; } = 0;
+
+        [Category("Configuration")]
         [DisplayName("Port")]
         [Description("This property defines the UDP port number to be used (default 6454).")]
-        //[DefaultValue(6454)]
         [TypeConverter(typeof(IPAddressConverter))]
         public ushort Port { get; set; } = 6454;
     }
@@ -126,6 +123,7 @@ namespace DMXCommunication
         private EventWaitHandle _doneComplete = null;
         private bool _doneStarted = false;
         private int _bytesWritten = 0;
+        volatile bool _isActive = false;
 
         static public Guid ID = new Guid("24597d14-f33b-4385-a909-7a232d0327d4");
         public Guid Identifier { get { return ID; } }
@@ -224,6 +222,7 @@ namespace DMXCommunication
                 {
                     _buffer[i] = 0;
                 }
+                _isActive = true;
             }
         }
 
@@ -238,22 +237,37 @@ namespace DMXCommunication
             {
                 lock (_buffer)
                 {
-                    _buffer[channel] = value;
+                    if (_buffer[channel] != value)
+                    {
+                        _buffer[channel] = value;
+                        _isActive = true;
+                    }
                 }
             }
         }
 
         private void WriteData()
         {
-            // Art-Net recommends refreshing at 44 time a second (http://art-net.org.uk/wordpress/structure/streaming-packets/)
+            // Art-Net recommends refreshing at 44 times a second when active and every 4 seconds when idle (http://art-net.org.uk/wordpress/structure/streaming-packets/)
             const int ARTNET_REFRESH = 1000 / 44;
+            const int ARTNET_REFRESH_IDLE = 3900; // Just under 4 seconds
+
+            var lastUpdate = DateTime.MinValue;
+
             while (_done.WaitOne(ARTNET_REFRESH) == false)
             {
-                lock (_buffer)
+                if ((_isActive == true) || ((DateTime.Now - lastUpdate).TotalMilliseconds >= ARTNET_REFRESH_IDLE))
                 {
-                    var message = new ArtNetMessage(Settings.Universe, new List<byte>(_buffer));
-                    var buffer = message.ToByteArray();
-                    _bytesWritten = _socket.SendTo(buffer, _endPoint);
+                    _isActive = false;
+
+                    lock (_buffer)
+                    {
+                        var message = new ArtNetMessage(Settings.Universe, new List<byte>(_buffer));
+                        var buffer = message.ToByteArray();
+                        _bytesWritten = _socket.SendTo(buffer, _endPoint);
+                    }
+
+                    lastUpdate = DateTime.Now;
                 }
             }
 

@@ -11,7 +11,6 @@ namespace DMXCommunication
         [Category("Configuration")]
         [DisplayName("Port Name")]
         [Description("This property defines the serial port name to be used.")]
-        //[DefaultValue("COM1")]
         public string PortName { get; set; } = "COM1";
     }
 
