@@ -10,7 +10,7 @@ namespace DMXCommunication
 {
     public class ArtNetMessage
     {
-        public ArtNetMessage(ushort universe, List<byte> dmxValues)
+        public ArtNetMessage(ushort universe, byte[] dmxValues)
         {
             Universe = universe;
             DMXValues = dmxValues;
@@ -18,10 +18,13 @@ namespace DMXCommunication
 
         public ushort Universe { get; set; }
 
-        public List<byte> DMXValues { get; set; }
+        public byte[] DMXValues { get; set; }
 
         public byte[] ToByteArray()
         {
+            if (DMXValues.Length != 512)
+                throw new Exception("'DMXValues' must have a lenth of 512");
+
             var bytes = new byte[530];
 
             bytes[0] = (byte)'A';
@@ -57,10 +60,7 @@ namespace DMXCommunication
             bytes[16] = lengthBytes[0];
             bytes[17] = lengthBytes[1];
 
-            for (int i = 0; i < 512; i++)
-            {
-                bytes[18 + i] = DMXValues[i + 1];
-            }
+            Buffer.BlockCopy(DMXValues, 0, bytes, 18, 512);
 
             return bytes;
         }
@@ -118,7 +118,7 @@ namespace DMXCommunication
     {
         private IPEndPoint _endPoint;
         private Socket _socket;
-        private byte[] _buffer = new byte[513];
+        private byte[] _buffer = new byte[512];
         private EventWaitHandle _done = null;
         private EventWaitHandle _doneComplete = null;
         private bool _doneStarted = false;
@@ -218,7 +218,7 @@ namespace DMXCommunication
         {
             lock (_buffer)
             {
-                for (ushort i = 1; i < _buffer.Length; i++)
+                for (ushort i = 0; i < _buffer.Length; i++)
                 {
                     _buffer[i] = 0;
                 }
@@ -237,9 +237,9 @@ namespace DMXCommunication
             {
                 lock (_buffer)
                 {
-                    if (_buffer[channel] != value)
+                    if (_buffer[channel - 1] != value)
                     {
-                        _buffer[channel] = value;
+                        _buffer[channel - 1] = value;
                         _isActive = true;
                     }
                 }
@@ -262,7 +262,7 @@ namespace DMXCommunication
 
                     lock (_buffer)
                     {
-                        var message = new ArtNetMessage(Settings.Universe, new List<byte>(_buffer));
+                        var message = new ArtNetMessage(Settings.Universe, _buffer);
                         var buffer = message.ToByteArray();
                         _bytesWritten = _socket.SendTo(buffer, _endPoint);
                     }
