@@ -31,6 +31,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Serialization" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="NullAdapter.cs" />
@@ -41,6 +43,8 @@
     <Compile Include="IDMXCommunication.cs" />
     <Compile Include="COMPortDMX.cs" />
     <Compile Include="DMXPortAdapters.cs" />
+    <Compile Include="Support\ArtNetMessage.cs" />
+    <Compile Include="Support\BaseSettings.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

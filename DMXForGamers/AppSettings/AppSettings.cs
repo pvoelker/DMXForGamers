@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DMXCommunication;
+using System;
 using System.Xml;
 using System.Xml.Serialization;
 
@@ -8,6 +9,7 @@ namespace DMXForGamers
 	public class AppSettings
 	{
 		public Guid PortAdapterGuid { get; set; }
+        public BaseSettings PortAdapterConfig { get; set; }
 		public int TextMonitorOption { get; set; }
 		public string EXEFilePath { get; set; }
 		public string EXEArguments { get; set; }

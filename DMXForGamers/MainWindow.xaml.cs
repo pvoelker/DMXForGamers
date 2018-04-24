@@ -167,6 +167,10 @@ namespace DMXForGamers
             m_Data.Protocols.AddRange(dmxPortAdapters);
 
             m_Data.SelectedProtocol = m_Data.Protocols.FirstOrDefault(x => x.ID == m_AppSettings.PortAdapterGuid);
+            if (m_Data.SelectedProtocol != null)
+            {
+                m_Data.SelectedProtocol.Settings = m_AppSettings.PortAdapterConfig;
+            }
 
             m_Data.EventsFile = m_AppSettings.EventDefinitionsFilePath;
             m_Data.DMXFile = m_AppSettings.DMXFilePath;
@@ -186,7 +190,11 @@ namespace DMXForGamers
 
         private void Window_Closed(object sender, EventArgs e)
         {
-            m_AppSettings.PortAdapterGuid = m_Data.SelectedProtocol.ID;
+            if (m_Data.SelectedProtocol != null)
+            {
+                m_AppSettings.PortAdapterGuid = m_Data.SelectedProtocol.ID;
+                m_AppSettings.PortAdapterConfig = m_Data.SelectedProtocol.Settings as BaseSettings;
+            }
 
             m_AppSettings.EventDefinitionsFilePath = m_Data.EventsFile;
             m_AppSettings.DMXFilePath = m_Data.DMXFile;

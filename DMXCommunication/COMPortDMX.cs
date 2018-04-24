@@ -6,7 +6,7 @@ using System.Threading;
 namespace DMXCommunication
 {
     [Serializable]
-    public class ComPortDMXSettings
+    public class ComPortDMXSettings : BaseSettings
     {
         [Category("Configuration")]
         [DisplayName("Port Name")]
