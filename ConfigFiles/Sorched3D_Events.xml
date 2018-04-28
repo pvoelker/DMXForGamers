@@ -1,20 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <EventDefinitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Description>Event definitions for Scorched3D game</Description>
+  <Notes>&lt;Section xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xml:space="preserve" TextAlignment="Left" LineHeight="Auto" IsHyphenationEnabled="False" xml:lang="en-us" FlowDirection="LeftToRight" NumberSubstitution.CultureSource="User" NumberSubstitution.Substitution="AsCulture" FontFamily="Segoe UI" FontStyle="Normal" FontWeight="Normal" FontStretch="Normal" FontSize="12" Foreground="#FF000000" Typography.StandardLigatures="True" Typography.ContextualLigatures="True" Typography.DiscretionaryLigatures="False" Typography.HistoricalLigatures="False" Typography.AnnotationAlternates="0" Typography.ContextualAlternates="True" Typography.HistoricalForms="False" Typography.Kerning="True" Typography.CapitalSpacing="False" Typography.CaseSensitiveForms="False" Typography.StylisticSet1="False" Typography.StylisticSet2="False" Typography.StylisticSet3="False" Typography.StylisticSet4="False" Typography.StylisticSet5="False" Typography.StylisticSet6="False" Typography.StylisticSet7="False" Typography.StylisticSet8="False" Typography.StylisticSet9="False" Typography.StylisticSet10="False" Typography.StylisticSet11="False" Typography.StylisticSet12="False" Typography.StylisticSet13="False" Typography.StylisticSet14="False" Typography.StylisticSet15="False" Typography.StylisticSet16="False" Typography.StylisticSet17="False" Typography.StylisticSet18="False" Typography.StylisticSet19="False" Typography.StylisticSet20="False" Typography.Fraction="Normal" Typography.SlashedZero="False" Typography.MathematicalGreek="False" Typography.EastAsianExpertForms="False" Typography.Variants="Normal" Typography.Capitals="Normal" Typography.NumeralStyle="Normal" Typography.NumeralAlignment="Normal" Typography.EastAsianWidths="Normal" Typography.EastAsianLanguage="Normal" Typography.StandardSwashes="0" Typography.ContextualSwashes="0" Typography.StylisticAlternates="0"&gt;&lt;Paragraph&gt;&lt;Run&gt;Scorched3D is an open-source multiplayer game available at: http://www.scorched3d.co.uk/&lt;/Run&gt;&lt;/Paragraph&gt;&lt;Paragraph&gt;&lt;Run&gt;It is great for LAN parties with players at different skill levels.&lt;/Run&gt;&lt;/Paragraph&gt;&lt;Paragraph&gt;&lt;Run&gt;Use with the &lt;/Run&gt;&lt;Run FontWeight="Bold"&gt;New Process Monitor&lt;/Run&gt;&lt;Run&gt; and the following settings:&lt;/Run&gt;&lt;/Paragraph&gt;&lt;Paragraph&gt;&lt;Run FontWeight="Bold"&gt;EXE File: &lt;/Run&gt;&lt;Run&gt;C:\Program Files (x86)\Scorched3D\scorcheds.exe&lt;/Run&gt;&lt;/Paragraph&gt;&lt;Paragraph&gt;&lt;Run FontWeight="Bold"&gt;EXE Args:&lt;/Run&gt;&lt;Run&gt; -startserver C:\Program Files (x86)\Scorched3D\data\server.xml&lt;/Run&gt;&lt;/Paragraph&gt;&lt;Paragraph&gt;&lt;Run&gt;"server.xml" is the configuration file for the Scorched3D server.  This can be editted by going to: Start Server -&amp;gt; Edit Advanced Settings&lt;/Run&gt;&lt;/Paragraph&gt;&lt;/Section&gt;</Notes>
   <Events>
     <EventDefinition Description="" UseRegEx="false">
       <EventID>Game Start</EventID>
       <Pattern>Game starting in 5</Pattern>
-      <Continuous>0</Continuous>
+      <Continuous>false</Continuous>
     </EventDefinition>
     <EventDefinition Description="" UseRegEx="false">
       <EventID>Player Killed</EventID>
       <Pattern>killed</Pattern>
-      <Continuous>0</Continuous>
+      <Continuous>false</Continuous>
     </EventDefinition>
     <EventDefinition Description="" UseRegEx="false">
       <EventID>Winner</EventID>
       <Pattern>winner</Pattern>
+      <Continuous>false</Continuous>
     </EventDefinition>
   </Events>
 </EventDefinitions>

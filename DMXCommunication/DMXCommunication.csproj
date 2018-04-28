@@ -41,7 +41,7 @@
     <Compile Include="OpenDMX.cs" />
     <Compile Include="FTD2XXNativeMethods.cs" />
     <Compile Include="IDMXCommunication.cs" />
-    <Compile Include="COMPortDMX.cs" />
+    <None Include="COMPortDMX.cs" />
     <Compile Include="DMXPortAdapters.cs" />
     <Compile Include="Support\ArtNetMessage.cs" />
     <Compile Include="Support\BaseSettings.cs" />

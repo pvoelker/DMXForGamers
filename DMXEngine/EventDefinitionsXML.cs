@@ -14,7 +14,14 @@ namespace DMXEngine
 			set { _description = value; }
 		}
 
-		private List<EventDefinition> _Events = new List<EventDefinition>();
+        private string _notes;
+        public string Notes
+        {
+            get { return _notes; }
+            set { _notes = value; }
+        }
+
+        private List<EventDefinition> _Events = new List<EventDefinition>();
 		public List<EventDefinition> Events
 		{
 			get { return _Events; }

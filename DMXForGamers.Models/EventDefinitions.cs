@@ -28,6 +28,13 @@ namespace DMXForGamers.Models
             set { _description = value; AnnouncePropertyChanged(); }
         }
 
+        private string _notes;
+        public string Notes
+        {
+            get { return _notes; }
+            set { _notes = value; AnnouncePropertyChanged(); }
+        }
+
         private ObservableCollection<EventDefinition> _events;
         public ObservableCollection<EventDefinition> Events
         {

@@ -7,47 +7,66 @@
              xmlns:tk="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="10" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="10" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="10"/>
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
-        <TextBlock Grid.Row="0" Grid.Column="0" TextAlignment="Right">Description:</TextBlock>
-        <TextBox Grid.Row="0" Grid.Column="2" Text="{Binding Path=Description}"></TextBox>
-        <ItemsControl Grid.Row="2" Grid.ColumnSpan="3" ItemsSource="{Binding Path=Events}">
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <WrapPanel />
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <GroupBox Header="{Binding Path='FormattedEventID'}">
-                        <local:EditEvent></local:EditEvent>
-                    </GroupBox>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-            <ItemsControl.Template>
-                <ControlTemplate TargetType="{x:Type ItemsControl}">
-                    <ScrollViewer VerticalScrollBarVisibility="Auto">
-                        <ItemsPresenter />
-                    </ScrollViewer>
-                </ControlTemplate>
-            </ItemsControl.Template>
-        </ItemsControl>
-        <Button Grid.Row="4" Grid.Column="0" Command="{Binding Path='AddEvent'}">
-            <StackPanel Orientation="Horizontal">
-                <Image Source="/DMXForGamers;component/Images/Add16.png" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                <TextBlock>Add Event</TextBlock>
-            </StackPanel>
-        </Button>
-    </Grid>
+    <TabControl>
+        <TabItem Header="Events">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="10" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="10" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="10"/>
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Row="0" Grid.Column="0" TextAlignment="Right">Description:</TextBlock>
+                <TextBox Grid.Row="0" Grid.Column="2" Text="{Binding Path=Description}"></TextBox>
+                <ItemsControl Grid.Row="2" Grid.ColumnSpan="3" ItemsSource="{Binding Path=Events}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <GroupBox Header="{Binding Path='FormattedEventID'}">
+                                <local:EditEvent></local:EditEvent>
+                            </GroupBox>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                    <ItemsControl.Template>
+                        <ControlTemplate TargetType="{x:Type ItemsControl}">
+                            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                                <ItemsPresenter />
+                            </ScrollViewer>
+                        </ControlTemplate>
+                    </ItemsControl.Template>
+                </ItemsControl>
+                <Button Grid.Row="4" Grid.Column="0" Command="{Binding Path='AddEvent'}">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/DMXForGamers;component/Images/Add16.png" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        <TextBlock>Add Event</TextBlock>
+                    </StackPanel>
+                </Button>
+            </Grid>
+        </TabItem>
+        <TabItem Header="Notes">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height='*' />
+                </Grid.RowDefinitions>
+                <tk:RichTextBox x:Name="m_Notes" Grid.Row="1" Text="{Binding Path=Notes}">
+                    <tk:RichTextBoxFormatBarManager.FormatBar>
+                        <tk:RichTextBoxFormatBar />
+                    </tk:RichTextBoxFormatBarManager.FormatBar>
+                    <tk:RichTextBox.TextFormatter>
+                        <tk:XamlFormatter />
+                    </tk:RichTextBox.TextFormatter>
+                </tk:RichTextBox>
+            </Grid>
+        </TabItem>
+    </TabControl>
 </UserControl>

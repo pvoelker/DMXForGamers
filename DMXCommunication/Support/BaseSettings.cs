@@ -9,7 +9,7 @@ namespace DMXCommunication
 {
     [Serializable]
     [XmlInclude(typeof(ArtNetDMXSettings))]
-    [XmlInclude(typeof(ComPortDMXSettings))]
+    //[XmlInclude(typeof(ComPortDMXSettings))]
     public class BaseSettings
     {
     }

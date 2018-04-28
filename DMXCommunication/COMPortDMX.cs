@@ -5,6 +5,8 @@ using System.Threading;
 
 namespace DMXCommunication
 {
+    // PEV - 4/27/2018 - Unable to test this.  Standard RS232 ports cannot get to a high enough baud rate...
+
     [Serializable]
     public class ComPortDMXSettings : BaseSettings
     {
