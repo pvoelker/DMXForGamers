@@ -47,8 +47,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMXForGamers", "DMXForGamer
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ConfigFiles", "ConfigFiles", "{32EBFEB2-3831-445A-A231-44C6EDA60B9D}"
 	ProjectSection(SolutionItems) = preProject
-		ConfigFiles\Sorched3D_DMX_4Channel.xml = ConfigFiles\Sorched3D_DMX_4Channel.xml
-		ConfigFiles\Sorched3D_Events.xml = ConfigFiles\Sorched3D_Events.xml
+		ConfigFiles\Sorched3D_DMX_4Channel.dgd = ConfigFiles\Sorched3D_DMX_4Channel.dgd
+		ConfigFiles\Sorched3D_Events.dge = ConfigFiles\Sorched3D_Events.dge
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMXForGamersWeb", "DMXForGamersWeb\DMXForGamersWeb.csproj", "{B600EB00-2DBE-47B0-9E3C-D81A679EB30C}"

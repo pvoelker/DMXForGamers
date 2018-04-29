@@ -78,9 +78,9 @@
                     <TextBlock Foreground="Blue">Manual triggering of events only...</TextBlock>
                 </TabItem>
             </TabControl>
-            <TextBlock Grid.Row="8" Grid.ColumnSpan="9" Foreground="Purple">Step 3: Defined DMX Events</TextBlock>
+            <TextBlock Grid.Row="8" Grid.ColumnSpan="9" Foreground="Purple">Step 3: Define DMX Events and Resulting DMX Outputs</TextBlock>
             <TextBlock Grid.Row="10">Events File:</TextBlock>
-            <common:FileTextBox Grid.Row="10" Grid.Column="2" FilePath="{Binding Path=EventsFile}"></common:FileTextBox>
+            <common:FileTextBox Grid.Row="10" Grid.Column="2" FilePath="{Binding Path=EventsFile}" Filter="Events File|*.dge|XML File|*.xml|All Files|*.*"></common:FileTextBox>
             <Button Grid.Row="10" Grid.Column="4" Command="{Binding Path='EditEvents'}" ToolTip="Edit">
                 <Image Source="/DMXForGamers;component/Images/Edit16.png" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" />
             </Button>
@@ -88,7 +88,7 @@
                 <Image Source="/DMXForGamers;component/Images/New16.png" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" />
             </Button>
             <TextBlock Grid.Row="12">DMX File:</TextBlock>
-            <common:FileTextBox Grid.Row="12" Grid.Column="2" FilePath="{Binding Path=DMXFile}"></common:FileTextBox>
+            <common:FileTextBox Grid.Row="12" Grid.Column="2" FilePath="{Binding Path=DMXFile}" Filter="DMX File|*.dgd|XML File|*.xml|All Files|*.*"></common:FileTextBox>
             <Button Grid.Row="12" Grid.Column="4" Command="{Binding Path='EditDMXEvents'}" ToolTip="Edit">
                 <Image Source="/DMXForGamers;component/Images/Edit16.png" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" />
             </Button>
