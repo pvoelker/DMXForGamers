@@ -21,7 +21,7 @@
         </Grid.RowDefinitions>
         <TextBlock Grid.Row="0" Grid.Column="0">EXE File:</TextBlock>
         <common:FileTextBox Grid.Row="0" Grid.Column="2" FilePath="{Binding Path=ExeFilePath}"></common:FileTextBox>
-        <TextBlock Grid.Row="2" Grid.Column="0">EXE Arg:</TextBlock>
+        <TextBlock Grid.Row="2" Grid.Column="0">EXE Args:</TextBlock>
         <TextBox Grid.Row="2" Grid.Column="2" Text="{Binding Path=ExeArgs}"></TextBox>
     </Grid>
 </UserControl>

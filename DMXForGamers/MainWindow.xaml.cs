@@ -86,8 +86,15 @@ namespace DMXForGamers
 
             m_Data.EditEvents = new RelayCommand(x =>
             {
-                var fileData = EventDefinitionsFile.LoadFile(m_Data.EventsFile);
-                CreateOrEditEvents(m_Data.EventsFile, fileData);
+                if (File.Exists(m_Data.EventsFile) == false)
+                {
+                    MessageBox.Show("Unable to load: " + m_Data.EventsFile, "File Not Found", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                else
+                {
+                    var fileData = EventDefinitionsFile.LoadFile(m_Data.EventsFile);
+                    CreateOrEditEvents(m_Data.EventsFile, fileData);
+                }
             },
             x =>
             {
@@ -101,8 +108,15 @@ namespace DMXForGamers
 
             m_Data.EditDMXEvents = new RelayCommand(x =>
             {
-                var fileData = DMXEventsFile.LoadFile(m_Data.DMXFile);
-                CreateOrEditDMXEvents(m_Data.DMXFile, fileData);
+                if (File.Exists(m_Data.EventsFile) == false)
+                {
+                    MessageBox.Show("Unable to load: " + m_Data.EventsFile, "File Not Found", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                else
+                {
+                    var fileData = DMXEventsFile.LoadFile(m_Data.DMXFile);
+                    CreateOrEditDMXEvents(m_Data.DMXFile, fileData);
+                }
             },
             x =>
             {
