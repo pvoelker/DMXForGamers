@@ -70,10 +70,12 @@ Section
   File .\DMXForGamers\bin\Release\*.exe
   File .\DMXForGamers\bin\Release\*.dll
   File .\DMXForGamers\bin\Release\DMXForGamers.exe.config
+  File .\DMXForGamers\bin\Release\dmxforgamershelp.chm
   
   SetOutPath "$INSTDIR\Examples"
 
-  File .\ConfigFiles\*.xml
+  File .\ConfigFiles\*.dgd
+  File .\ConfigFiles\*.dge
 
   ;Store installation folder
   WriteRegStr HKCU "Software\DMX for Gamers" "" $INSTDIR
@@ -119,13 +121,15 @@ Section "Uninstall"
   Delete "$SMPROGRAMS\${APP_NAME}\${APP_NAME}.lnk"
   RmDir "$SMPROGRAMS\${APP_NAME}"
 
-  Delete "$INSTDIR\Examples\*.xml"
+  Delete "$INSTDIR\Examples\*.dgd"
+  Delete "$INSTDIR\Examples\*.dge"
 
   Delete "$INSTDIR\Uninstall.exe"
 
   Delete "$INSTDIR\*.exe"
   Delete "$INSTDIR\*.dll"
   Delete "$INSTDIR\DMXForGamers.exe.config"
+  Delete "$INSTDIR\dmxforgamershelp.chm"
 
   RmDir "$INSTDIR\Examples"
   RmDir "$INSTDIR"

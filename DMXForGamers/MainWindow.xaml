@@ -14,9 +14,14 @@
         mc:Ignorable="d"
         Title="DMX For Gamers" Height="600" Width="800" Icon="DMXForGamers.ico" Closed="Window_Closed" Closing="Window_Closing">
     <Window.Resources>
-        <converters:ListToStringConverter x:Key="listToStringConverter" />
-        <converters:InvertBooleanConverter x:Key="invertBoolConverter" />
-        <BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter"/>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Views\ControlStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <converters:ListToStringConverter x:Key="listToStringConverter" />
+            <converters:InvertBooleanConverter x:Key="invertBoolConverter" />
+            <BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter"/>
+        </ResourceDictionary>
     </Window.Resources>
     <Grid>
         <Grid Margin="5">
@@ -51,16 +56,15 @@
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="5"/>
                 <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="5"/>
-                <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
-            <TextBlock Grid.Row="0" Grid.ColumnSpan="9" Foreground="Purple">Step 1: Select and Configure a DMX Adapter/Protocol</TextBlock>
+            <TextBlock Grid.Row="0" Grid.ColumnSpan="5" Foreground="Purple" Margin="0,0,0,5" Grid.RowSpan="2">Step 1: Select and Configure a DMX Adapter/Protocol</TextBlock>
+            <Button Grid.Row="0" Grid.Column="4" Grid.ColumnSpan="3" FontSize="12" Command="{Binding Path='Help'}" ToolTip="Help" Style="{StaticResource ResourceKey=LinkButton}">Help</Button>
             <TextBlock Grid.Row="2">Protocol:</TextBlock>
             <ComboBox Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="3" ItemsSource="{Binding Path=Protocols}" DisplayMemberPath="Description" SelectedItem="{Binding Path=SelectedProtocol}"></ComboBox>
             <Button Grid.Row="2" Grid.Column="6" Command="{Binding Path='EditSettings'}" ToolTip="Protocol Settings">
                 <Image Source="/DMXForGamers;component/Images/Gear16.png" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" />
             </Button>
-            <TextBlock Grid.Row="4" Grid.ColumnSpan="9" Foreground="Purple">Step 2: Select How DMX Events will be Triggered</TextBlock>
+            <TextBlock Grid.Row="4" Grid.ColumnSpan="5" Foreground="Purple" Margin="0,0,0,5" Grid.RowSpan="2">Step 2: Select How DMX Events will be Triggered</TextBlock>
             <TabControl Grid.Row="6" Grid.ColumnSpan="8" SelectedIndex="{Binding Path=SelectedMonitorIndex}">
                 <TabItem Header="New Process Monitor">
                     <StackPanel>
@@ -78,7 +82,7 @@
                     <TextBlock Foreground="Blue">Manual triggering of events only...</TextBlock>
                 </TabItem>
             </TabControl>
-            <TextBlock Grid.Row="8" Grid.ColumnSpan="9" Foreground="Purple">Step 3: Define DMX Events and Resulting DMX Outputs</TextBlock>
+            <TextBlock Grid.Row="8" Grid.ColumnSpan="5" Foreground="Purple">Step 3: Define DMX Events and Resulting DMX Outputs</TextBlock>
             <TextBlock Grid.Row="10">Events File:</TextBlock>
             <common:FileTextBox Grid.Row="10" Grid.Column="2" FilePath="{Binding Path=EventsFile}" Filter="Events File|*.dge|XML File|*.xml|All Files|*.*"></common:FileTextBox>
             <Button Grid.Row="10" Grid.Column="4" Command="{Binding Path='EditEvents'}" ToolTip="Edit">
@@ -107,7 +111,7 @@
                 <Label Grid.Column="2" IsEnabled="{Binding Path=EnabledRemote}" Padding="5,0">Remote Port:</Label>
                 <tk:IntegerUpDown Grid.Column="4" Value="{Binding Path=RemotePort}" Width="75" Minimum="0" Maximum="65535" IsEnabled="{Binding Path=EnabledRemote}"/>
             </Grid>
-            <TextBlock Grid.Row="16" Grid.ColumnSpan="9" Foreground="Purple">Step 4: Run it!</TextBlock>
+            <TextBlock Grid.Row="16" Grid.ColumnSpan="5" Foreground="Purple">Step 4: Run it!</TextBlock>
             <TabControl Grid.Row="18" Grid.ColumnSpan="8">
                 <TabItem Header="Main Control">
                     <Grid Margin="10">

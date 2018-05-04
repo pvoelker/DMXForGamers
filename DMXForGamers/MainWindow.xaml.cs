@@ -73,6 +73,13 @@ namespace DMXForGamers
             _dmxUpdateTimer.Interval = 10;
             _dmxUpdateTimer.Elapsed += DMXUpdateTimer_Elapsed;
 
+            m_Data.Help = new RelayCommand(x =>
+            {
+                var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+                var chmPath = Path.Combine(path, "DMXForGamersHelp.chm");
+                System.Windows.Forms.Help.ShowHelp(null, chmPath/*, HelpNavigator.Topic, helpTopic*/);
+            });
+
             m_Data.EditSettings = new RelayCommand(x =>
             {
                 var frm = new SettingsWindow();

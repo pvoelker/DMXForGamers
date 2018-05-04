@@ -31,6 +31,13 @@ namespace DMXForGamers.Models
         {
         }
 
+        private ICommand _help;
+        public ICommand Help
+        {
+            get { return _help; }
+            set { _help = value; AnnouncePropertyChanged(); }
+        }
+
         public bool CanRun
         {
             get { return !m_IsRunning && (String.IsNullOrWhiteSpace(EventsFile) == false) && (String.IsNullOrWhiteSpace(DMXFile) == false); }

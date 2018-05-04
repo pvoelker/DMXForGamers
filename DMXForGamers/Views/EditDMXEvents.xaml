@@ -76,12 +76,15 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*" />
                         <RowDefinition Height="5" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="5" />
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-                    <DataGrid Grid.Row="0" AutoGenerateColumns="False" ItemsSource="{Binding Path=BaseDMXValues}" GridLinesVisibility="None" AlternationCount="1" HeadersVisibility="Column" CanUserResizeRows="False" CanUserResizeColumns="False" CanUserReorderColumns="False" CanUserSortColumns="False" CanUserAddRows="False" CanUserDeleteRows="False">
+                    <TextBlock Foreground="Blue" TextWrapping="WrapWithOverflow">These are the DMX values used when no events are on or triggered...</TextBlock>
+                    <DataGrid Grid.Row="2" AutoGenerateColumns="False" ItemsSource="{Binding Path=BaseDMXValues}" GridLinesVisibility="None" AlternationCount="1" HeadersVisibility="Column" CanUserResizeRows="False" CanUserResizeColumns="False" CanUserReorderColumns="False" CanUserSortColumns="False" CanUserAddRows="False" CanUserDeleteRows="False">
                         <DataGrid.AlternatingRowBackground>
                             <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
                         </DataGrid.AlternatingRowBackground>
@@ -116,7 +119,7 @@
                             </DataGridTemplateColumn>
                         </DataGrid.Columns>
                     </DataGrid>
-                    <Button Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right" Command="{Binding Path=SortBaseDMXValues}">
+                    <Button Grid.Row="4" Grid.Column="0" HorizontalAlignment="Right" Command="{Binding Path=SortBaseDMXValues}">
                         <StackPanel Orientation="Horizontal">
                             <Image Source="/DMXForGamers;component/Images/SortAsc16.png" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" />
                             <TextBlock Margin="5,0,0,0">Sort Base DMX Values</TextBlock>
