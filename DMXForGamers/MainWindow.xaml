@@ -39,7 +39,7 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="5"/>
                 <RowDefinition Height="Auto"/>
-                <RowDefinition Height="5"/>
+                <RowDefinition Height="10"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="5"/>
                 <RowDefinition Height="Auto"/>
@@ -57,15 +57,9 @@
                 <ColumnDefinition Width="5"/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
-            <TextBlock Grid.Row="0" Grid.ColumnSpan="5" Foreground="Purple" Margin="0,0,0,5" Grid.RowSpan="2">Step 1: Select and Configure a DMX Adapter/Protocol</TextBlock>
+            <TextBlock Grid.Row="0" Grid.ColumnSpan="5" Foreground="Purple" Margin="0,0,0,5" Grid.RowSpan="2">Step 1: Select How DMX Events will be Triggered</TextBlock>
             <Button Grid.Row="0" Grid.Column="4" Grid.ColumnSpan="3" FontSize="12" Command="{Binding Path='Help'}" ToolTip="Help" Style="{StaticResource ResourceKey=LinkButton}">Help</Button>
-            <TextBlock Grid.Row="2">Protocol:</TextBlock>
-            <ComboBox Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="3" ItemsSource="{Binding Path=Protocols}" DisplayMemberPath="Description" SelectedItem="{Binding Path=SelectedProtocol}"></ComboBox>
-            <Button Grid.Row="2" Grid.Column="6" Command="{Binding Path='EditSettings'}" ToolTip="Protocol Settings">
-                <Image Source="/DMXForGamers;component/Images/Gear16.png" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" />
-            </Button>
-            <TextBlock Grid.Row="4" Grid.ColumnSpan="5" Foreground="Purple" Margin="0,0,0,5" Grid.RowSpan="2">Step 2: Select How DMX Events will be Triggered</TextBlock>
-            <TabControl Grid.Row="6" Grid.ColumnSpan="8" SelectedIndex="{Binding Path=SelectedMonitorIndex}">
+            <TabControl Grid.Row="2" Grid.ColumnSpan="8" SelectedIndex="{Binding Path=SelectedMonitorIndex}">
                 <TabItem Header="New Process Monitor">
                     <StackPanel>
                         <TextBlock Foreground="Blue">Trigger events from standard output (stdout) of an application...</TextBlock>
@@ -82,34 +76,43 @@
                     <TextBlock Foreground="Blue">Manual triggering of events only...</TextBlock>
                 </TabItem>
             </TabControl>
-            <TextBlock Grid.Row="8" Grid.ColumnSpan="5" Foreground="Purple">Step 3: Define DMX Events and Resulting DMX Outputs</TextBlock>
-            <TextBlock Grid.Row="10">Events File:</TextBlock>
-            <common:FileTextBox Grid.Row="10" Grid.Column="2" FilePath="{Binding Path=EventsFile}" Filter="Events File|*.dge|XML File|*.xml|All Files|*.*"></common:FileTextBox>
-            <Button Grid.Row="10" Grid.Column="4" Command="{Binding Path='EditEvents'}" ToolTip="Edit">
+            <TextBlock Grid.Row="4" Grid.ColumnSpan="5" Foreground="Purple">Step 2: Define DMX Events and Resulting DMX Outputs</TextBlock>
+            <TextBlock Grid.Row="6">Events File:</TextBlock>
+            <common:FileTextBox Grid.Row="6" Grid.Column="2" FilePath="{Binding Path=EventsFile}" Filter="Events File|*.dge|XML File|*.xml|All Files|*.*"></common:FileTextBox>
+            <Button Grid.Row="6" Grid.Column="4" Command="{Binding Path='EditEvents'}" ToolTip="Edit">
                 <Image Source="/DMXForGamers;component/Images/Edit16.png" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" />
             </Button>
-            <Button Grid.Row="10" Grid.Column="6" Command="{Binding Path='NewEvents'}" ToolTip="New">
+            <Button Grid.Row="6" Grid.Column="6" Command="{Binding Path='NewEvents'}" ToolTip="New">
                 <Image Source="/DMXForGamers;component/Images/New16.png" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" />
             </Button>
-            <TextBlock Grid.Row="12">DMX File:</TextBlock>
-            <common:FileTextBox Grid.Row="12" Grid.Column="2" FilePath="{Binding Path=DMXFile}" Filter="DMX File|*.dgd|XML File|*.xml|All Files|*.*"></common:FileTextBox>
-            <Button Grid.Row="12" Grid.Column="4" Command="{Binding Path='EditDMXEvents'}" ToolTip="Edit">
+            <TextBlock Grid.Row="8">DMX File:</TextBlock>
+            <common:FileTextBox Grid.Row="8" Grid.Column="2" FilePath="{Binding Path=DMXFile}" Filter="DMX File|*.dgd|XML File|*.xml|All Files|*.*"></common:FileTextBox>
+            <Button Grid.Row="8" Grid.Column="4" Command="{Binding Path='EditDMXEvents'}" ToolTip="Edit">
                 <Image Source="/DMXForGamers;component/Images/Edit16.png" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" />
             </Button>
-            <Button Grid.Row="12" Grid.Column="6" Command="{Binding Path='NewDMXEvents'}" ToolTip="New">
+            <Button Grid.Row="8" Grid.Column="6" Command="{Binding Path='NewDMXEvents'}" ToolTip="New">
                 <Image Source="/DMXForGamers;component/Images/New16.png" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            </Button>
+            <TextBlock Grid.Row="10" Grid.ColumnSpan="5" Foreground="Purple" Margin="0,0,0,5" Grid.RowSpan="2">Step 3: Select and Configure a DMX Adapter/Protocol and Options</TextBlock>
+            <TextBlock Grid.Row="12">Protocol:</TextBlock>
+            <ComboBox Grid.Row="12" Grid.Column="2" Grid.ColumnSpan="3" ItemsSource="{Binding Path=Protocols}" DisplayMemberPath="Description" SelectedItem="{Binding Path=SelectedProtocol}"></ComboBox>
+            <Button Grid.Row="12" Grid.Column="6" Command="{Binding Path='EditSettings'}" ToolTip="Protocol Settings">
+                <Image Source="/DMXForGamers;component/Images/Gear16.png" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" />
             </Button>
             <Grid Grid.Row="14" Grid.Column="2" Grid.ColumnSpan="6">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="50" />
+                    <ColumnDefinition Width="20" />
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="5" />
                     <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="20" />
+                    <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <CheckBox Grid.Column="0" IsChecked="{Binding Path=EnabledRemote}">Enabled Web Remote Control</CheckBox>
+                <CheckBox Grid.Column="0" IsChecked="{Binding Path=EnabledRemote}">Enable Web Remote Control</CheckBox>
                 <Label Grid.Column="2" IsEnabled="{Binding Path=EnabledRemote}" Padding="5,0">Remote Port:</Label>
                 <tk:IntegerUpDown Grid.Column="4" Value="{Binding Path=RemotePort}" Width="75" Minimum="0" Maximum="65535" IsEnabled="{Binding Path=EnabledRemote}"/>
+                <Button Grid.Column="6" Grid.ColumnSpan="3" FontSize="12" Command="{Binding Path='Help'}" CommandParameter="1" Style="{StaticResource ResourceKey=LinkButton}">What is this?</Button>
             </Grid>
             <TextBlock Grid.Row="16" Grid.ColumnSpan="5" Foreground="Purple">Step 4: Run it!</TextBlock>
             <TabControl Grid.Row="18" Grid.ColumnSpan="8">

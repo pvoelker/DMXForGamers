@@ -75,9 +75,14 @@ namespace DMXForGamers
 
             m_Data.Help = new RelayCommand(x =>
             {
+                var helpTopic = x as string;
+
                 var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
                 var chmPath = Path.Combine(path, "DMXForGamersHelp.chm");
-                System.Windows.Forms.Help.ShowHelp(null, chmPath/*, HelpNavigator.Topic, helpTopic*/);
+                if(helpTopic == null)
+                    System.Windows.Forms.Help.ShowHelp(null, chmPath);
+                else
+                    System.Windows.Forms.Help.ShowHelp(null, chmPath, System.Windows.Forms.HelpNavigator.TopicId, helpTopic);
             });
 
             m_Data.EditSettings = new RelayCommand(x =>
