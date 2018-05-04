@@ -253,7 +253,13 @@ namespace DMXForGamers.Models
                         errorStr.AppendLine("DMX File Path is required");
                     }
                 }
-
+                if ((columnName == nameof(RemotePort)) || (columnName == null))
+                {
+                    if (RemotePort == 0)
+                    {
+                        errorStr.AppendLine("Remote Port must be greater than 0");
+                    }
+                }
                 return (errorStr.Length == 0) ? null : errorStr.ToString();
             }
         }

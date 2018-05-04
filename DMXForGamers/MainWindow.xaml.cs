@@ -339,6 +339,12 @@ namespace DMXForGamers
                         "Unable to Start", MessageBoxButton.OK, MessageBoxImage.Exclamation);
                     StopButton_Click(this, null);
                 }
+                else if ((m_Data.EnabledRemote == true) && (m_Data.RemotePort == 0))
+                {
+                    MessageBox.Show("Remote Port must be greater than 0",
+                        "Unable to Start", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                    StopButton_Click(this, null);
+                }
                 else
                 {
                     var dmxEvents = DMXEventsFile.LoadFile(m_Data.DMXFile);
