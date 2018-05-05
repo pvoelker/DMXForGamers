@@ -13,6 +13,6 @@
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
         <TextBox Grid.Column="0" IsReadOnly="False" MouseDoubleClick="TextBox_MouseDoubleClick" Text="{Binding Path=DirectoryPath, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:DirectoryTextBox}}}" />
-        <Button Grid.Column="5" Click="Button_Click" Padding="5,0">...</Button>
+        <Button Grid.Column="2" Click="Button_Click" Padding="5,0">...</Button>
     </Grid>
 </UserControl>
