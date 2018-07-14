@@ -117,6 +117,9 @@
     <Compile Include="Views\Common\DirectoryTextBox.xaml.cs">
       <DependentUpon>DirectoryTextBox.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Common\DocTextBox.xaml.cs">
+      <DependentUpon>DocTextBox.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Common\FileTextBox.xaml.cs">
       <DependentUpon>FileTextBox.xaml</DependentUpon>
     </Compile>
@@ -153,6 +156,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Common\Bar.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Common\DocTextBox.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -297,6 +304,9 @@
   <ItemGroup>
     <Resource Include="Images\SortAsc16.png" />
     <Resource Include="Images\SortAsc32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Open16.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

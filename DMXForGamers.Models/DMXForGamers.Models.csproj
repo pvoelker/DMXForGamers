@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="Bases\NotifyPropertyChangedBase.cs" />
     <Compile Include="Bases\NotifyPropertyChangedWithErrorInfoBase.cs" />
+    <Compile Include="Bases\NestedRelayCommand.cs" />
     <Compile Include="Bases\RelayCommand.cs" />
     <Compile Include="DMXChannel.cs" />
     <Compile Include="DMXDefinitions.cs" />

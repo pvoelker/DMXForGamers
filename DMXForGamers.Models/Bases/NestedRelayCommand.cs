@@ -3,21 +3,23 @@ using System.Windows.Input;
 
 namespace DMXForGamers.Models
 {
-    public class RelayCommand : ICommand
+    public class NestedRelayCommand : ICommand
     {
+        private ICommand innerCommand;
+
         private Action<object> execute;
 
         private Predicate<object> canExecute;
 
         private event EventHandler CanExecuteChangedInternal;
 
-        public RelayCommand(Action<object> execute)
-            : this(execute, DefaultCanExecute)
+        public NestedRelayCommand(ICommand innerCommand, Action<object> execute, Predicate<object> canExecute)
         {
-        }
+            if (innerCommand == null)
+            {
+                throw new ArgumentNullException("innerCommand");
+            }
 
-        public RelayCommand(Action<object> execute, Predicate<object> canExecute)
-        {
             if (execute == null)
             {
                 throw new ArgumentNullException("execute");
@@ -30,6 +32,14 @@ namespace DMXForGamers.Models
 
             this.execute = execute;
             this.canExecute = canExecute;
+
+            this.innerCommand = innerCommand;
+            this.innerCommand.CanExecuteChanged += InnerCommand_CanExecuteChanged;
+        }
+
+        private void InnerCommand_CanExecuteChanged(object sender, EventArgs e)
+        {
+            OnCanExecuteChanged();
         }
 
         public event EventHandler CanExecuteChanged
@@ -49,7 +59,7 @@ namespace DMXForGamers.Models
 
         public bool CanExecute(object parameter)
         {
-            return this.canExecute != null && this.canExecute(parameter);
+            return this.canExecute != null && this.canExecute(parameter) && innerCommand.CanExecute(parameter);
         }
 
         public void Execute(object parameter)
@@ -62,20 +72,16 @@ namespace DMXForGamers.Models
             var handler = this.CanExecuteChangedInternal;
             if (handler != null)
             {
-                //DispatcherHelper.BeginInvokeOnUIThread(() => handler.Invoke(this, EventArgs.Empty));
                 handler.Invoke(this, EventArgs.Empty);
             }
         }
 
         public void Destroy()
         {
+            this.innerCommand.CanExecuteChanged -= InnerCommand_CanExecuteChanged;
+
             this.canExecute = _ => false;
             this.execute = _ => { return; };
-        }
-
-        private static bool DefaultCanExecute(object parameter)
-        {
-            return true;
         }
     }
 }

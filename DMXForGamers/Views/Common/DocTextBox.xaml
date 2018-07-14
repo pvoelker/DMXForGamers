@@ -1,0 +1,30 @@
+﻿<UserControl x:Class="DMXForGamers.Views.Common.DocTextBox"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:DMXForGamers.Views.Common"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="5"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="5"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="5"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <TextBox Grid.Column="0" IsReadOnly="True" MouseDoubleClick="TextBox_MouseDoubleClick" Text="{Binding Path=FilePath, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:DocTextBox}}}" />
+        <Button Grid.Column="2" Click="Open_Click" ToolTip="Open">
+            <Image Source="/DMXForGamers;component/Images/Open16.png" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" />
+        </Button>
+        <Button Grid.Column="4" Click="New_Click" ToolTip="New">
+            <Image Source="/DMXForGamers;component/Images/New16.png" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" />
+        </Button>
+        <Button Grid.Column="6" Command="{Binding Path=EditCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:DocTextBox}}}" ToolTip="Edit">
+            <Image Source="/DMXForGamers;component/Images/Edit16.png" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" />
+        </Button>
+    </Grid>
+</UserControl>
