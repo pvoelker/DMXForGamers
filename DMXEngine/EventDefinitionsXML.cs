@@ -84,7 +84,21 @@ namespace DMXEngine
 		{
 			get { return _continuous; }
 			set { _continuous = value; }
-		}		
-	}
+		}
+
+        private string _soundFileName;
+        public string SoundFileName
+        {
+            get { return _soundFileName; }
+            set { _soundFileName = value; }
+        }
+
+        private byte[] _soundData;
+        public byte[] SoundData
+        {
+            get { return _soundData; }
+            set { _soundData = value; }
+        }
+    }
 }
 

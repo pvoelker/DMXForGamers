@@ -12,7 +12,7 @@
             <ColumnDefinition Width="5"/>
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
-        <TextBox Grid.Column="0" IsReadOnly="False" MouseDoubleClick="TextBox_MouseDoubleClick" Text="{Binding Path=FilePath, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:FileTextBox}}}" />
+        <TextBox Grid.Column="0" IsReadOnly="{Binding Path=FreeEdit, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:FileTextBox}}}" MouseDoubleClick="TextBox_MouseDoubleClick" Text="{Binding Path=FilePath, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:FileTextBox}}}" />
         <Button Grid.Column="2" Click="Button_Click" Padding="5,0">...</Button>
     </Grid>
 </UserControl>
