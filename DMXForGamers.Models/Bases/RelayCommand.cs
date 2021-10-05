@@ -20,12 +20,12 @@ namespace DMXForGamers.Models
         {
             if (execute == null)
             {
-                throw new ArgumentNullException("execute");
+                throw new ArgumentNullException(nameof(execute));
             }
 
             if (canExecute == null)
             {
-                throw new ArgumentNullException("canExecute");
+                throw new ArgumentNullException(nameof(canExecute));
             }
 
             this.execute = execute;

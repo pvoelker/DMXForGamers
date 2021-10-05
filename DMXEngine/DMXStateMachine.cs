@@ -56,9 +56,9 @@ namespace DMXEngine
         public DMXStateMachine(DMX dmx, IDMXCommunication dmxComm, Action<DMXChannelChange> channelChange, Action<EventChange> eventChange)
         {
             if (dmx == null)
-                throw new ArgumentNullException("dmx");
+                throw new ArgumentNullException(nameof(dmx));
             if (dmxComm == null)
-                throw new ArgumentNullException("dmxComm");
+                throw new ArgumentNullException(nameof(dmxComm));
 
             _dmx = dmx;
 
