@@ -567,14 +567,15 @@ namespace DMXForGamers
         {
             var localIPs = Dns.GetHostAddresses(Dns.GetHostName());
 
-            var addr = localIPs.SingleOrDefault(x => x.AddressFamily == AddressFamily.InterNetwork);
+            // PEV - 10/6/2021 - This is a temporary fix until I can properly address the issue when virtual ethernet/multiple valid ports are present
+            var addr = localIPs.FirstOrDefault(x => x.AddressFamily == AddressFamily.InterNetwork);
 
             if (addr != null)
             {
                 return addr.ToString();
             }
 
-            addr = localIPs.SingleOrDefault(x => x.AddressFamily == AddressFamily.InterNetworkV6);
+            addr = localIPs.FirstOrDefault(x => x.AddressFamily == AddressFamily.InterNetworkV6);
 
             if (addr != null)
             {

@@ -43,7 +43,7 @@
         <TextBlock Grid.Row="4" Grid.Column="0" TextAlignment="Right">Repeat Count:</TextBlock>
         <TextBox Grid.Row="4" Grid.Column="2" Width="100" HorizontalAlignment="Left" Text="{Binding Path='RepeatCount', ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" Validation.ErrorTemplate="{StaticResource ResourceKey=errorTemplateSilverlightStyle}"></TextBox>
         <TextBlock Grid.Row="6" Grid.Column="0" TextAlignment="Right">Sound:</TextBlock>
-        <common:FileTextBox Grid.Row="6" Grid.Column="2" FreeEdit="False" Filter="Sound (WAV) file |*.wav" ReadData="True" FileNameOnly="True" FilePath="{Binding Path='SoundFileName'}" FileData="{Binding Path='SoundData'}"/>
+        <common:FileTextBox Grid.Row="6" Grid.Column="2" FreeEdit="False" Filter="Sound (WAV) file |*.wav|MP3 file |*.mp3" ReadData="True" FileNameOnly="True" FilePath="{Binding Path='SoundFileName'}" FileData="{Binding Path='SoundData'}" FileSizeByteLimit="10240000" />
         <ItemsControl Grid.Row="8" Grid.ColumnSpan="5" ItemsSource="{Binding Path=TimeBlocks}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>

@@ -1,8 +1,10 @@
-﻿using System;
+﻿using NAudio.Wave;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using DMXCommunication;
+using System.IO;
 
 namespace DMXEngine
 {
@@ -46,6 +48,7 @@ namespace DMXEngine
 
     public class DMXStateMachine : IDisposable
     {
+        private WaveOut _waveOut;
         private DMX _dmx;
         private IDMXCommunication _dmxComm;
         private Dictionary<string, ActiveEvent> _activeEvents = new Dictionary<string, ActiveEvent>();
@@ -195,6 +198,24 @@ namespace DMXEngine
                     {
                         _eventChangeQueue.AddToQueue(new EventChange(eventName, true));
                     }
+
+                    if (foundEvent.SoundData != null && foundEvent.SoundData.Length > 0)
+                    {
+                        var fileExt = Path.GetExtension(foundEvent.SoundFileName);
+
+                        var stream = GetWaveStream(fileExt, foundEvent.SoundData);
+
+                        // PEV - 10/6/2021 - This isn't great and only allows for one sound file to play at a time
+                        if (_waveOut != null)
+                        {
+                            _waveOut.Stop();
+                            _waveOut.Dispose();
+                            _waveOut = null;
+                        }
+                        _waveOut = new WaveOut();
+                        _waveOut.Init(stream);
+                        _waveOut.Play();
+                    }
                 }
             }
         }
@@ -206,6 +227,14 @@ namespace DMXEngine
                 var foundEvent = _dmx.Events.Find(x => String.Compare(x.EventID, eventName, true) == 0);
                 if (foundEvent != null)
                 {
+                    if (foundEvent.SoundData != null && foundEvent.SoundData.Length > 0)
+                    {
+                        if (_waveOut != null)
+                        {
+                            _waveOut.Stop();
+                        }
+                    }
+
                     _activeEvents.Remove(eventName);
 
                     if (_eventChangeQueue != null)
@@ -213,6 +242,23 @@ namespace DMXEngine
                         _eventChangeQueue.AddToQueue(new EventChange(eventName, false));
                     }
                 }
+            }
+        }
+
+        private WaveStream GetWaveStream(string fileExt, byte[] soundData)
+        {
+            WaveStream stream = null;
+            if (fileExt.ToLower() == ".wav")
+            {
+                return new WaveFileReader(new MemoryStream(soundData));
+            }
+            else if (fileExt.ToLower() == ".mp3")
+            {
+                return new Mp3FileReader(new MemoryStream(soundData));
+            }
+            else
+            {
+                throw new Exception($"Unknown file format ({fileExt})");
             }
         }
 
@@ -241,6 +287,12 @@ namespace DMXEngine
                     {
                         _channelChangeQueue.AddToQueue(new DMXChannelChange(i, 0));
                     }
+                }
+
+                if(_waveOut != null)
+                {
+                    _waveOut.Dispose();
+                    _waveOut = null;
                 }
 
                 // Free managed resources
