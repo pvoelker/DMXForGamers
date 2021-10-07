@@ -192,6 +192,11 @@ namespace DMXEngine
                 var foundEvent = _dmx.Events.Find(x => String.Compare(x.EventID, eventName, true) == 0);
                 if (foundEvent != null)
                 {
+                    if (_dmx.AllowOneActiveEvent)
+                    {
+                        ClearAllActiveEvents();
+                    }
+
                     _activeEvents.Add(eventName, new ActiveEvent(DateTime.Now, foundEvent.RepeatCount, continuous));
 
                     if (_eventChangeQueue != null)
@@ -247,7 +252,6 @@ namespace DMXEngine
 
         private WaveStream GetWaveStream(string fileExt, byte[] soundData)
         {
-            WaveStream stream = null;
             if (fileExt.ToLower() == ".wav")
             {
                 return new WaveFileReader(new MemoryStream(soundData));
@@ -260,6 +264,18 @@ namespace DMXEngine
             {
                 throw new Exception($"Unknown file format ({fileExt})");
             }
+        }
+
+        private void ClearAllActiveEvents()
+        {
+            foreach (var element in _activeEvents)
+            {
+                if (_eventChangeQueue != null)
+                {
+                    _eventChangeQueue.AddToQueue(new EventChange(element.Key, false));
+                }
+            }
+            _activeEvents.Clear();
         }
 
         #region IDisposable implementation

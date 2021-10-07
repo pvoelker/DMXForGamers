@@ -14,6 +14,13 @@ namespace DMXEngine
             set { _description = value; }
         }
 
+        private bool _allowOneActiveEvent;
+        public bool AllowOneActiveEvent
+        {
+            get { return _allowOneActiveEvent; }
+            set { _allowOneActiveEvent = value; }
+        }
+
         private List<DMXValue> _baseDMXValues = new List<DMXValue>();
         public List<DMXValue> BaseDMXValues
         {

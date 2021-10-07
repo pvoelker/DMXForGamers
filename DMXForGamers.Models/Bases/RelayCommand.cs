@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Threading;
+using System.Windows;
 using System.Windows.Input;
+using System.Windows.Threading;
 
 namespace DMXForGamers.Models
 {
@@ -54,7 +57,16 @@ namespace DMXForGamers.Models
 
         public void Execute(object parameter)
         {
-            this.execute(parameter);
+            var dispatcher = Dispatcher.FromThread(Thread.CurrentThread);
+            if(dispatcher == null)
+            {
+                Application.Current.Dispatcher.Invoke(() => this.execute(parameter));
+            }
+            else
+            {
+                dispatcher.Invoke(() => this.execute(parameter));
+            }
+            
         }
 
         public void OnCanExecuteChanged()

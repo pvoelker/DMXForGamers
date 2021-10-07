@@ -20,6 +20,8 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="10" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="10" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -29,7 +31,8 @@
         </Grid.ColumnDefinitions>
         <TextBlock Grid.Row="0" Grid.Column="0" TextAlignment="Right">Description:</TextBlock>
         <TextBox Grid.Row="0" Grid.Column="2" Text="{Binding Path=Description}"></TextBox>
-        <TabControl Grid.Row="2" Grid.ColumnSpan="3">
+        <CheckBox Grid.Row="2" Grid.Column="2" IsChecked="{Binding Path=AllowOneActiveEvent}">Only allow one active event at a time</CheckBox> 
+        <TabControl Grid.Row="4" Grid.ColumnSpan="3">
             <TabItem Header="Events">
                 <Grid>
                     <Grid.RowDefinitions>
