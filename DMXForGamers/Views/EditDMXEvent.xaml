@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DMXForGamers.Views"
              xmlns:tk="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit"
+             xmlns:common="clr-namespace:DMXForGamers.Views.Common"
              mc:Ignorable="d" 
              d:DesignHeight="250" d:DesignWidth="300">
     <UserControl.Resources>
@@ -16,6 +17,8 @@
     </UserControl.Resources>    
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="5" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="5" />
             <RowDefinition Height="Auto" />
@@ -39,7 +42,9 @@
         <TextBox Grid.Row="2" Grid.Column="2" Width="100" HorizontalAlignment="Left" Text="{Binding Path='TimeSpan'}"></TextBox>
         <TextBlock Grid.Row="4" Grid.Column="0" TextAlignment="Right">Repeat Count:</TextBlock>
         <TextBox Grid.Row="4" Grid.Column="2" Width="100" HorizontalAlignment="Left" Text="{Binding Path='RepeatCount', ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" Validation.ErrorTemplate="{StaticResource ResourceKey=errorTemplateSilverlightStyle}"></TextBox>
-        <ItemsControl Grid.Row="6" Grid.ColumnSpan="5" ItemsSource="{Binding Path=TimeBlocks}">
+        <TextBlock Grid.Row="6" Grid.Column="0" TextAlignment="Right">Sound:</TextBlock>
+        <common:FileTextBox Grid.Row="6" Grid.Column="2" FreeEdit="False" Filter="Sound (WAV) file |*.wav|MP3 file |*.mp3" ReadData="True" FileNameOnly="True" FilePath="{Binding Path='SoundFileName'}" FileData="{Binding Path='SoundData'}" FileSizeByteLimit="10240000" />
+        <ItemsControl Grid.Row="8" Grid.ColumnSpan="5" ItemsSource="{Binding Path=TimeBlocks}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <WrapPanel />
@@ -60,19 +65,19 @@
                 </ControlTemplate>
             </ItemsControl.Template>
         </ItemsControl>
-        <Button Grid.Row="8" Grid.Column="0" Command="{Binding Path='AddTimeBlock'}" HorizontalAlignment="Left">
+        <Button Grid.Row="10" Grid.Column="0" Command="{Binding Path='AddTimeBlock'}" HorizontalAlignment="Left">
             <StackPanel Orientation="Horizontal">
                 <Image Source="/DMXForGamers;component/Images/Add16.png" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" />
                 <TextBlock Margin="5,0,0,0">Add Time Block</TextBlock>
             </StackPanel>
         </Button>
-        <Button Grid.Row="8" Grid.Column="2" Command="{Binding Path='SortTimeBlocks'}" HorizontalAlignment="Right">
+        <Button Grid.Row="10" Grid.Column="2" Command="{Binding Path='SortTimeBlocks'}" HorizontalAlignment="Right">
             <StackPanel Orientation="Horizontal">
                 <Image Source="/DMXForGamers;component/Images/SortAsc16.png" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" />
                 <TextBlock Margin="5,0,0,0">Sort Time Blocks</TextBlock>
             </StackPanel>
         </Button>
-        <Button Grid.Row="8" Grid.Column="4">
+        <Button Grid.Row="10" Grid.Column="4">
             <Image Source="/DMXForGamers;component/Images/Delete16.png" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" />
             <Button.InputBindings>
                 <MouseBinding Gesture="LeftDoubleClick" Command="{Binding Path='DeleteEvent'}" CommandParameter="{Binding}" />

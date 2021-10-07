@@ -84,7 +84,7 @@ namespace DMXEngine
 		{
 			get { return _continuous; }
 			set { _continuous = value; }
-		}		
-	}
+		}
+    }
 }
 

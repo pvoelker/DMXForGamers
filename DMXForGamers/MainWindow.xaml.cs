@@ -434,7 +434,7 @@ namespace DMXForGamers
                             MessageBox.Show(ex.ToString(), "Unable to Start Web Server", MessageBoxButton.OK, MessageBoxImage.Warning);
                         }
 
-                        m_Data.RunningText = "Remote Control: http://" + GetLocalIP() + ":" + m_Data.RemotePort;
+                        m_Data.RunningText = "Remote Control: http://" + string.Join(",", GetLocalIPs()) + ":" + m_Data.RemotePort;
                     }
                 }
             }
@@ -563,22 +563,24 @@ namespace DMXForGamers
             }
         }
 
-        private static string GetLocalIP()
+        private static IEnumerable<string> GetLocalIPs()
         {
             var localIPs = Dns.GetHostAddresses(Dns.GetHostName());
 
-            var addr = localIPs.SingleOrDefault(x => x.AddressFamily == AddressFamily.InterNetwork);
+            var retVal = new List<string>();
 
-            if (addr != null)
+            retVal.AddRange(localIPs.Where(x => x.AddressFamily == AddressFamily.InterNetwork).Select(x => x.ToString()));
+
+            if (retVal.Count > 0)
             {
-                return addr.ToString();
+                return retVal;
             }
 
-            addr = localIPs.SingleOrDefault(x => x.AddressFamily == AddressFamily.InterNetworkV6);
+            retVal.AddRange(localIPs.Where(x => x.AddressFamily == AddressFamily.InterNetworkV6).Select(x => x.ToString()));
 
-            if (addr != null)
+            if (retVal.Count > 0)
             {
-                return addr.ToString();
+                return retVal;
             }
 
             return null;

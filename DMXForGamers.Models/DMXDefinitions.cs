@@ -37,6 +37,13 @@ namespace DMXForGamers.Models
             set { _description = value; AnnouncePropertyChanged(); }
         }
 
+        private bool _allowOneActiveEvent;
+        public bool AllowOneActiveEvent
+        {
+            get { return _allowOneActiveEvent; }
+            set { _allowOneActiveEvent = value; AnnouncePropertyChanged(); }
+        }
+
         private ObservableCollection<DMXValue> _baseDMXValues;
         public ObservableCollection<DMXValue> BaseDMXValues
         {

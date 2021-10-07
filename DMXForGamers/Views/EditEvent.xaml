@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:DMXForGamers.Views"
              xmlns:tk="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit"
              mc:Ignorable="d" 
-             d:DesignHeight="150" d:DesignWidth="300">
+             d:DesignHeight="160" d:DesignWidth="300">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -29,7 +29,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="10"/>
-            <ColumnDefinition Width="Auto" MinWidth="200"/>
+            <ColumnDefinition Width="210"/>
         </Grid.ColumnDefinitions>
         <TextBlock Grid.Row="0" Grid.Column="0" TextAlignment="Right">Event ID:</TextBlock>
         <TextBox Grid.Row="0" Grid.Column="2" Text="{Binding Path='EventID', ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" Validation.ErrorTemplate="{StaticResource ResourceKey=errorTemplateSilverlightStyle}"></TextBox>

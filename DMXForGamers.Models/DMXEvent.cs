@@ -56,6 +56,20 @@ namespace DMXForGamers.Models
             set { _repeatCount = value; AnnouncePropertyChanged(); }
         }
 
+        private string _soundFileName;
+        public string SoundFileName
+        {
+            get { return _soundFileName; }
+            set { _soundFileName = value; AnnouncePropertyChanged(); }
+        }
+
+        private byte[] _soundData;
+        public byte[] SoundData
+        {
+            get { return _soundData; }
+            set { _soundData = value; AnnouncePropertyChanged(); }
+        }
+
         private ObservableCollection<DMXTimeBlock> _timeBlocks;
         public ObservableCollection<DMXTimeBlock> TimeBlocks
         {

@@ -14,6 +14,13 @@ namespace DMXEngine
             set { _description = value; }
         }
 
+        private bool _allowOneActiveEvent;
+        public bool AllowOneActiveEvent
+        {
+            get { return _allowOneActiveEvent; }
+            set { _allowOneActiveEvent = value; }
+        }
+
         private List<DMXValue> _baseDMXValues = new List<DMXValue>();
         public List<DMXValue> BaseDMXValues
         {
@@ -75,6 +82,21 @@ namespace DMXEngine
         {
             get { return _timeBlocks; }
             set { _timeBlocks = value; }
+        }
+
+
+        private string _soundFileName;
+        public string SoundFileName
+        {
+            get { return _soundFileName; }
+            set { _soundFileName = value; }
+        }
+
+        private byte[] _soundData;
+        public byte[] SoundData
+        {
+            get { return _soundData; }
+            set { _soundData = value; }
         }
     }
 

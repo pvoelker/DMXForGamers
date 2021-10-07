@@ -133,7 +133,7 @@ namespace DMXCommunication
         {
             if ((channel < 1) || (channel > 512))
             {
-                throw new ArgumentOutOfRangeException("channel", channel, "Valid range is 1 through 512");
+                throw new ArgumentOutOfRangeException(nameof(channel), channel, "Valid range is 1 through 512");
             }
 
             if (_doneStarted == false)
