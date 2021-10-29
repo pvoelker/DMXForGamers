@@ -197,13 +197,7 @@ namespace DMXEngine
                         ClearAllActiveEvents();
                     }
 
-                    _activeEvents.Add(eventName, new ActiveEvent(DateTime.Now, foundEvent.RepeatCount, continuous));
-
-                    if (_eventChangeQueue != null)
-                    {
-                        _eventChangeQueue.AddToQueue(new EventChange(eventName, true));
-                    }
-
+                    // Start sound first before lighting event so the timing will be more consistent
                     if (foundEvent.SoundData != null && foundEvent.SoundData.Length > 0)
                     {
                         var fileExt = Path.GetExtension(foundEvent.SoundFileName);
@@ -220,6 +214,14 @@ namespace DMXEngine
                         _waveOut = new WaveOut();
                         _waveOut.Init(stream);
                         _waveOut.Play();
+                    }
+
+
+                    _activeEvents.Add(eventName, new ActiveEvent(DateTime.Now, foundEvent.RepeatCount, continuous));
+
+                    if (_eventChangeQueue != null)
+                    {
+                        _eventChangeQueue.AddToQueue(new EventChange(eventName, true));
                     }
                 }
             }
