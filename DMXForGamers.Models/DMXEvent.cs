@@ -19,7 +19,13 @@ namespace DMXForGamers.Models
 
             AddTimeBlock = new RelayCommand(() =>
             {
-                TimeBlocks.Add(new DMXTimeBlock());
+                int newStartTime = 0;
+                if (TimeBlocks.Count > 0)
+                {
+                    newStartTime = TimeBlocks.Max(x2 => x2.StartTime + x2.TimeSpan);
+                }
+
+                TimeBlocks.Add(new DMXTimeBlock { StartTime = newStartTime });
             });
 
             SortTimeBlocks = new RelayCommand(() =>

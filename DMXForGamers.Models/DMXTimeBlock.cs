@@ -19,7 +19,14 @@ namespace DMXForGamers.Models
 
             AddDMXValue = new RelayCommand(() =>
             {
-                DMXValues.Add(new DMXValue());
+                ushort newChannel = 1;
+                if (DMXValues.Count > 0)
+                {
+                    newChannel = DMXValues.Max(x2 => x2.Channel);
+                    newChannel++;
+                }
+
+                DMXValues.Add(new DMXValue { Channel = newChannel });
             });
 
             SortDMXValues = new RelayCommand(() =>
