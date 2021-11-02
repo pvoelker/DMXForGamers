@@ -77,13 +77,6 @@ namespace DMXForGamers.Models
             get { return (String.IsNullOrWhiteSpace(EventID) == true) ? "[No ID]" : EventID; }
         }
 
-        private int _timeSpan;
-        public int TimeSpan
-        {
-            get => _timeSpan;
-            set => SetProperty(ref _timeSpan, value, true);
-        }
-
         private int _repeatCount = 1;
         public int RepeatCount
         {
