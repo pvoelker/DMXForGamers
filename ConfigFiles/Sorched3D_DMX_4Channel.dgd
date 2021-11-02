@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <DMX xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Description>DMX configuration for Scorched3D for 4-channel DMX lights</Description>
+  <AllowOneActiveEvent>false</AllowOneActiveEvent>
   <BaseDMXValues>
     <DMXValue Channel="1" Value="255" Delta="0" />
     <DMXValue Channel="2" Value="63" Delta="0" />
@@ -20,7 +21,7 @@
     <DMXValue Channel="16" Value="63" Delta="0" />
   </BaseDMXValues>
   <Events>
-    <Event EventID="Game Start" TimeSpan="500" RepeatCount="10">
+    <Event EventID="Game Start" RepeatCount="10">
       <TimeBlocks>
         <TimeBlock StartTime="0" TimeSpan="500">
           <DMXValues>
@@ -31,8 +32,9 @@
           </DMXValues>
         </TimeBlock>
       </TimeBlocks>
+      <SoundData />
     </Event>
-    <Event EventID="Player Killed" TimeSpan="500" RepeatCount="8">
+    <Event EventID="Player Killed" RepeatCount="8">
       <TimeBlocks>
         <TimeBlock StartTime="0" TimeSpan="125">
           <DMXValues>
@@ -67,8 +69,9 @@
           </DMXValues>
         </TimeBlock>
       </TimeBlocks>
+      <SoundData />
     </Event>
-    <Event EventID="Winner" TimeSpan="1500" RepeatCount="4">
+    <Event EventID="Winner" RepeatCount="4">
       <TimeBlocks>
         <TimeBlock StartTime="0" TimeSpan="500">
           <DMXValues>
@@ -95,6 +98,7 @@
           </DMXValues>
         </TimeBlock>
       </TimeBlocks>
+      <SoundData />
     </Event>
   </Events>
 </DMX>
