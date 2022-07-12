@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27130.2036
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32611.2
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMXCommunication", "DMXCommunication\DMXCommunication.csproj", "{574E1761-FFDA-4D62-9444-EC23AD1E7E99}"
 EndProject
@@ -55,8 +55,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ConfigFiles", "ConfigFiles"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMXForGamersWeb", "DMXForGamersWeb\DMXForGamersWeb.csproj", "{B600EB00-2DBE-47B0-9E3C-D81A679EB30C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMXForGamers.Models", "DMXForGamers.Models\DMXForGamers.Models.csproj", "{6702EB60-74FE-480E-81A5-9EFB4962AF2A}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Install", "Install", "{16DB6150-CA65-482C-AE13-918B95CC1B91}"
 	ProjectSection(SolutionItems) = preProject
 		DMXForGamers.nsi = DMXForGamers.nsi
@@ -67,6 +65,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Help", "Help", "{8E5DF49E-8
 	ProjectSection(SolutionItems) = preProject
 		DMXForGamersHelp.sh5 = DMXForGamersHelp.sh5
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMXForGamers.Models", "DMXForGamers.Models\DMXForGamers.Models.csproj", "{6702EB60-74FE-480E-81A5-9EFB4962AF2A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

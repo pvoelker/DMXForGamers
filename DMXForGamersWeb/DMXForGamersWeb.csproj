@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>DMXForGamers.Web</RootNamespace>
     <AssemblyName>DMXForGamers.Web</AssemblyName>
-    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
     <NuGetPackageImportStamp>
@@ -71,7 +71,12 @@
     <Compile Include="Support\NewClientArgs.cs" />
     <Compile Include="Support\ThreadedProcessingQueue.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\DMXForGamers.Models\DMXForGamers.Models.csproj">
+      <Project>{6702eb60-74fe-480e-81a5-9efb4962af2a}</Project>
+      <Name>DMXForGamers.Models</Name>
+    </ProjectReference>
+  </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config">
@@ -81,12 +86,6 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Views\Main\Index.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\DMXForGamers.Models\DMXForGamers.Models.csproj">
-      <Project>{6702eb60-74fe-480e-81a5-9efb4962af2a}</Project>
-      <Name>DMXForGamers.Models</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="favicon.ico" />
