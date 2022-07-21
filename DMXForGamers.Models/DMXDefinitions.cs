@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.Input;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -7,195 +9,130 @@ using System.Windows.Input;
 
 namespace DMXForGamers.Models
 {
-    public class DMXDefinitions : NotifyPropertyChangedWithErrorInfoBase
+    public class DMXDefinitions : ObservableValidator
     {
         public DMXDefinitions()
         {
-            BaseDMXValues = new ObservableCollection<DMXValue>();
-            Events = new ObservableCollection<DMXEvent>();
+            BaseDMXValues.CollectionChanged += BaseDMXValues_CollectionChanged;
+            Events.CollectionChanged += Events_CollectionChanged;
 
-            AddBaseValue = new RelayCommand(x =>
+            AddBaseValue = new RelayCommand(() =>
             {
                 BaseDMXValues.Add(new DMXValue());
             });
 
-            AddEvent = new RelayCommand(x =>
+            AddEvent = new RelayCommand(() =>
             {
                 Events.Add(new DMXEvent());
             });
 
-            SortBaseDMXValues = new RelayCommand(x =>
+            SortBaseDMXValues = new RelayCommand(() =>
             {
-                BaseDMXValues = new ObservableCollection<DMXValue>(BaseDMXValues.OrderBy(y => y.Channel));
+                throw new NotImplementedException();
+                //BaseDMXValues = new ObservableCollection<DMXValue>(BaseDMXValues.OrderBy(y => y.Channel));
             });
+
+            ValidateAllProperties();
+        }
+
+        private void BaseDMXValues_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            var oldItems = e.OldItems?.Cast<DMXValue>();
+            var newItems = e.NewItems.Cast<DMXValue>();
+
+            if (oldItems != null)
+            {
+                foreach (var item in oldItems)
+                {
+                    item.DeleteDMXValue = null;
+                    item.ParentCollection = null;
+                }
+            }
+
+            foreach (var item in newItems)
+            {
+                item.DeleteDMXValue = new RelayCommand(() => BaseDMXValues.Remove(item));
+                item.ParentCollection = BaseDMXValues;
+            }
+        }
+
+        private void Events_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            var oldItems = e.OldItems?.Cast<DMXEvent>();
+            var newItems = e.NewItems.Cast<DMXEvent>();
+
+            if (oldItems != null)
+            {
+                foreach (var item in oldItems)
+                {
+                    item.DeleteEvent = null;
+                    item.ParentCollection = null;
+                }
+            }
+
+            foreach (var item in newItems)
+            {
+                item.DeleteEvent = new RelayCommand(() => Events.Remove(item));
+                item.ParentCollection = Events;
+            }
         }
 
         private string _description;
         public string Description
         {
-            get { return _description; }
-            set { _description = value; AnnouncePropertyChanged(); }
+            get => _description;
+            set => SetProperty(ref _description, value, true);
         }
 
         private bool _allowOneActiveEvent;
         public bool AllowOneActiveEvent
         {
-            get { return _allowOneActiveEvent; }
-            set { _allowOneActiveEvent = value; AnnouncePropertyChanged(); }
+            get => _allowOneActiveEvent;
+            set => SetProperty(ref _allowOneActiveEvent, value, true);
         }
 
-        private ObservableCollection<DMXValue> _baseDMXValues;
-        public ObservableCollection<DMXValue> BaseDMXValues
+        private DeepObservableCollection<DMXValue> _baseDMXValues = new DeepObservableCollection<DMXValue>(new List<string> { nameof(DMXValue.DeleteDMXValue), nameof(DMXValue.ParentCollection) });
+        public DeepObservableCollection<DMXValue> BaseDMXValues
         {
             get { return _baseDMXValues; }
-            set
-            {
-                if (_baseDMXValues != null)
-                {
-                    foreach (var item in _baseDMXValues)
-                    {
-                        var dmxValue = item as DMXValue;
-                        dmxValue.DeleteDMXValue = null;
-                        dmxValue.ParentCollection = null;
-                    }
-                    _baseDMXValues.CollectionChanged -= _baseDMXValues_CollectionChanged;
-                }
-                _baseDMXValues = value;
-                if (_baseDMXValues != null)
-                {
-                    foreach (var item in _baseDMXValues)
-                    {
-                        var dmxValue = item as DMXValue;
-                        dmxValue.DeleteDMXValue = new RelayCommand(x => _baseDMXValues.Remove((x as DMXValue)));
-                        dmxValue.ParentCollection = this.BaseDMXValues;
-                    }
-                    _baseDMXValues.CollectionChanged += _baseDMXValues_CollectionChanged;
-                }
-                AnnouncePropertyChanged();
-                OnPropertyChanged(nameof(UsedBaseChannels));
-            }
         }
 
         public IEnumerable<ushort> UsedBaseChannels { get { return BaseDMXValues.Select(x => x.Channel).Distinct(); } }
 
-        private void _baseDMXValues_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-        {
-            if (e.OldItems != null)
-            {
-                foreach (var item in e.OldItems)
-                {
-                    var dmxValue = item as DMXValue;
-                    dmxValue.DeleteDMXValue = null;
-                    dmxValue.ParentCollection = null;
-                }
-            }
-            if (e.NewItems != null)
-            {
-                foreach (var item in e.NewItems)
-                {
-                    var dmxValue = item as DMXValue;
-                    dmxValue.DeleteDMXValue = new RelayCommand(x => _baseDMXValues.Remove((x as DMXValue)));
-                    dmxValue.ParentCollection = this.BaseDMXValues;
-                }
-            }
-        }
-
-        private ObservableCollection<DMXEvent> _events;
-        public ObservableCollection<DMXEvent> Events
+        private DeepObservableCollection<DMXEvent> _events = new DeepObservableCollection<DMXEvent>(new List<string> { nameof(DMXEvent.DeleteEvent), nameof(DMXValue.ParentCollection) });
+        public DeepObservableCollection<DMXEvent> Events
         {
             get { return _events; }
-            set
-            {
-                if (_events != null)
-                {
-                    foreach (var item in _events)
-                    {
-                        var dmxEvent = item as DMXEvent;
-                        dmxEvent.DeleteEvent = null;
-                        dmxEvent.ParentCollection = null;
-                    }
-                    _events.CollectionChanged -= _events_CollectionChanged;
-                }
-                _events = value;
-                if (_events != null)
-                {
-                    foreach (var item in _events)
-                    {
-                        var dmxEvent = item as DMXEvent;
-                        dmxEvent.DeleteEvent = new RelayCommand(x => _events.Remove((x as DMXEvent)));
-                        dmxEvent.ParentCollection = Events;
-                    }
-                    _events.CollectionChanged += _events_CollectionChanged;
-                }
-                AnnouncePropertyChanged();
-                OnPropertyChanged(nameof(UsedEventChannels));
-            }
         }
 
         public IEnumerable<ushort> UsedEventChannels { get { return Events.SelectMany(x => x.TimeBlocks).SelectMany(x => x.DMXValues).Select(x => x.Channel).Distinct(); } }
 
-        private void _events_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-        {
-            if (e.OldItems != null)
-            {
-                foreach (var item in e.OldItems)
-                {
-                    var dmxEvent = item as DMXEvent;
-                    dmxEvent.DeleteEvent = null;
-                    dmxEvent.ParentCollection = null;
-                }
-            }
-            if (e.NewItems != null)
-            {
-                foreach (var item in e.NewItems)
-                {
-                    var dmxEvent = item as DMXEvent;
-                    dmxEvent.DeleteEvent = new RelayCommand(x => _events.Remove((x as DMXEvent)));
-                    dmxEvent.ParentCollection = Events;
-                }
-            }
-        }
-
         private ICommand _addBaseValue;
         public ICommand AddBaseValue
         {
-            get { return _addBaseValue; }
-            set { _addBaseValue = value; AnnouncePropertyChanged(); }
+            get => _addBaseValue;
+            set => SetProperty(ref _addBaseValue, value, nameof(AddBaseValue));
         }
 
         private ICommand _addEvent;
         public ICommand AddEvent
         {
-            get { return _addEvent; }
-            set { _addEvent = value; AnnouncePropertyChanged(); }
+            get => _addEvent;
+            set => SetProperty(ref _addEvent, value, nameof(AddEvent));
         }
 
         private ICommand _sortBaseDMXValues;
         public ICommand SortBaseDMXValues
         {
-            get { return _sortBaseDMXValues; }
-            set { _sortBaseDMXValues = value; AnnouncePropertyChanged(); }
+            get => _sortBaseDMXValues;
+            set => SetProperty(ref _sortBaseDMXValues, value, nameof(SortBaseDMXValues));
         }
 
-        #region IErrorInfo
-
-        public override string this[string columnName]
-        {
-            get
-            {
-                var errorStr = new StringBuilder();
-
-                return (errorStr.Length == 0) ? null : errorStr.ToString();
-            }
-        }
-
-        #endregion
-
-        override public IEnumerable<string> Validate()
+        public IEnumerable<string> Validate()
         {
             var errors = new List<string>();
 
-            errors.AddRange(Errors);
+            errors.AddRange(GetErrors().Select(x => x.ErrorMessage));
 
             #region Children
 
