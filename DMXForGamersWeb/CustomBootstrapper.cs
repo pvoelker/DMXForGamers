@@ -102,36 +102,34 @@ namespace DMXForGamers.Web
             base.ConfigureConventions(conventions);
         }
 
-
         public override void Configure(INancyEnvironment environment)
         {
 #if DEBUG
             environment.Diagnostics(true, "1234");
 #endif
+
             base.Configure(environment);
         }
 
-        // TO REMOVE
-        //protected override NancyInternalConfiguration InternalConfiguration
-        //{
-        //    get
-        //    {
-        //        return NancyInternalConfiguration.WithOverrides(OnConfigurationBuilder);
-        //    }
-        //}
-
-        void OnConfigurationBuilder(NancyInternalConfiguration x)
+        protected override Func<ITypeCatalog, NancyInternalConfiguration> InternalConfiguration
         {
-            x.ViewLocationProvider = typeof(ResourceViewLocationProvider);
+            get
+            {
+                return NancyInternalConfiguration.WithOverrides(x => x.ResourceAssemblyProvider = typeof(ResourceViewLocationProvider));
+            }
         }
 
-        // PEV - 4/6/2018 - This is needed because Dispose in the base class is NOT virutal in version 1.4.4
-        public void Cleanup()
+        protected override void Dispose(bool disposing)
         {
-            if (m_newClientQueue != null)
+            base.Dispose(disposing);
+
+            if (disposing)
             {
-                m_newClientQueue.Dispose();
-                m_newClientQueue = null;
+                if (m_newClientQueue != null)
+                {
+                    m_newClientQueue.Dispose();
+                    m_newClientQueue = null;
+                }
             }
         }
 

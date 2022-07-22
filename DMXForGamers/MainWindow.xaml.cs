@@ -415,15 +415,14 @@ namespace DMXForGamers
             }
             catch (Exception ex)
             {
+#if DEBUG
                 throw;
-//#if DEBUG
-//                throw;
-//#else
-//                MessageBox.Show("Unhandled exception occured.\n\nDetails: " + ex.Message,
-//                    "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+#else
+                MessageBox.Show("Unhandled exception occured.\n\nDetails: " + ex.Message,
+                    "Error", MessageBoxButton.OK, MessageBoxImage.Error);
 
-//                StopButton_Click(this, null);
-//#endif
+                StopButton_Click(this, null);
+#endif
             }
             finally
             {
@@ -442,7 +441,6 @@ namespace DMXForGamers
             if (_webHostBootstrapper != null)
             {
                 _webHostBootstrapper.Dispose();
-                (_webHostBootstrapper as CustomBootstrapper).Cleanup();
                 _webHostBootstrapper = null;
             }
 
