@@ -8,7 +8,6 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Data;
 using System.Windows.Input;
 
 namespace DMXForGamers.Models
@@ -165,7 +164,7 @@ namespace DMXForGamers.Models
             set => SetProperty(ref m_EnableRemote, value, true);
         }
 
-        private ushort m_RemotePort;
+        private ushort m_RemotePort = 80;
         [Range(1, ushort.MaxValue,
             ErrorMessage = "Remote Port must be greater than 0")]
         public ushort RemotePort

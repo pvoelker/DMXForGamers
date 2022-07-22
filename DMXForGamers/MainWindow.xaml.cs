@@ -401,7 +401,7 @@ namespace DMXForGamers
                                 return result == MessageBoxResult.Yes;
                             });
 
-                            _webHost = new Nancy.Hosting.Self.NancyHost(new Uri("http://localhost:" + m_Data.RemotePort), _webHostBootstrapper, hostConfig);
+                            _webHost = new NancyHost(new Uri("http://localhost:" + m_Data.RemotePort), _webHostBootstrapper, hostConfig);
                             _webHost.Start();
                         }
                         catch (Exception ex)
@@ -415,10 +415,15 @@ namespace DMXForGamers
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Unhandled exception occured.\n\nDetails: " + ex.Message,
-                    "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                throw;
+//#if DEBUG
+//                throw;
+//#else
+//                MessageBox.Show("Unhandled exception occured.\n\nDetails: " + ex.Message,
+//                    "Error", MessageBoxButton.OK, MessageBoxImage.Error);
 
-                StopButton_Click(this, null);
+//                StopButton_Click(this, null);
+//#endif
             }
             finally
             {
