@@ -1,5 +1,6 @@
 ﻿using Nancy;
 using Nancy.Bootstrapper;
+using Nancy.Configuration;
 using Nancy.Conventions;
 using Nancy.Diagnostics;
 using Nancy.Responses;
@@ -101,25 +102,23 @@ namespace DMXForGamers.Web
             base.ConfigureConventions(conventions);
         }
 
+
+        public override void Configure(INancyEnvironment environment)
+        {
 #if DEBUG
-
-        protected override DiagnosticsConfiguration DiagnosticsConfiguration
-        {
-            get
-            {
-                return new DiagnosticsConfiguration { Password = @"1234" };
-            }
-        }
-
+            environment.Diagnostics(true, "1234");
 #endif
-
-        protected override NancyInternalConfiguration InternalConfiguration
-        {
-            get
-            {
-                return NancyInternalConfiguration.WithOverrides(OnConfigurationBuilder);
-            }
+            base.Configure(environment);
         }
+
+        // TO REMOVE
+        //protected override NancyInternalConfiguration InternalConfiguration
+        //{
+        //    get
+        //    {
+        //        return NancyInternalConfiguration.WithOverrides(OnConfigurationBuilder);
+        //    }
+        //}
 
         void OnConfigurationBuilder(NancyInternalConfiguration x)
         {

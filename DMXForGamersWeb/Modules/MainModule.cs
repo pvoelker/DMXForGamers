@@ -15,14 +15,12 @@ namespace DMXForGamers.Web
     {
         public MainModule()
         {
-            Get["/"] = _ =>
+            Get("/", parameters =>
             {
-                //http://www.jhovgaard.com/from-aspnet-mvc-to-nancy-part-1/
-
                 return View["Index", Main.Instance];
-            };
+            });
 
-            Get["/events/{id}/enable"] = parameters =>
+            Get("/events/{id}/enable", parameters =>
             {
                 var eventID = (string)(parameters.id);
 
@@ -30,15 +28,15 @@ namespace DMXForGamers.Web
 
                 var foundEvent = data.Events.SingleOrDefault(x => String.Compare(x.EventID, eventID, true) == 0);
 
-                if(foundEvent != null)
+                if (foundEvent != null)
                 {
                     foundEvent.EventOn.Execute(eventID);
                 }
 
                 return @"{ ""success"":true }";
-            };
+            });
 
-            Get["/events/{id}/disable"] = parameters =>
+            Get("/events/{id}/disable", parameters =>
             {
                 var eventID = (string)(parameters.id);
 
@@ -52,7 +50,7 @@ namespace DMXForGamers.Web
                 }
 
                 return @"{ ""success"":true }";
-            };
+            });
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using DMXForGamers.Models;
 using Nancy;
 using Nancy.ErrorHandling;
-using Nancy.ViewEngines;
+using Nancy.ViewEngines.Razor;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,9 +15,9 @@ namespace DMXForGamers.Web
 
         public static IEnumerable<int> Checks { get { return _checks; } }
 
-        private IViewRenderer viewRenderer;
+        private IRazorViewRenderer viewRenderer;
 
-        public CustomStatusCode(IViewRenderer viewRenderer)
+        public CustomStatusCode(IRazorViewRenderer viewRenderer)
         {
             this.viewRenderer = viewRenderer;
         }
@@ -54,9 +54,10 @@ namespace DMXForGamers.Web
         {
             try
             {
-                var response = viewRenderer.RenderView(context, "Codes/" + (int)statusCode + ".cshtml", Main.Instance);
-                response.StatusCode = statusCode;
-                context.Response = response;
+                throw new NotImplementedException();
+                //var response = viewRenderer.Host.RenderView(context, "Codes/" + (int)statusCode + ".cshtml", Main.Instance);
+                //response.StatusCode = statusCode;
+                //context.Response = response;
             }
             catch (Exception)
             {
