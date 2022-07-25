@@ -11,8 +11,11 @@ namespace DMXEngine
             using (var stream = new StreamReader(path, true))
             {
                 if (stream.BaseStream.CanSeek == true)
+                {
                     stream.BaseStream.Seek(0, SeekOrigin.Begin);
-                XmlSerializer serializer = new XmlSerializer(typeof(EventDefinitions));
+                }
+
+                var serializer = new XmlSerializer(typeof(EventDefinitions));
                 return (EventDefinitions)serializer.Deserialize(stream);
             }
         }
@@ -21,7 +24,7 @@ namespace DMXEngine
         {
             using (var stream = new StreamWriter(path, false))
             {
-                XmlSerializer serializer = new XmlSerializer(typeof(EventDefinitions));
+                var serializer = new XmlSerializer(typeof(EventDefinitions));
                 serializer.Serialize(stream, data);
             }
         }
