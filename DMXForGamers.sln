@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32611.2
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMXCommunication", "DMXCommunication\DMXCommunication.csproj", "{574E1761-FFDA-4D62-9444-EC23AD1E7E99}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DMXCommunication", "DMXCommunication\DMXCommunication.csproj", "{574E1761-FFDA-4D62-9444-EC23AD1E7E99}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMXEngine", "DMXEngine\DMXEngine.csproj", "{58E6905D-9A37-4C12-9AB5-B268AAB823E2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DMXEngine", "DMXEngine\DMXEngine.csproj", "{58E6905D-9A37-4C12-9AB5-B268AAB823E2}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Images", "Images", "{2749FADA-4337-413E-8EFE-D2BDB95AF552}"
 	ProjectSection(SolutionItems) = preProject
@@ -45,7 +45,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Images", "Images", "{2749FA
 		Images\Warning.svg = Images\Warning.svg
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMXForGamers", "DMXForGamers\DMXForGamers.csproj", "{F8486EF4-2748-4E96-852D-7C50DD57D69B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DMXForGamers", "DMXForGamers\DMXForGamers.csproj", "{F8486EF4-2748-4E96-852D-7C50DD57D69B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ConfigFiles", "ConfigFiles", "{32EBFEB2-3831-445A-A231-44C6EDA60B9D}"
 	ProjectSection(SolutionItems) = preProject
@@ -53,7 +53,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ConfigFiles", "ConfigFiles"
 		ConfigFiles\Sorched3D_Events.dge = ConfigFiles\Sorched3D_Events.dge
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMXForGamersWeb", "DMXForGamersWeb\DMXForGamersWeb.csproj", "{B600EB00-2DBE-47B0-9E3C-D81A679EB30C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DMXForGamersWeb", "DMXForGamersWeb\DMXForGamersWeb.csproj", "{B600EB00-2DBE-47B0-9E3C-D81A679EB30C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Install", "Install", "{16DB6150-CA65-482C-AE13-918B95CC1B91}"
 	ProjectSection(SolutionItems) = preProject
@@ -66,7 +66,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Help", "Help", "{8E5DF49E-8
 		DMXForGamersHelp.sh5 = DMXForGamersHelp.sh5
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMXForGamers.Models", "DMXForGamers.Models\DMXForGamers.Models.csproj", "{6702EB60-74FE-480E-81A5-9EFB4962AF2A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DMXForGamers.Models", "DMXForGamers.Models\DMXForGamers.Models.csproj", "{6702EB60-74FE-480E-81A5-9EFB4962AF2A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -3,8 +3,6 @@ using DMXEngine;
 using DMXForGamers.Models;
 using DMXForGamers.Web;
 using Microsoft.Toolkit.Mvvm.Input;
-using Nancy.Bootstrapper;
-using Nancy.Hosting.Self;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -121,8 +119,7 @@ namespace DMXForGamers
         private Timer _dmxUpdateTimer = null;
         private const int MAX_LINE_COUNT = 100;
 
-        private INancyBootstrapper _webHostBootstrapper = null;
-        private NancyHost _webHost = null;
+        private SelfHost _webHost = null;
 
         private void LoadData()
         {
@@ -370,39 +367,36 @@ namespace DMXForGamers
 
                     m_Data.Events = new ObservableCollection<Models.EventDefinition>(events);
 
-                    var hostConfig = new Nancy.Hosting.Self.HostConfiguration();
-                    hostConfig.UrlReservations.CreateAutomatically = true;
-
                     if (m_Data.EnabledRemote == true)
                     {
                         try
                         {
-                            _webHostBootstrapper = new CustomBootstrapper(x =>
-                            {
-                                IPHostEntry hostInfo = null;
-                                try
-                                {
-                                    hostInfo = Dns.GetHostEntry(x.ClientAddress);
-                                }
-                                catch (SocketException)
-                                {
-                                    // Most likely host name could not be resolved, ignore and move on....
-                                }
-                                string msg;
-                                if (hostInfo == null)
-                                {
-                                    msg = String.Format("Address '{0}' is attempting to access remote control.  Do you want to grant access?", x.ClientAddress);
-                                }
-                                else
-                                {
-                                    msg = String.Format("Host '{0}' ({1}) is attempting to access remote control.  Do you want to grant access?", hostInfo.HostName, x.ClientAddress);
-                                }
-                                var result = MessageBox.Show(msg, "Grant or Deny Access", MessageBoxButton.YesNo, MessageBoxImage.Question);
-                                return result == MessageBoxResult.Yes;
-                            });
+                            //_webHostBootstrapper = new CustomBootstrapper(x =>
+                            //{
+                            //    IPHostEntry hostInfo = null;
+                            //    try
+                            //    {
+                            //        hostInfo = Dns.GetHostEntry(x.ClientAddress);
+                            //    }
+                            //    catch (SocketException)
+                            //    {
+                            //        // Most likely host name could not be resolved, ignore and move on....
+                            //    }
+                            //    string msg;
+                            //    if (hostInfo == null)
+                            //    {
+                            //        msg = String.Format("Address '{0}' is attempting to access remote control.  Do you want to grant access?", x.ClientAddress);
+                            //    }
+                            //    else
+                            //    {
+                            //        msg = String.Format("Host '{0}' ({1}) is attempting to access remote control.  Do you want to grant access?", hostInfo.HostName, x.ClientAddress);
+                            //    }
+                            //    var result = MessageBox.Show(msg, "Grant or Deny Access", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                            //    return result == MessageBoxResult.Yes;
+                            //});
 
-                            _webHost = new NancyHost(new Uri("http://localhost:" + m_Data.RemotePort), _webHostBootstrapper, hostConfig);
-                            _webHost.Start();
+                            _webHost = new SelfHost();
+                            _webHost.Start(m_Data.RemotePort).Wait();
                         }
                         catch (Exception ex)
                         {
@@ -415,14 +409,14 @@ namespace DMXForGamers
             }
             catch (Exception ex)
             {
-#if DEBUG
+//#if DEBUG
                 throw;
-#else
-                MessageBox.Show("Unhandled exception occured.\n\nDetails: " + ex.Message,
-                    "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-
-                StopButton_Click(this, null);
-#endif
+//#else
+//                MessageBox.Show("Unhandled exception occured.\n\nDetails: " + ex.Message,
+//                    "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+//
+//                StopButton_Click(this, null);
+//#endif
             }
             finally
             {
@@ -436,12 +430,6 @@ namespace DMXForGamers
             {
                 _webHost.Dispose();
                 _webHost = null;
-            }
-
-            if (_webHostBootstrapper != null)
-            {
-                _webHostBootstrapper.Dispose();
-                _webHostBootstrapper = null;
             }
 
             m_Data.IsRunning = false;
