@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -7,10 +9,11 @@ using System.Windows.Input;
 
 namespace DMXForGamers.Models
 {
-    public class EventDefinition : NotifyPropertyChangedWithErrorInfoBase
+    public class EventDefinition : ObservableValidator
     {
         public EventDefinition()
         {
+            ValidateAllProperties();
         }
 
         public IEnumerable<EventDefinition> ParentCollection { get; set; }
@@ -19,18 +22,20 @@ namespace DMXForGamers.Models
         public string Description
         {
             get { return _description; }
-            set { _description = value; AnnouncePropertyChanged(); }
+            set { SetProperty(ref _description, value, true); }
         }
 
         private string _eventID;
+        [Required(ErrorMessage = "Event ID is Required")]
+        [CustomValidation(typeof(EventDefinition), nameof(ValidateEventId))]
         public string EventID
         {
             get { return _eventID; }
             set
             {
-                _eventID = value;
-                AnnouncePropertyChanged();
+                SetProperty(ref _eventID, value, true);
                 OnPropertyChanged(nameof(FormattedEventID));
+                OnPropertyChanged(nameof(EventIDNoSpaces));
             }
         }
         public string FormattedEventID
@@ -42,7 +47,7 @@ namespace DMXForGamers.Models
         public bool State
         {
             get { return _state; }
-            set { _state = value; AnnouncePropertyChanged(); }
+            set { SetProperty(ref _state, value, true); }
         }
 
         public string EventIDNoSpaces
@@ -56,88 +61,91 @@ namespace DMXForGamers.Models
             get { return _useRegEx; }
             set
             {
-                _useRegEx = value;
-                AnnouncePropertyChanged();
-                OnPropertyChanged(nameof(Pattern)); // For error validation
+                SetProperty(ref _useRegEx, value, true);
+                ValidateProperty(_pattern, nameof(Pattern));
+                //OnPropertyChanged(nameof(Pattern)); // For error validation
             }
         }
 
         private string _pattern;
+        [CustomValidation(typeof(EventDefinition), nameof(ValidateRegexPattern))]
         public string Pattern
         {
             get { return _pattern; }
-            set { _pattern = value; AnnouncePropertyChanged(); }
+            set { SetProperty(ref _pattern, value, true); }
         }
 
         private bool _continuous;
         public bool Continuous
         {
             get { return _continuous; }
-            set { _continuous = value; AnnouncePropertyChanged(); }
+            set { SetProperty(ref _continuous, value, true); }
         }
 
         private ICommand _eventOn;
         public ICommand EventOn
         {
             get { return _eventOn; }
-            set { _eventOn = value; AnnouncePropertyChanged(); }
+            set { SetProperty(ref _eventOn, value, true); }
         }
 
         private ICommand _eventOff;
         public ICommand EventOff
         {
             get { return _eventOff; }
-            set { _eventOff = value; AnnouncePropertyChanged(); }
+            set { SetProperty(ref _eventOff, value, true); }
         }
 
         private ICommand _deleteEvent;
         public ICommand DeleteEvent
         {
             get { return _deleteEvent; }
-            set { _deleteEvent = value; AnnouncePropertyChanged(); }
+            set { SetProperty(ref _deleteEvent, value, true); }
         }
 
-        #region IErrorInfo
+        #region Custom validation
 
-        public override string this[string columnName]
+        public static ValidationResult ValidateEventId(string name, ValidationContext context)
         {
-            get
+            var instance = (EventDefinition)context.ObjectInstance;
+
+            if (instance.ParentCollection != null)
             {
-                var errorStr = new StringBuilder();
-
-                if ((columnName == nameof(EventID)) || (columnName == null))
+                var duplicateCount = instance.ParentCollection.Where(x => x != instance)
+                    .Count(x => String.Compare(x.EventID, instance.EventID) == 0);
+                if (duplicateCount > 0)
                 {
-                    if (String.IsNullOrWhiteSpace(EventID) == true)
-                    {
-                        errorStr.AppendLine("Event ID is required");
-                    }
-                    else
-                    {
-                        if (ParentCollection != null)
-                        {
-                            var duplicateCount = ParentCollection.Where(x => x != this).Count(x => String.Compare(x.EventID, this.EventID) == 0);
-                            if (duplicateCount > 0)
-                            {
-                                errorStr.AppendLine("Event ID is duplicated in another event");
-                            }
-                        }
-                    }
+                    return new ValidationResult("Event ID is duplicated in another event");
                 }
-                if ((columnName == nameof(Pattern)) || (columnName == null))
-                {
-                    if (UseRegEx == true)
-                    {
-                        if (String.IsNullOrWhiteSpace(Pattern) == true)
-                        {
-                            errorStr.AppendLine("Matching Pattern is required or disable Regular Expression option");
-                        }
-                    }
-                }
-
-                return (errorStr.Length == 0) ? null : errorStr.ToString();
             }
+
+            return ValidationResult.Success;
+        }
+
+        public static ValidationResult ValidateRegexPattern(string name, ValidationContext context)
+        {
+            var instance = (EventDefinition)context.ObjectInstance;
+
+            if (instance.UseRegEx == true)
+            {
+                if (String.IsNullOrWhiteSpace(instance.Pattern) == true)
+                {
+                    return new ValidationResult("Matching Pattern is required or disable Regular Expression option");
+                }
+            }
+
+            return ValidationResult.Success;
         }
 
         #endregion
+
+        public IEnumerable<string> Validate()
+        {
+            var errors = new List<string>();
+
+            errors.AddRange(GetErrors().Select(x => x.ErrorMessage));
+
+            return errors;
+        }
     }
 }

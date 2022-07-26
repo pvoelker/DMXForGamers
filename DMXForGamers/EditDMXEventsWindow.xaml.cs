@@ -29,7 +29,7 @@ namespace DMXForGamers
 
         private void Save_Button_Click(object sender, RoutedEventArgs e)
         {
-            var data = DataContext as Models.DMXDefinitions;
+            var data = DataContext as DMXDefinitions;
 
             var errors = data.Validate();
 

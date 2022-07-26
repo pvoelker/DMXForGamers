@@ -1,28 +1,44 @@
 ﻿using System;
-using System.IO;
+using System.Xml;
 using System.Xml.Serialization;
 
 namespace DMXEngine
 {
     public static class EventDefinitionsFile
     {
+        private static XmlSerializer _serializer = null;
+
+        static EventDefinitionsFile()
+        {
+            _serializer = new XmlSerializer(typeof(EventDefinitions));
+        }
+
         public static EventDefinitions LoadFile(string path)
         {
-            using (var stream = new StreamReader(path, true))
+            var settings = new XmlReaderSettings()
             {
-                if (stream.BaseStream.CanSeek == true)
-                    stream.BaseStream.Seek(0, SeekOrigin.Begin);
-                XmlSerializer serializer = new XmlSerializer(typeof(EventDefinitions));
-                return (EventDefinitions)serializer.Deserialize(stream);
+                ConformanceLevel = ConformanceLevel.Document
+            };
+
+            using (var xmlReader = XmlReader.Create(path, settings))
+            {
+                return (EventDefinitions)_serializer.Deserialize(xmlReader);
             }
         }
 
         public static void SaveFile(EventDefinitions data, string path)
         {
-            using (var stream = new StreamWriter(path, false))
+            var settings = new XmlWriterSettings()
             {
-                XmlSerializer serializer = new XmlSerializer(typeof(EventDefinitions));
-                serializer.Serialize(stream, data);
+                Encoding = System.Text.Encoding.UTF8,
+                NewLineChars = Environment.NewLine,
+                Indent = true,
+                ConformanceLevel = ConformanceLevel.Document
+            };
+
+            using (var xmlWriter = XmlWriter.Create(path, settings))
+            {
+                _serializer.Serialize(xmlWriter, data);
             }
         }
     }

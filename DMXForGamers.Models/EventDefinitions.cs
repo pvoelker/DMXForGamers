@@ -1,6 +1,9 @@
-﻿using System;
+﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.Input;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
@@ -9,113 +12,77 @@ using System.Windows.Input;
 
 namespace DMXForGamers.Models
 {
-    public class EventDefinitions : NotifyPropertyChangedWithErrorInfoBase
+    public class EventDefinitions : ObservableValidator
     {
         public EventDefinitions()
         {
-            Events = new ObservableCollection<EventDefinition>();
+            Events.CollectionChanged += Events_CollectionChanged;
 
-            AddEvent = new RelayCommand(x =>
+            AddEvent = new RelayCommand(() =>
             {
                 Events.Add(new EventDefinition());
             });
+
+            ValidateAllProperties();
+        }
+
+        private void Events_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            var oldItems = e.OldItems?.Cast<EventDefinition>();
+            var newItems = e.NewItems.Cast<EventDefinition>();
+
+            if (oldItems != null)
+            {
+                foreach (var item in oldItems)
+                {
+                    item.DeleteEvent = null;
+                    item.ParentCollection = null;
+                }
+            }
+
+            foreach (var item in newItems)
+            {
+                item.DeleteEvent = new RelayCommand(() => Events.Remove(item));
+                item.ParentCollection = Events;
+            }
         }
 
         private string _description;
         public string Description
         {
             get { return _description; }
-            set { _description = value; AnnouncePropertyChanged(); }
+            set { SetProperty(ref _description, value, true); }
         }
 
         private string _notes;
         public string Notes
         {
             get { return _notes; }
-            set { _notes = value; AnnouncePropertyChanged(); }
+            set { SetProperty(ref _notes, value, true); }
         }
 
-        private ObservableCollection<EventDefinition> _events;
-        public ObservableCollection<EventDefinition> Events
+        private DeepObservableCollection<EventDefinition> _events = new DeepObservableCollection<EventDefinition>(new List<string>
+        {
+            nameof(EventDefinition.DeleteEvent),
+            nameof(EventDefinition.ParentCollection)
+        });
+        public DeepObservableCollection<EventDefinition> Events
         {
             get { return _events; }
-            set
-            {
-                if (_events != null)
-                {
-                    foreach (var item in _events)
-                    {
-                        var eventDefinition = (item as EventDefinition);
-                        eventDefinition.DeleteEvent = null;
-                        eventDefinition.ParentCollection = null;
-
-                    }
-                    _events.CollectionChanged -= _events_CollectionChanged;
-                }
-                _events = value;
-                if (_events != null)
-                {
-                    foreach (var item in _events)
-                    {
-                        var eventDefinition = (item as EventDefinition);
-                        eventDefinition.DeleteEvent = new RelayCommand(x => _events.Remove((x as EventDefinition)));
-                        eventDefinition.ParentCollection = Events;
-
-                    }
-                    _events.CollectionChanged += _events_CollectionChanged;
-                }
-                AnnouncePropertyChanged();
-            }
-        }
-
-        private void _events_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-        {
-            if (e.OldItems != null)
-            {
-                foreach (var item in e.OldItems)
-                {
-                    var eventDefinition = (item as EventDefinition);
-                    eventDefinition.DeleteEvent = null;
-                    eventDefinition.ParentCollection = null;
-                }
-            }
-            if (e.NewItems != null)
-            {
-                foreach (var item in e.NewItems)
-                {
-                    var eventDefinition = (item as EventDefinition);
-                    eventDefinition.DeleteEvent = new RelayCommand(x => _events.Remove((x as EventDefinition)));
-                    eventDefinition.ParentCollection = Events;
-                }
-            }
         }
 
         private ICommand _addEvent;
         public ICommand AddEvent
         {
             get { return _addEvent; }
-            set { _addEvent = value; AnnouncePropertyChanged(); }
+            set { SetProperty(ref _addEvent, value);  }
         }
 
-        #region IErrorInfo
-
-        public override string this[string columnName]
-        {
-            get
-            {
-                var errorStr = new StringBuilder();
-
-                return (errorStr.Length == 0) ? null : errorStr.ToString();
-            }
-        }
-
-        #endregion
-
-        override public IEnumerable<string> Validate()
+        public IEnumerable<string> Validate()
         {
             var errors = new List<string>();
 
-            errors.AddRange(Errors);
+            errors.AddRange(GetErrors().Select(x => x.ErrorMessage));
 
             #region Children
 

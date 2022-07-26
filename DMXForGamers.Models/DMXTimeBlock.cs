@@ -1,151 +1,106 @@
-﻿using System;
+﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.Input;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Windows.Input;
 
 namespace DMXForGamers.Models
 {
-    public class DMXTimeBlock : NotifyPropertyChangedWithErrorInfoBase
+    public class DMXTimeBlock : ObservableValidator
     {
         public DMXTimeBlock()
         {
-            DMXValues = new ObservableCollection<DMXValue>();
+            DMXValues.CollectionChanged += DMXValues_CollectionChanged;
 
-            AddDMXValue = new RelayCommand(x =>
+            AddDMXValue = new RelayCommand(() =>
             {
                 DMXValues.Add(new DMXValue());
             });
 
-            SortDMXValues = new RelayCommand(x =>
+            SortDMXValues = new RelayCommand(() =>
             {
-                DMXValues = new ObservableCollection<DMXValue>(DMXValues.OrderBy(y => y.Channel));
+                throw new NotImplementedException();
+                //DMXValues = new ObservableCollection<DMXValue>(DMXValues.OrderBy(y => y.Channel));
             });
+
+            ValidateAllProperties();
+        }
+
+        private void DMXValues_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            var oldItems = e.OldItems?.Cast<DMXValue>();
+            var newItems = e.NewItems.Cast<DMXValue>();
+
+            if (oldItems != null)
+            {
+                foreach (var item in oldItems)
+                {
+                    item.DeleteDMXValue = null;
+                    item.ParentCollection = null;
+                }
+            }
+
+            foreach (var item in newItems)
+            {
+                item.DeleteDMXValue = new RelayCommand(() => DMXValues.Remove(item));
+                item.ParentCollection = DMXValues;
+            }
         }
 
         private int _startTime;
+        [Range(0, int.MaxValue,
+            ErrorMessage = "Start Time must be equal to or greater than 0")]
         public int StartTime
         {
-            get { return _startTime; }
-            set { _startTime = value; AnnouncePropertyChanged(); }
+            get => _startTime;
+            set => SetProperty(ref _startTime, value, true);
         }
 
         private int _timeSpan;
+        [Range(1, int.MaxValue,
+            ErrorMessage = "Time Span must be greater than 0")]
         public int TimeSpan
         {
-            get { return _timeSpan; }
-            set { _timeSpan = value; AnnouncePropertyChanged(); }
+            get => _timeSpan;
+            set => SetProperty(ref _timeSpan, value, true);
         }
 
-        private ObservableCollection<DMXValue> _dmxValues;
+        private ObservableCollection<DMXValue> _dmxValues = new ObservableCollection<DMXValue>();
         public ObservableCollection<DMXValue> DMXValues
         {
             get { return _dmxValues; }
-            set
-            {
-                if (_dmxValues != null)
-                {
-                    foreach (var item in _dmxValues)
-                    {
-                        var dmxValue = item as DMXValue;
-                        dmxValue.DeleteDMXValue = null;
-                        dmxValue.ParentCollection = null;
-                    }
-                    _dmxValues.CollectionChanged -= _dmxValues_CollectionChanged;
-                }
-                _dmxValues = value;
-                if (_dmxValues != null)
-                {
-                    foreach (var item in _dmxValues)
-                    {
-                        var dmxValue = item as DMXValue;
-                        dmxValue.DeleteDMXValue = new RelayCommand(x => _dmxValues.Remove((x as DMXValue)));
-                        dmxValue.ParentCollection = this.DMXValues;
-                    }
-                    _dmxValues.CollectionChanged += _dmxValues_CollectionChanged;
-                }
-                AnnouncePropertyChanged();
-            }
-        }
-
-        private void _dmxValues_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-        {
-            if (e.OldItems != null)
-            {
-                foreach (var item in e.OldItems)
-                {
-                    var dmxValue = item as DMXValue;
-                    dmxValue.DeleteDMXValue = null;
-                    dmxValue.ParentCollection = null;
-                }
-            }
-            if (e.NewItems != null)
-            {
-                foreach (var item in e.NewItems)
-                {
-                    var dmxValue = item as DMXValue;
-                    dmxValue.DeleteDMXValue = new RelayCommand(x => _dmxValues.Remove((x as DMXValue)));
-                    dmxValue.ParentCollection = this.DMXValues;
-                }
-            }
         }
 
         private ICommand _addDMXValue;
         public ICommand AddDMXValue
         {
-            get { return _addDMXValue; }
-            set { _addDMXValue = value; AnnouncePropertyChanged(); }
+            get => _addDMXValue;
+            set => SetProperty(ref _addDMXValue, value, nameof(AddDMXValue));
         }
 
         private ICommand _deleteTimeBlock;
         public ICommand DeleteTimeBlock
         {
-            get { return _deleteTimeBlock; }
-            set { _deleteTimeBlock = value; AnnouncePropertyChanged(); }
+            get => _deleteTimeBlock;
+            set => SetProperty(ref _deleteTimeBlock, value, nameof(DeleteTimeBlock));
         }
 
         private ICommand _sortDMXValues;
         public ICommand SortDMXValues
         {
-            get { return _sortDMXValues; }
-            set { _sortDMXValues = value; AnnouncePropertyChanged(); }
+            get => _sortDMXValues;
+            set => SetProperty(ref _sortDMXValues, value, nameof(SortDMXValues));
         }
 
-        #region IErrorInfo
-
-        public override string this[string columnName]
+        public IEnumerable<string> Validate()
         {
-            get
-            {
-                var errorStr = new StringBuilder();
+            var errors = new List<string>();
 
-                if ((columnName == nameof(StartTime)) || (columnName == null))
-                {
-                    if (StartTime < 0)
-                    {
-                        errorStr.AppendLine("Start Time must be greater than or equal to 0");
-                    }
-                }
-                if ((columnName == nameof(TimeSpan)) || (columnName == null))
-                {
-                    if (TimeSpan <= 0)
-                    {
-                        errorStr.AppendLine("Time Span must be greater than 0");
-                    }
-                }
-
-                return (errorStr.Length == 0) ? null : errorStr.ToString();
-            }
-        }
-
-        #endregion
-
-        override public IEnumerable<string> Validate()
-        {
-            var errors = new List<string>();            
-
-            errors.AddRange(Errors);
+            errors.AddRange(GetErrors().Select(x => x.ErrorMessage));
 
             #region Children
 

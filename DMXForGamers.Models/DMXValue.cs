@@ -1,38 +1,53 @@
-﻿using System;
+﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Windows.Input;
 
 namespace DMXForGamers.Models
 {
-    public class DMXValue : NotifyPropertyChangedWithErrorInfoBase
+    public class DMXValue : ObservableValidator
     {
+        public DMXValue()
+        {
+            ValidateAllProperties();
+        }
+
         public IEnumerable<DMXValue> ParentCollection { get; set; }
 
         private ushort _channel;
+        [Range(1, 512,
+            ErrorMessage = "DMX Channels Must Be Between 1 and 512 Inclusive")]
+        [CustomValidation(typeof(DMXValue), nameof(ValidateChannel))]
         public ushort Channel
         {
-            get { return _channel; }
-            set { _channel = value; }
+            get => _channel;
+            set => SetProperty(ref _channel, value, true);
         }
         static public ushort MinChannel { get { return 1; } }
         static public ushort MaxChannel { get { return 512; } }
 
         private byte _value;
+        [CustomValidation(typeof(DMXValue), nameof(ValidateDeltaAndValueTotal))]
         public byte Value
         {
-            get { return _value; }
-            set { _value = value; }
+            get => _value;
+            set => SetProperty(ref _value, value, true);
         }
         static public short MinValue { get { return 0; } }
         static public short MaxValue { get { return 255; } }
 
         private short _delta;
+        [Range(-255, 255,
+            ErrorMessage = "Delta Must Be Between -255 and 255 Inclusive")]
+        [CustomValidation(typeof(DMXValue), nameof(ValidateDeltaAndValueTotal))]
         public short Delta
         {
-            get { return _delta; }
-            set { _delta = value; }
+            get => _delta;
+            set => SetProperty(ref _delta, value, true);
         }
         static public short MinDelta { get { return -255; } }
         static public short MaxDelta { get { return 255; } }
@@ -40,56 +55,54 @@ namespace DMXForGamers.Models
         private ICommand _deleteDMXValue;
         public ICommand DeleteDMXValue
         {
-            get { return _deleteDMXValue; }
-            set { _deleteDMXValue = value; AnnouncePropertyChanged(); }
+            get => _deleteDMXValue;
+            set => SetProperty(ref _deleteDMXValue, value, true);
         }
 
-        #region IErrorInfo
+        #region Custom validation
 
-        public override string this[string columnName]
+        public static ValidationResult ValidateChannel(string name, ValidationContext context)
         {
-            get
+            var instance = (DMXValue)context.ObjectInstance;
+
+            if (instance.ParentCollection != null)
             {
-                var errorStr = new StringBuilder();
-
-                if ((columnName == nameof(Channel)) || (columnName == null))
+                var duplicateCount = instance.ParentCollection.Where(x => x != instance)
+                    .Count(x => x.Channel == instance.Channel);
+                if (duplicateCount > 0)
                 {
-                    if ((Channel < MinChannel) || (Channel > MaxChannel))
-                    {
-                        errorStr.AppendLine(String.Format("DMX Channels Must Be Between {0} and {1} Inclusive", MinChannel, MaxChannel));
-                    }
-                    else
-                    {
-                        if (ParentCollection != null)
-                        {
-                            var duplicateCount = ParentCollection.Where(x => x != this).Count(x => x.Channel == this.Channel);
-                            if (duplicateCount > 0)
-                            {
-                                errorStr.AppendLine("Channel is duplicated");
-                            }
-                        }
-                    }
+                    return new ValidationResult("Channel is duplicated");
                 }
-                if ((columnName == nameof(Delta)) || (columnName == null))
-                {
-                    if ((Delta < -255) || (Delta > 255))
-                    {
-                        errorStr.AppendLine(String.Format("Delta Must Be Between {0} and {1} Inclusive", MinDelta, MaxDelta));
-                    }
-                }
-                if ((columnName == nameof(Delta)) || (columnName == nameof(Value)) || (columnName == null))
-                {
-                    var total = Value + Delta;
-                    if ((total < MinValue) || (total > MaxValue))
-                    {
-                        errorStr.AppendLine(String.Format("Total of Value and Delta Values Must Be Between {0} and {1} Inclusive", MinValue, MaxValue));
-                    }
-                }
-
-                return (errorStr.Length == 0) ? null : errorStr.ToString();
             }
+
+            return ValidationResult.Success;
+        }
+
+        public static ValidationResult ValidateDeltaAndValueTotal(string name, ValidationContext context)
+        {
+            var instance = (DMXValue)context.ObjectInstance;
+
+            if (instance.ParentCollection != null)
+            {
+                var total = instance.Value + instance.Delta;
+                if ((total < MinValue) || (total > MaxValue))
+                {
+                    return new ValidationResult(String.Format("Total of Value and Delta Values Must Be Between {0} and {1} Inclusive", MinValue, MaxValue));
+                }
+            }
+
+            return ValidationResult.Success;
         }
 
         #endregion
+
+        public IEnumerable<string> Validate()
+        {
+            var errors = new List<string>();
+
+            errors.AddRange(GetErrors().Select(x => x.ErrorMessage));
+
+            return errors;
+        }
     }
 }

@@ -1,24 +1,24 @@
-﻿@inherits Nancy.ViewEngines.Razor.NancyRazorViewBase<DMXForGamers.Models.Main>
+﻿@page
+@model DMXForGamers.Web.Pages.IndexModel
 @{
-    Layout = "layout.cshtml";
-    ViewBag.Title = "DMX For Gamers Remote Control TITLE!!!";
+    ViewBag.Title = "DMX For Gamers Remote Control";
 }
 
 <div id="events-body" class="container">
-    @if ((Model.ContinuousEvents.Count == 0) && (Model.NonContinuousEvents.Count == 0))
+    @if ((Model.Data.ContinuousEvents.Count == 0) && (Model.Data.NonContinuousEvents.Count == 0))
     {
         <div class="m-4 alert alert-warning">
             <h2 lh-100=lh-100>No Events Are Configured</h2>
         </div>
     }
 
-    @if (Model.ContinuousEvents.Count > 0)
+    @if (Model.Data.ContinuousEvents.Count > 0)
     {
         <div class="card m-2 box-shadow">
             <h2 class="card-header">Continuous Events</h2>
             <div class="card-body">
                 <div class="d-flex flex-row flex-wrap my-flex-container">
-                    @foreach (var item in Model.ContinuousEvents)
+                    @foreach (var item in Model.Data.ContinuousEvents)
                     {
                         <form id="@item.EventID" class="m-2">
                             <button type="button" class="btn btn-primary btn-lg m-2" onclick="eventclickon('@item.EventID')">Enabled @item.EventID</button>
@@ -30,13 +30,13 @@
         </div>
     }
 
-    @if (Model.NonContinuousEvents.Count > 0)
+    @if (Model.Data.NonContinuousEvents.Count > 0)
     {
         <div class="card m-2 box-shadow">
             <h2 class="card-header">Non-Continuous Events</h2>
             <div class="card-body">
                 <div class="d-flex flex-row flex-wrap my-flex-container">
-                    @foreach (var item in Model.NonContinuousEvents)
+                    @foreach (var item in Model.Data.NonContinuousEvents)
                     {
                         <form id="@item.EventID">
                             <button type="button" class="btn btn-primary btn-lg m-2" onclick="eventclickon('@item.EventID')">@item.EventID</button>
@@ -72,8 +72,8 @@
 </div>
 
 <!-- Placed at the end of the document so the pages load faster -->
-<script src="@Url.Content("/Contents/Scripts/jquery-3.3.1.min.js")" type="text/javascript"></script>
-<script src="@Url.Content("/Contents/Bootstrap/js/bootstrap.min.js")"></script>
+<script src="@Url.Content("~/Scripts/jquery-3.3.1.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Bootstrap/js/bootstrap.min.js")"></script>
 <script type="text/javascript">
     function eventclickon(eventid) {
         $.getJSON("events/" + eventid + "/enable",

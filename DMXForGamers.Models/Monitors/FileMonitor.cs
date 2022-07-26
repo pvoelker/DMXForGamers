@@ -1,41 +1,28 @@
-﻿using System;
+﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace DMXForGamers.Models
 {
-    public class FileMonitor : NotifyPropertyChangedWithErrorInfoBase
+    public class FileMonitor : ObservableValidator
     {
+        public FileMonitor()
+        {
+            ValidateAllProperties();
+        }
+
         private string m_FilePath;
+
+        [Required(ErrorMessage = "File Path is Required")]
         public string FilePath
         {
-            get { return m_FilePath; }
-            set { m_FilePath = value; AnnouncePropertyChanged(); }
+            get => m_FilePath;
+            set => SetProperty(ref m_FilePath, value, true);
         }
-
-        #region IDataErrorInfo
-
-        public override string this[string columnName]
-        {
-            get
-            {
-                var errorStr = new StringBuilder();
-
-                if ((columnName == nameof(FilePath)) || (columnName == null))
-                {
-                    if(String.IsNullOrWhiteSpace(FilePath) == true)
-                    {
-                        errorStr.AppendLine("File Path is required");
-                    }
-                }
-
-                return (errorStr.Length == 0) ? null : errorStr.ToString();
-            }
-        }
-
-        #endregion
     }
 }

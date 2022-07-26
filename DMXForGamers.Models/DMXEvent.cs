@@ -1,39 +1,65 @@
-﻿using System;
+﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.Input;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Windows.Input;
 
 namespace DMXForGamers.Models
 {
-    public class DMXEvent : NotifyPropertyChangedWithErrorInfoBase
+    public class DMXEvent : ObservableValidator
     {
         public DMXEvent()
         {
-            TimeBlocks = new ObservableCollection<DMXTimeBlock>();
+            TimeBlocks.CollectionChanged += TimeBlocks_CollectionChanged;
 
-            AddTimeBlock = new RelayCommand(x =>
+            AddTimeBlock = new RelayCommand(() =>
             {
                 TimeBlocks.Add(new DMXTimeBlock());
             });
 
-            SortTimeBlocks = new RelayCommand(x =>
+            SortTimeBlocks = new RelayCommand(() =>
             {
-                TimeBlocks = new ObservableCollection<DMXTimeBlock>(TimeBlocks.OrderBy(y => y.StartTime));
+                throw new NotImplementedException();
+                //TimeBlocks = new ObservableCollection<DMXTimeBlock>(TimeBlocks.OrderBy(y => y.StartTime));
             });
+
+            ValidateAllProperties();
+        }
+
+        private void TimeBlocks_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            var oldItems = e.OldItems?.Cast<DMXTimeBlock>();
+            var newItems = e.NewItems.Cast<DMXTimeBlock>();
+
+            if (oldItems != null)
+            {
+                foreach (var item in oldItems)
+                {
+                    item.DeleteTimeBlock = null;
+                }
+            }
+
+            foreach (var item in newItems)
+            {
+                item.DeleteTimeBlock = new RelayCommand(() => TimeBlocks.Remove(item));
+            }
         }
 
         public IEnumerable<DMXEvent> ParentCollection { get; set; }
 
         private string _eventID;
+        [Required(ErrorMessage = "Event ID is Required")]
+        [CustomValidation(typeof(DMXEvent), nameof(ValidateEventId))]
         public string EventID
         {
-            get { return _eventID; }
+            get => _eventID;
             set
             {
-                _eventID = value;
-                AnnouncePropertyChanged();
+                SetProperty(ref _eventID, value, true);
                 OnPropertyChanged(nameof(FormattedEventID));
             }
         }
@@ -45,135 +71,84 @@ namespace DMXForGamers.Models
         private int _timeSpan;
         public int TimeSpan
         {
-            get { return _timeSpan; }
-            set { _timeSpan = value; AnnouncePropertyChanged(); }
+            get => _timeSpan;
+            set => SetProperty(ref _timeSpan, value, true);
         }
 
         private int _repeatCount = 1;
         public int RepeatCount
         {
-            get { return _repeatCount; }
-            set { _repeatCount = value; AnnouncePropertyChanged(); }
+            get => _repeatCount;
+            set => SetProperty(ref _repeatCount, value, true);
         }
 
         private string _soundFileName;
         public string SoundFileName
         {
-            get { return _soundFileName; }
-            set { _soundFileName = value; AnnouncePropertyChanged(); }
+            get => _soundFileName;
+            set => SetProperty(ref _soundFileName, value, true);
         }
 
         private byte[] _soundData;
         public byte[] SoundData
         {
-            get { return _soundData; }
-            set { _soundData = value; AnnouncePropertyChanged(); }
+            get => _soundData;
+            set => SetProperty(ref _soundData, value, true);
         }
 
-        private ObservableCollection<DMXTimeBlock> _timeBlocks;
-        public ObservableCollection<DMXTimeBlock> TimeBlocks
+        private DeepObservableCollection<DMXTimeBlock> _timeBlocks = new DeepObservableCollection<DMXTimeBlock>(new List<string> { nameof(DMXTimeBlock.DeleteTimeBlock) });
+        public DeepObservableCollection<DMXTimeBlock> TimeBlocks
         {
             get { return _timeBlocks; }
-            set
-            {
-                if (_timeBlocks != null)
-                {
-                    foreach (var item in _timeBlocks)
-                    {
-                        (item as DMXTimeBlock).DeleteTimeBlock = null;
-                    }
-                    _timeBlocks.CollectionChanged -= _timeBlocks_CollectionChanged;
-                }
-                _timeBlocks = value;
-                if (_timeBlocks != null)
-                {
-                    foreach (var item in _timeBlocks)
-                    {
-                        (item as DMXTimeBlock).DeleteTimeBlock = new RelayCommand(x => _timeBlocks.Remove((x as DMXTimeBlock)));
-                    }
-                    _timeBlocks.CollectionChanged += _timeBlocks_CollectionChanged;
-                }
-                AnnouncePropertyChanged();
-            }
-        }
-
-        private void _timeBlocks_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-        {
-            if (e.OldItems != null)
-            {
-                foreach (var item in e.OldItems)
-                {
-                    (item as DMXTimeBlock).DeleteTimeBlock = null;
-                }
-            }
-            if (e.NewItems != null)
-            {
-                foreach (var item in e.NewItems)
-                {
-                    (item as DMXTimeBlock).DeleteTimeBlock = new RelayCommand(x => _timeBlocks.Remove((x as DMXTimeBlock)));
-                }
-            }
         }
 
         private ICommand _addTimeBlock;
         public ICommand AddTimeBlock
         {
-            get { return _addTimeBlock; }
-            set { _addTimeBlock = value; AnnouncePropertyChanged(); }
+            get => _addTimeBlock;
+            set => SetProperty(ref _addTimeBlock, value, true);
         }
 
         private ICommand _deleteEvent;
         public ICommand DeleteEvent
         {
-            get { return _deleteEvent; }
-            set { _deleteEvent = value; AnnouncePropertyChanged(); }
+            get => _deleteEvent;
+            set => SetProperty(ref _deleteEvent, value, true);
         }
 
         private ICommand _sortTimeBlocks;
         public ICommand SortTimeBlocks
         {
-            get { return _sortTimeBlocks; }
-            set { _sortTimeBlocks = value; AnnouncePropertyChanged(); }
+            get => _sortTimeBlocks;
+            set => SetProperty(ref _sortTimeBlocks, value, true);
         }
 
-        #region IErrorInfo
+        #region Custom validation
 
-        public override string this[string columnName]
+        public static ValidationResult ValidateEventId(string name, ValidationContext context)
         {
-            get
+            var instance = (DMXEvent)context.ObjectInstance;
+
+            if (instance.ParentCollection != null)
             {
-                var errorStr = new StringBuilder();
-
-                if ((columnName == nameof(EventID)) || (columnName == null))
+                var duplicateCount = instance.ParentCollection.Where(x => x != instance)
+                    .Count(x => String.Compare(x.EventID, instance.EventID) == 0);
+                if (duplicateCount > 0)
                 {
-                    if (String.IsNullOrWhiteSpace(EventID) == true)
-                    {
-                        errorStr.AppendLine("Event ID is required");
-                    }
-                    else
-                    {
-                        if (ParentCollection != null)
-                        {
-                            var duplicateCount = ParentCollection.Where(x => x != this).Count(x => String.Compare(x.EventID, this.EventID) == 0);
-                            if (duplicateCount > 0)
-                            {
-                                errorStr.AppendLine("Event ID is duplicated in another event");
-                            }
-                        }
-                    }
+                    return new ValidationResult("Event ID is duplicated in another event");
                 }
-
-                return (errorStr.Length == 0) ? null : errorStr.ToString();
             }
+
+            return ValidationResult.Success;
         }
 
         #endregion
 
-        override public IEnumerable<string> Validate()
+        public IEnumerable<string> Validate()
         {
             var errors = new List<string>();
 
-            errors.AddRange(Errors);
+            errors.AddRange(GetErrors().Select(x => x.ErrorMessage));
 
             #region Children
 

@@ -1,47 +1,33 @@
-﻿using System;
+﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace DMXForGamers.Models
 {
-    public class NewProcessMonitor : NotifyPropertyChangedWithErrorInfoBase
+    public class NewProcessMonitor : ObservableValidator
     {
+        public NewProcessMonitor()
+        {
+            ValidateAllProperties();
+        }
+
         private string m_ExeFile;
+        [Required(ErrorMessage = "EXE File Path is Required")]
         public string ExeFilePath
         {
-            get { return m_ExeFile; }
-            set { m_ExeFile = value; AnnouncePropertyChanged(); }
+            get => m_ExeFile;
+            set => SetProperty(ref m_ExeFile, value, true);
         }
 
         private string m_ExeArgs;
         public string ExeArgs
         {
-            get { return m_ExeArgs; }
-            set { m_ExeArgs = value; AnnouncePropertyChanged(); }
+            get => m_ExeArgs;
+            set => SetProperty(ref m_ExeArgs, value, true);
         }
-
-        #region IDataErrorInfo
-
-        public override string this[string columnName]
-        {
-            get
-            {
-                var errorStr = new StringBuilder();
-
-                if ((columnName == nameof(ExeFilePath)) || (columnName == null))
-                {
-                    if (String.IsNullOrWhiteSpace(ExeFilePath) == true)
-                    {
-                        errorStr.AppendLine("EXE File Path is required");
-                    }
-                }
-
-                return (errorStr.Length == 0) ? null : errorStr.ToString();
-            }
-        }
-
-        #endregion
     }
 }
