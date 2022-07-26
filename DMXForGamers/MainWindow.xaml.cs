@@ -409,14 +409,14 @@ namespace DMXForGamers
             }
             catch (Exception ex)
             {
-//#if DEBUG
+#if DEBUG
                 throw;
-//#else
-//                MessageBox.Show("Unhandled exception occured.\n\nDetails: " + ex.Message,
-//                    "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-//
-//                StopButton_Click(this, null);
-//#endif
+#else
+                MessageBox.Show("Unhandled exception occured.\n\nDetails: " + ex.Message,
+                    "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+
+                StopButton_Click(this, null);
+#endif
             }
             finally
             {
