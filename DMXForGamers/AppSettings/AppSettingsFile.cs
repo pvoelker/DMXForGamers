@@ -1,26 +1,45 @@
-﻿using System;
-using System.IO;
+﻿using DMXEngine;
+using System;
+using System.Xml;
 using System.Xml.Serialization;
 
 namespace DMXForGamers
 {
     public static class AppSettingsFile
     {
+        private static XmlSerializer _serializer = null;
+
+        static AppSettingsFile()
+        {
+            _serializer = new XmlSerializer(typeof(AppSettings));
+        }
+
         public static AppSettings LoadFile(string path)
         {
-            using (var stream = new StreamReader(path, true))
+            var settings = new XmlReaderSettings()
             {
-                XmlSerializer serializer = new XmlSerializer(typeof(AppSettings));
-                return (AppSettings)serializer.Deserialize(stream);
+                ConformanceLevel = ConformanceLevel.Document
+            };
+
+            using (var xmlReader = XmlReader.Create(path, settings))
+            {
+                return (AppSettings)_serializer.Deserialize(xmlReader);
             }
         }
 
         public static void SaveFile(AppSettings data, string path)
         {
-            using (var stream = new StreamWriter(path, false))
+            var settings = new XmlWriterSettings()
             {
-                XmlSerializer serializer = new XmlSerializer(typeof(AppSettings));
-                serializer.Serialize(stream, data);
+                Encoding = System.Text.Encoding.UTF8,
+                NewLineChars = Environment.NewLine,
+                Indent = true,
+                ConformanceLevel = ConformanceLevel.Document
+            };
+
+            using (var xmlWriter = XmlWriter.Create(path, settings))
+            {
+                _serializer.Serialize(xmlWriter, data);
             }
         }
     }
