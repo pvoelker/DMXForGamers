@@ -1,4 +1,5 @@
-﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
+﻿using DMXForGamers.Models.Extensions;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
@@ -28,8 +29,7 @@ namespace DMXForGamers.Models
 
             SortBaseDMXValues = new RelayCommand(() =>
             {
-                throw new NotImplementedException();
-                //BaseDMXValues = new ObservableCollection<DMXValue>(BaseDMXValues.OrderBy(y => y.Channel));
+                BaseDMXValues.Sort((x, y) => x.Channel - y.Channel);
             });
 
             ValidateAllProperties();

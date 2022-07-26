@@ -1,4 +1,5 @@
-﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
+﻿using DMXForGamers.Models.Extensions;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
@@ -23,8 +24,7 @@ namespace DMXForGamers.Models
 
             SortTimeBlocks = new RelayCommand(() =>
             {
-                throw new NotImplementedException();
-                //TimeBlocks = new ObservableCollection<DMXTimeBlock>(TimeBlocks.OrderBy(y => y.StartTime));
+                TimeBlocks.Sort((x, y) => x.StartTime - y.StartTime);
             });
 
             ValidateAllProperties();
