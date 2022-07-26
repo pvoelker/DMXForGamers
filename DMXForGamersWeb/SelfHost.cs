@@ -1,13 +1,11 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace DMXForGamers.Web
@@ -36,7 +34,7 @@ namespace DMXForGamers.Web
                 configure.AddConsole();
                 configure.AddDebug();
 #if DEBUG
-                configure.SetMinimumLevel(LogLevel.Trace);
+                configure.SetMinimumLevel(LogLevel.Debug);
 #endif
             });
 
@@ -52,8 +50,6 @@ namespace DMXForGamers.Web
 
             _webApp.UseRouting();
 
-            _webApp.UseAuthorization();
-
             _webApp.MapRazorPages();
 
             _webApp.MapControllers();
@@ -67,9 +63,9 @@ namespace DMXForGamers.Web
             {
                 if (disposing)
                 {
-                    if(_webApp != null)
+                    if (_webApp != null)
                     {
-                        _webApp.StopAsync().Wait();
+                        _webApp.DisposeAsync(); // Fire and forget
                         _webApp = null;
                     }
                 }

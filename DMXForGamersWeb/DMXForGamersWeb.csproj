@@ -5,6 +5,7 @@
     <RootNamespace>DMXForGamers.Web</RootNamespace>
     <AssemblyName>DMXForGamers.Web</AssemblyName>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+	<Nullable>enable</Nullable>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\DMXForGamers.Models\DMXForGamers.Models.csproj" />
