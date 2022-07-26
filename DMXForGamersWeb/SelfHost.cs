@@ -26,7 +26,7 @@ namespace DMXForGamers.Web
 
             builder.WebHost.ConfigureKestrel(serverOptions =>
             {
-                serverOptions.ListenLocalhost(port);
+                serverOptions.ListenAnyIP(port);
             });
 
             builder.Services.AddLogging(configure =>
