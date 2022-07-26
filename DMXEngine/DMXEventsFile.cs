@@ -1,26 +1,45 @@
 ﻿using System;
 using System.IO;
+using System.Xml;
 using System.Xml.Serialization;
 
 namespace DMXEngine
 {
     public static class DMXEventsFile
     {
+        private static XmlSerializer _serializer = null;
+
+        static DMXEventsFile()
+        {
+            _serializer = new XmlSerializer(typeof(DMX));
+        }
+
         public static DMX LoadFile(string path)
         {
-            using (var stream = new StreamReader(path, true))
+            var settings = new XmlReaderSettings()
             {
-                XmlSerializer serializer = new XmlSerializer(typeof(DMX));
-                return (DMX)serializer.Deserialize(stream);
+                ConformanceLevel = ConformanceLevel.Document
+            };
+
+            using (var xmlReader = XmlReader.Create(path, settings))
+            {
+                return (DMX)_serializer.Deserialize(xmlReader);
             }
         }
 
         public static void SaveFile(DMX data, string path)
         {
-            using (var stream = new StreamWriter(path, false))
+            var settings = new XmlWriterSettings()
             {
-                XmlSerializer serializer = new XmlSerializer(typeof(DMX));
-                serializer.Serialize(stream, data);
+                Encoding = System.Text.Encoding.UTF8,
+                NewLineChars = Environment.NewLine,
+                Indent = true,
+                ConformanceLevel = ConformanceLevel.Document
+            };
+
+            using (var xmlWriter = XmlWriter.Create(path, settings))
+            {
+                _serializer.Serialize(xmlWriter, data);
             }
         }
     }

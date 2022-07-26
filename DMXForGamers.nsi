@@ -17,7 +17,7 @@
 ;--------------------------------
 ;General
 
-  !getdllversion ".\DMXForGamers\bin\Release\DMXForGamers.exe" MyVer_
+  !getdllversion ".\DMXForGamers\bin\Release\net6.0-windows\DMXForGamers.exe" MyVer_
 
   ;Name and file
   Name "DMX for Gamers v${MyVer_1}.${MyVer_2}"
@@ -67,10 +67,10 @@ Section
 
   SetOutPath "$INSTDIR"
   
-  File .\DMXForGamers\bin\Release\*.exe
-  File .\DMXForGamers\bin\Release\*.dll
-  File .\DMXForGamers\bin\Release\DMXForGamers.exe.config
-  File .\DMXForGamers\bin\Release\dmxforgamershelp.chm
+  File .\DMXForGamers\bin\Release\net6.0-windows\*.exe
+  File .\DMXForGamers\bin\Release\net6.0-windows\*.dll
+  File .\DMXForGamers\bin\Release\net6.0-windows\*.runtimeconfig.json
+  File .\DMXForGamers\bin\Release\net6.0-windows\dmxforgamershelp.chm
   
   SetOutPath "$INSTDIR\Examples"
 
@@ -128,7 +128,7 @@ Section "Uninstall"
 
   Delete "$INSTDIR\*.exe"
   Delete "$INSTDIR\*.dll"
-  Delete "$INSTDIR\DMXForGamers.exe.config"
+  Delete "$INSTDIR\*.runtimeconfig.json"
   Delete "$INSTDIR\dmxforgamershelp.chm"
 
   RmDir "$INSTDIR\Examples"

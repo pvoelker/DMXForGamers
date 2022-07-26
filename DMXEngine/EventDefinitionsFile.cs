@@ -30,6 +30,7 @@ namespace DMXEngine
         {
             var settings = new XmlWriterSettings()
             {
+                Encoding = System.Text.Encoding.UTF8,
                 NewLineChars = Environment.NewLine,
                 Indent = true,
                 ConformanceLevel = ConformanceLevel.Document
