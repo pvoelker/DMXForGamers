@@ -371,30 +371,6 @@ namespace DMXForGamers
                     {
                         try
                         {
-                            //_webHostBootstrapper = new CustomBootstrapper(x =>
-                            //{
-                            //    IPHostEntry hostInfo = null;
-                            //    try
-                            //    {
-                            //        hostInfo = Dns.GetHostEntry(x.ClientAddress);
-                            //    }
-                            //    catch (SocketException)
-                            //    {
-                            //        // Most likely host name could not be resolved, ignore and move on....
-                            //    }
-                            //    string msg;
-                            //    if (hostInfo == null)
-                            //    {
-                            //        msg = String.Format("Address '{0}' is attempting to access remote control.  Do you want to grant access?", x.ClientAddress);
-                            //    }
-                            //    else
-                            //    {
-                            //        msg = String.Format("Host '{0}' ({1}) is attempting to access remote control.  Do you want to grant access?", hostInfo.HostName, x.ClientAddress);
-                            //    }
-                            //    var result = MessageBox.Show(msg, "Grant or Deny Access", MessageBoxButton.YesNo, MessageBoxImage.Question);
-                            //    return result == MessageBoxResult.Yes;
-                            //});
-
                             _webHost = new SelfHost();
                             _webHost.Start(m_Data.RemotePort).Wait();
                         }
