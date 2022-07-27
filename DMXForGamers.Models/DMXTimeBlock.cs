@@ -33,7 +33,7 @@ namespace DMXForGamers.Models
         private void DMXValues_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
             var oldItems = e.OldItems?.Cast<DMXValue>();
-            var newItems = e.NewItems.Cast<DMXValue>();
+            var newItems = e.NewItems?.Cast<DMXValue>();
 
             if (oldItems != null)
             {
@@ -44,10 +44,13 @@ namespace DMXForGamers.Models
                 }
             }
 
-            foreach (var item in newItems)
+            if (newItems != null)
             {
-                item.DeleteDMXValue = new RelayCommand(() => DMXValues.Remove(item));
-                item.ParentCollection = DMXValues;
+                foreach (var item in newItems)
+                {
+                    item.DeleteDMXValue = new RelayCommand(() => DMXValues.Remove(item));
+                    item.ParentCollection = DMXValues;
+                }
             }
         }
 

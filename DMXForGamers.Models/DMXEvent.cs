@@ -33,7 +33,7 @@ namespace DMXForGamers.Models
         private void TimeBlocks_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
             var oldItems = e.OldItems?.Cast<DMXTimeBlock>();
-            var newItems = e.NewItems.Cast<DMXTimeBlock>();
+            var newItems = e.NewItems?.Cast<DMXTimeBlock>();
 
             if (oldItems != null)
             {
@@ -43,9 +43,12 @@ namespace DMXForGamers.Models
                 }
             }
 
-            foreach (var item in newItems)
+            if (newItems != null)
             {
-                item.DeleteTimeBlock = new RelayCommand(() => TimeBlocks.Remove(item));
+                foreach (var item in newItems)
+                {
+                    item.DeleteTimeBlock = new RelayCommand(() => TimeBlocks.Remove(item));
+                }
             }
         }
 
