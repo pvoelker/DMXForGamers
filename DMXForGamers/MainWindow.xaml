@@ -8,7 +8,6 @@
         xmlns:monitors="clr-namespace:DMXForGamers.Views.Monitors"
         xmlns:common="clr-namespace:DMXForGamers.Views.Common"
         xmlns:tk="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit"
-        xmlns:tkpg="clr-namespace:Xceed.Wpf.Toolkit.PropertyGrid;assembly=Xceed.Wpf.Toolkit"
         xmlns:spark="clr-namespace:WPFSpark;assembly=WPFSpark"
         xmlns:converters="clr-namespace:DMXForGamers.Converters"
         mc:Ignorable="d"
@@ -141,13 +140,13 @@
                     <ItemsControl ItemsSource="{Binding Path=Channels}">
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
-                                <WrapPanel />
+                                <WrapPanel UseLayoutRounding="True" />
                             </ItemsPanelTemplate>
                         </ItemsControl.ItemsPanel>
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <common:Bar MaxValue="255" Value="{Binding Path=Value}" Height="20" Width="10"
-                                        BorderThickness="0.2" BorderBrush="Gray">
+                                            BorderThickness="0.5" BorderBrush="Gray">
                                     <common:Bar.BarColor>
                                         <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
                                             <GradientStop Color="GreenYellow" Offset="0.0" />

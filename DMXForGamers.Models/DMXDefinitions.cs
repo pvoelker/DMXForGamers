@@ -1,4 +1,5 @@
-﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
+﻿using DMXForGamers.Models.Extensions;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
@@ -28,8 +29,7 @@ namespace DMXForGamers.Models
 
             SortBaseDMXValues = new RelayCommand(() =>
             {
-                throw new NotImplementedException();
-                //BaseDMXValues = new ObservableCollection<DMXValue>(BaseDMXValues.OrderBy(y => y.Channel));
+                BaseDMXValues.Sort((x, y) => x.Channel - y.Channel);
             });
 
             ValidateAllProperties();
@@ -38,7 +38,7 @@ namespace DMXForGamers.Models
         private void BaseDMXValues_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
             var oldItems = e.OldItems?.Cast<DMXValue>();
-            var newItems = e.NewItems.Cast<DMXValue>();
+            var newItems = e.NewItems?.Cast<DMXValue>();
 
             if (oldItems != null)
             {
@@ -49,17 +49,20 @@ namespace DMXForGamers.Models
                 }
             }
 
-            foreach (var item in newItems)
+            if (newItems != null)
             {
-                item.DeleteDMXValue = new RelayCommand(() => BaseDMXValues.Remove(item));
-                item.ParentCollection = BaseDMXValues;
+                foreach (var item in newItems)
+                {
+                    item.DeleteDMXValue = new RelayCommand(() => BaseDMXValues.Remove(item));
+                    item.ParentCollection = BaseDMXValues;
+                }
             }
         }
 
         private void Events_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
             var oldItems = e.OldItems?.Cast<DMXEvent>();
-            var newItems = e.NewItems.Cast<DMXEvent>();
+            var newItems = e.NewItems?.Cast<DMXEvent>();
 
             if (oldItems != null)
             {
@@ -70,10 +73,13 @@ namespace DMXForGamers.Models
                 }
             }
 
-            foreach (var item in newItems)
+            if (newItems != null)
             {
-                item.DeleteEvent = new RelayCommand(() => Events.Remove(item));
-                item.ParentCollection = Events;
+                foreach (var item in newItems)
+                {
+                    item.DeleteEvent = new RelayCommand(() => Events.Remove(item));
+                    item.ParentCollection = Events;
+                }
             }
         }
 

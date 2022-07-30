@@ -1,4 +1,5 @@
-﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
+﻿using DMXForGamers.Models.Extensions;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
@@ -23,8 +24,7 @@ namespace DMXForGamers.Models
 
             SortDMXValues = new RelayCommand(() =>
             {
-                throw new NotImplementedException();
-                //DMXValues = new ObservableCollection<DMXValue>(DMXValues.OrderBy(y => y.Channel));
+                DMXValues.Sort((x, y) => x.Channel - y.Channel);
             });
 
             ValidateAllProperties();
@@ -33,7 +33,7 @@ namespace DMXForGamers.Models
         private void DMXValues_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
             var oldItems = e.OldItems?.Cast<DMXValue>();
-            var newItems = e.NewItems.Cast<DMXValue>();
+            var newItems = e.NewItems?.Cast<DMXValue>();
 
             if (oldItems != null)
             {
@@ -44,10 +44,13 @@ namespace DMXForGamers.Models
                 }
             }
 
-            foreach (var item in newItems)
+            if (newItems != null)
             {
-                item.DeleteDMXValue = new RelayCommand(() => DMXValues.Remove(item));
-                item.ParentCollection = DMXValues;
+                foreach (var item in newItems)
+                {
+                    item.DeleteDMXValue = new RelayCommand(() => DMXValues.Remove(item));
+                    item.ParentCollection = DMXValues;
+                }
             }
         }
 

@@ -29,7 +29,7 @@ namespace DMXForGamers.Models
         private void Events_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
             var oldItems = e.OldItems?.Cast<EventDefinition>();
-            var newItems = e.NewItems.Cast<EventDefinition>();
+            var newItems = e.NewItems?.Cast<EventDefinition>();
 
             if (oldItems != null)
             {
@@ -40,10 +40,13 @@ namespace DMXForGamers.Models
                 }
             }
 
-            foreach (var item in newItems)
+            if (newItems != null)
             {
-                item.DeleteEvent = new RelayCommand(() => Events.Remove(item));
-                item.ParentCollection = Events;
+                foreach (var item in newItems)
+                {
+                    item.DeleteEvent = new RelayCommand(() => Events.Remove(item));
+                    item.ParentCollection = Events;
+                }
             }
         }
 
