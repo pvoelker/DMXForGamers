@@ -50,6 +50,7 @@ namespace DMXEngine
     {
         private WaveOut _waveOut;
         private DMX _dmx;
+        private Dictionary<string, int> _eventTotalTimeSpans;
         private IDMXCommunication _dmxComm;
         private Dictionary<string, ActiveEvent> _activeEvents = new Dictionary<string, ActiveEvent>();
         private bool _disposing = false;
@@ -64,6 +65,7 @@ namespace DMXEngine
                 throw new ArgumentNullException(nameof(dmxComm));
 
             _dmx = dmx;
+            _eventTotalTimeSpans = _dmx.Events.Select(x => new Tuple<string, int>(x.EventID, x.TimeBlocks.Max(x2 => x2.StartTime + x2.TimeSpan))).ToDictionary(x => x.Item1, x => x.Item2);
 
             if (channelChange != null)
             {
@@ -94,7 +96,7 @@ namespace DMXEngine
                         TimeSpan ts = dt - element.Value.Start;
 
                         var foundEvent = _dmx.Events.Find(x => String.Compare(x.EventID, element.Key, true) == 0);
-                        if ((foundEvent != null) && ((int)ts.TotalMilliseconds > foundEvent.TimeSpan))
+                        if ((foundEvent != null) && ((int)ts.TotalMilliseconds > _eventTotalTimeSpans[element.Key]))
                         {
                             if (element.Value.Iteration > 1)
                             {
@@ -135,7 +137,7 @@ namespace DMXEngine
                         TimeSpan ts = dt - element.Value.Start;
 
                         var foundEvent = _dmx.Events.Find(x => String.Compare(x.EventID, element.Key, true) == 0);
-                        if ((foundEvent != null) && ((int)ts.TotalMilliseconds <= foundEvent.TimeSpan))
+                        if ((foundEvent != null) && ((int)ts.TotalMilliseconds <= _eventTotalTimeSpans[element.Key]))
                         {
                             var eventEnum = foundEvent.TimeBlocks.GetEnumerator();
                             while (eventEnum.MoveNext() == true)

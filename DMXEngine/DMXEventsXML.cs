@@ -41,15 +41,13 @@ namespace DMXEngine
         public Event()
         {
         }
-        public Event(string eventId, int timeSpan)
+        public Event(string eventId)
         {
             EventID = eventId;
-            TimeSpan = timeSpan;
         }
-		public Event(string eventId, int timeSpan, int repeatCount)
+		public Event(string eventId, int repeatCount)
 		{
 			EventID = eventId;
-			TimeSpan = timeSpan;
 			RepeatCount = repeatCount;
 		}
 
@@ -59,14 +57,6 @@ namespace DMXEngine
         {
             get { return _eventId; }
             set { _eventId = value; }
-        }
-
-        private int _timeSpan;
-        [XmlAttribute]
-        public int TimeSpan
-        {
-            get { return _timeSpan; }
-            set { _timeSpan = value; }
         }
 
 		private int _repeatCount = 1;

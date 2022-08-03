@@ -13,7 +13,6 @@ namespace DMXForGamers.Mappers
             var retVal = new Models.DMXEvent()
             {
                 EventID = data.EventID,
-                TimeSpan = data.TimeSpan,
                 RepeatCount = data.RepeatCount,
                 SoundFileName = data.SoundFileName,
                 SoundData = data.SoundData
@@ -33,7 +32,6 @@ namespace DMXForGamers.Mappers
             var retVal = new DMXEngine.Event()
             {
                 EventID = data.EventID,
-                TimeSpan = data.TimeSpan,
                 RepeatCount = data.RepeatCount,
                 SoundFileName = data.SoundFileName,
                 SoundData = data.SoundData

@@ -19,7 +19,16 @@ namespace DMXForGamers.Models
 
             AddTimeBlock = new RelayCommand(() =>
             {
-                TimeBlocks.Add(new DMXTimeBlock());
+                int newStartTime = 0;
+                if (TimeBlocks.Count > 0)
+                {
+                    newStartTime = TimeBlocks.Max(x2 => x2.StartTime + x2.TimeSpan);
+                }
+
+                TimeBlocks.Add(new DMXTimeBlock
+                {
+                    StartTime = newStartTime
+                });
             });
 
             SortTimeBlocks = new RelayCommand(() =>
@@ -69,13 +78,6 @@ namespace DMXForGamers.Models
         public string FormattedEventID
         {
             get { return (String.IsNullOrWhiteSpace(EventID) == true) ? "[No ID]" : EventID; }
-        }
-
-        private int _timeSpan;
-        public int TimeSpan
-        {
-            get => _timeSpan;
-            set => SetProperty(ref _timeSpan, value, true);
         }
 
         private int _repeatCount = 1;

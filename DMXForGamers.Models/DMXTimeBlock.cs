@@ -19,7 +19,14 @@ namespace DMXForGamers.Models
 
             AddDMXValue = new RelayCommand(() =>
             {
-                DMXValues.Add(new DMXValue());
+                ushort newChannel = 1;
+                if (DMXValues.Count > 0)
+                {
+                    newChannel = DMXValues.Max(x2 => x2.Channel);
+                    newChannel++;
+                }
+
+                DMXValues.Add(new DMXValue { Channel = newChannel });
             });
 
             SortDMXValues = new RelayCommand(() =>
@@ -82,21 +89,21 @@ namespace DMXForGamers.Models
         public ICommand AddDMXValue
         {
             get => _addDMXValue;
-            set => SetProperty(ref _addDMXValue, value, nameof(AddDMXValue));
+            set => SetProperty(ref _addDMXValue, value);
         }
 
         private ICommand _deleteTimeBlock;
         public ICommand DeleteTimeBlock
         {
             get => _deleteTimeBlock;
-            set => SetProperty(ref _deleteTimeBlock, value, nameof(DeleteTimeBlock));
+            set => SetProperty(ref _deleteTimeBlock, value);
         }
 
         private ICommand _sortDMXValues;
         public ICommand SortDMXValues
         {
             get => _sortDMXValues;
-            set => SetProperty(ref _sortDMXValues, value, nameof(SortDMXValues));
+            set => SetProperty(ref _sortDMXValues, value);
         }
 
         public IEnumerable<string> Validate()
