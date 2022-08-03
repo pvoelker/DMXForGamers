@@ -179,7 +179,7 @@ namespace DMXForGamers.Models
             get => m_Events;
             set
             {
-                SetProperty(ref m_Events, value, nameof(Events));
+                SetProperty(ref m_Events, value);
 
                 m_ContinuousEvents = (m_Events == null) ? null : new ObservableCollection<EventDefinition>(m_Events.Where(x => x.Continuous == true));
 

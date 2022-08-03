@@ -89,21 +89,21 @@ namespace DMXForGamers.Models
         public ICommand AddDMXValue
         {
             get => _addDMXValue;
-            set => SetProperty(ref _addDMXValue, value, nameof(AddDMXValue));
+            set => SetProperty(ref _addDMXValue, value);
         }
 
         private ICommand _deleteTimeBlock;
         public ICommand DeleteTimeBlock
         {
             get => _deleteTimeBlock;
-            set => SetProperty(ref _deleteTimeBlock, value, nameof(DeleteTimeBlock));
+            set => SetProperty(ref _deleteTimeBlock, value);
         }
 
         private ICommand _sortDMXValues;
         public ICommand SortDMXValues
         {
             get => _sortDMXValues;
-            set => SetProperty(ref _sortDMXValues, value, nameof(SortDMXValues));
+            set => SetProperty(ref _sortDMXValues, value);
         }
 
         public IEnumerable<string> Validate()

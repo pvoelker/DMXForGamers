@@ -67,12 +67,21 @@
                 <TextBlock Margin="5,0,0,0">Add Time Block</TextBlock>
             </StackPanel>
         </Button>
-        <Button Grid.Row="8" Grid.Column="2" Command="{Binding Path='SortTimeBlocks'}" HorizontalAlignment="Right">
-            <StackPanel Orientation="Horizontal">
-                <Image Source="/DMXForGamers;component/Images/SortAsc16.png" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                <TextBlock Margin="5,0,0,0">Sort Time Blocks</TextBlock>
-            </StackPanel>
-        </Button>
+        <StackPanel Grid.Row="8" Grid.Column="2" Orientation="Horizontal">
+            <Button  Command="{Binding Path='SortTimeBlocks'}" HorizontalAlignment="Right">
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="/DMXForGamers;component/Images/SortAsc16.png" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    <TextBlock Margin="5,0,0,0">Sort Time Blocks</TextBlock>
+                </StackPanel>
+            </Button>
+            <Grid Width="5"  />
+            <Button Click="ShiftTimeButton_Click" HorizontalAlignment="Right">
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="/DMXForGamers;component/Images/ShiftTime16.png" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    <TextBlock Margin="5,0,0,0">Shift Start Times</TextBlock>
+                </StackPanel>
+            </Button>                
+        </StackPanel>
         <Button Grid.Row="8" Grid.Column="4">
             <Image Source="/DMXForGamers;component/Images/Delete16.png" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" />
             <Button.InputBindings>

@@ -24,5 +24,29 @@ namespace DMXForGamers.Views
         {
             InitializeComponent();
         }
+
+        private void ShiftTimeButton_Click(object sender, RoutedEventArgs e)
+        {
+            var data = DataContext as Models.DMXEvent;
+
+            var dlg = new ShiftTimeBlocksWindow();
+
+            var dlgData = new ViewModels.ShiftTimeBlocks();
+            var mapper = new Mappers.ShiftTimeBlock();
+            dlgData.Values.AddRange(data.TimeBlocks.Select(x => mapper.ToModel(x)));
+
+            dlg.DataContext = dlgData;
+
+            dlg.ShowDialog();
+
+            if(dlg.IsApplied)
+            {
+                foreach(var item in dlgData.Values.Where(x => x.NewStartTime.HasValue))
+                {
+                    var itemToUpdate = data.TimeBlocks.Single(x => x.StartTime == item.StartTime);
+                    itemToUpdate.StartTime = item.NewStartTime.Value;
+                }
+            }
+        }
     }
 }

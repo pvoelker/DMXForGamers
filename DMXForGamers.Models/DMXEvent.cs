@@ -25,7 +25,10 @@ namespace DMXForGamers.Models
                     newStartTime = TimeBlocks.Max(x2 => x2.StartTime + x2.TimeSpan);
                 }
 
-                TimeBlocks.Add(new DMXTimeBlock { StartTime = newStartTime });
+                TimeBlocks.Add(new DMXTimeBlock
+                {
+                    StartTime = newStartTime
+                });
             });
 
             SortTimeBlocks = new RelayCommand(() =>

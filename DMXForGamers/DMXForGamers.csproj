@@ -44,6 +44,8 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Save16.png" />
+    <Resource Include="Images\ShiftTime16.png" />
+    <Resource Include="Images\ShiftTime32.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\SortAsc16.png" />

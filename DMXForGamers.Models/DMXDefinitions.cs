@@ -117,21 +117,21 @@ namespace DMXForGamers.Models
         public ICommand AddBaseValue
         {
             get => _addBaseValue;
-            set => SetProperty(ref _addBaseValue, value, nameof(AddBaseValue));
+            set => SetProperty(ref _addBaseValue, value);
         }
 
         private ICommand _addEvent;
         public ICommand AddEvent
         {
             get => _addEvent;
-            set => SetProperty(ref _addEvent, value, nameof(AddEvent));
+            set => SetProperty(ref _addEvent, value);
         }
 
         private ICommand _sortBaseDMXValues;
         public ICommand SortBaseDMXValues
         {
             get => _sortBaseDMXValues;
-            set => SetProperty(ref _sortBaseDMXValues, value, nameof(SortBaseDMXValues));
+            set => SetProperty(ref _sortBaseDMXValues, value);
         }
 
         public IEnumerable<string> Validate()
