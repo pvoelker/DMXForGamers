@@ -33,7 +33,7 @@ namespace DMXForGamers.Views
 
             var dlgData = new ViewModels.ShiftTimeBlocks();
             var mapper = new Mappers.ShiftTimeBlock();
-            dlgData.Values.AddRange(data.TimeBlocks.Select(x => mapper.ToModel(x)));
+            dlgData.Values.AddRange(data.TimeBlocks.OrderBy(x => x.StartTime).Select(x => mapper.ToModel(x)));
 
             dlg.DataContext = dlgData;
 

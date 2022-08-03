@@ -19,8 +19,8 @@
                 <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
             </DataGrid.AlternatingRowBackground>
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Start Time" Binding="{Binding StartTime, StringFormat='{}{0} ms'}" Width="100" />
-                <DataGridTextColumn Header="Time Span" Binding="{Binding TimeSpan, StringFormat='{}{0} ms'}" Width="100" />
+                <DataGridTextColumn Header="Start Time" Binding="{Binding StartTime, StringFormat='{}{0} ms'}" Width="120" />
+                <DataGridTextColumn Header="Time Span" Binding="{Binding TimeSpan, StringFormat='{}{0} ms'}" Width="120" />
                 <DataGridTemplateColumn Header="➜" Width="75">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -29,7 +29,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>                    
                 </DataGridTemplateColumn>
-                <DataGridTextColumn Header="Shifted Start Time" Binding="{Binding NewStartTime, StringFormat='{}{0} ms', TargetNullValue=''}" Foreground="Red" FontWeight="Bold" Width="150" />
+                <DataGridTextColumn Header="Shifted Start Time" Binding="{Binding NewStartTime, StringFormat='{}{0} ms', TargetNullValue=''}" Foreground="Red" FontWeight="Bold" Width="160" />
             </DataGrid.Columns>
         </DataGrid>
     </Grid>
