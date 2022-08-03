@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:DMXForGamers"
         xmlns:views="clr-namespace:DMXForGamers.Views"
         mc:Ignorable="d"
-        Title="Shift Start Times" Height="600" Width="800">
+        Title="Shift Time Block Start Times" Height="600" Width="800">
     <DockPanel LastChildFill="True">
         <StackPanel DockPanel.Dock="Bottom" Margin="10"  Orientation="Horizontal" HorizontalAlignment="Right">
             <Button Click="Save_Button_Click">Apply Shifted Start Times</Button>

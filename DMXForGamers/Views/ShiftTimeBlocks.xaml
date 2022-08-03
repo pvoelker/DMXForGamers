@@ -14,7 +14,7 @@
         <DataGrid ItemsSource="{Binding Values}" SelectedItem="{Binding SelectedItem}" AutoGenerateColumns="False"
                   CanUserAddRows="False" CanUserDeleteRows="False" CanUserReorderColumns="False"
                   SelectionMode="Single"
-                  FontSize="16">
+                  FontSize="18">
             <DataGrid.AlternatingRowBackground>
                 <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
             </DataGrid.AlternatingRowBackground>
