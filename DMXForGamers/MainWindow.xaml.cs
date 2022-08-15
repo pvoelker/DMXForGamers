@@ -2,7 +2,7 @@
 using DMXEngine;
 using DMXForGamers.Models;
 using DMXForGamers.Web;
-using Microsoft.Toolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
