@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using DMXCommunication;
 using System.IO;
+using DMXEngine.Audio;
 
 namespace DMXEngine
 {
@@ -48,7 +49,7 @@ namespace DMXEngine
 
     public class DMXStateMachine : IDisposable
     {
-        private WaveOut _waveOut;
+        private AudioPlaybackEngine _audioEngine;
         private DMX _dmx;
         private Dictionary<string, int> _eventTotalTimeSpans;
         private IDMXCommunication _dmxComm;
@@ -203,6 +204,8 @@ namespace DMXEngine
                     if (foundEvent.SoundData != null && foundEvent.SoundData.Length > 0)
                     {
                         var fileExt = Path.GetExtension(foundEvent.SoundFileName);
+
+                        _audioEngine.PlaySound();
 
                         var stream = GetWaveStream(fileExt, foundEvent.SoundData);
 
