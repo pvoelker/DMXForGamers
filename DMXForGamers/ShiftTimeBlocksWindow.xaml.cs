@@ -29,7 +29,7 @@ namespace DMXForGamers
 
         private void Save_Button_Click(object sender, RoutedEventArgs e)
         {
-            var data = DataContext as ViewModels.ShiftTimeBlocks;
+            var data = DataContext as ShiftTimeBlocks;
 
             var errors = data.Validate();
 
