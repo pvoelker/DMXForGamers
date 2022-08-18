@@ -5,7 +5,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
-namespace DMXForGamers.ViewModels
+namespace DMXForGamers.Models
 {
     public class ShiftTimeBlocks : ObservableValidator
     {
