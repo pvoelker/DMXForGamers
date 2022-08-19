@@ -7,11 +7,10 @@
         xmlns:views="clr-namespace:DMXForGamers.Views"
         xmlns:monitors="clr-namespace:DMXForGamers.Views.Monitors"
         xmlns:common="clr-namespace:DMXForGamers.Views.Common"
-        xmlns:tk="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit"
-        xmlns:tkpg="clr-namespace:Xceed.Wpf.Toolkit.PropertyGrid;assembly=Xceed.Wpf.Toolkit"        
+        xmlns:tk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
         Title="Protocol Settings" Height="300" Width="400" ResizeMode="CanResizeWithGrip">
     <Grid>
-        <tkpg:PropertyGrid AutoGenerateProperties="true" SelectedObject="{Binding}" ShowTitle="False" />
+        <tk:PropertyGrid AutoGenerateProperties="true" SelectedObject="{Binding}" ShowTitle="False" />
     </Grid>
 </Window>
