@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:converters="clr-namespace:DMXForGamers.Converters"
              xmlns:local="clr-namespace:DMXForGamers.Views"
-             xmlns:tk="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit"
+             xmlns:tk="http://schemas.xceed.com/wpf/xaml/toolkit"
              xmlns:spark="clr-namespace:WPFSpark;assembly=WPFSpark"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">

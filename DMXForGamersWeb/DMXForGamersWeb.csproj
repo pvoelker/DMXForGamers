@@ -92,7 +92,7 @@
     <Content Update="wwwroot\Images\DMXForGamers.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="wwwroot\Scripts\jquery-3.3.1.min.js">
+    <Content Update="wwwroot\Scripts\jquery-3.6.0.min.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="wwwroot\Test\index.html">

@@ -7,7 +7,7 @@
         xmlns:views="clr-namespace:DMXForGamers.Views"
         xmlns:monitors="clr-namespace:DMXForGamers.Views.Monitors"
         xmlns:common="clr-namespace:DMXForGamers.Views.Common"
-        xmlns:tk="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit"
+        xmlns:tk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:spark="clr-namespace:WPFSpark;assembly=WPFSpark"
         xmlns:converters="clr-namespace:DMXForGamers.Converters"
         mc:Ignorable="d"
