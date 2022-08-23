@@ -13,6 +13,7 @@
     <Grid>
         <DataGrid ItemsSource="{Binding Values}" SelectedItem="{Binding SelectedItem}" AutoGenerateColumns="False"
                   CanUserAddRows="False" CanUserDeleteRows="False" CanUserReorderColumns="False"
+                  CanUserResizeColumns="False" CanUserSortColumns="False"
                   SelectionMode="Single"
                   FontSize="18">
             <DataGrid.AlternatingRowBackground>

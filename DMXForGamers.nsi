@@ -72,6 +72,8 @@ Section
   File .\DMXForGamers\bin\Release\net6.0-windows\*.runtimeconfig.json
   File .\DMXForGamers\bin\Release\net6.0-windows\dmxforgamershelp.chm
   
+  File /nonfatal /a /r .\DMXForGamers\bin\Release\net6.0-windows\wwwroot\
+
   SetOutPath "$INSTDIR\Examples"
 
   File .\ConfigFiles\*.dgd
@@ -131,6 +133,7 @@ Section "Uninstall"
   Delete "$INSTDIR\*.runtimeconfig.json"
   Delete "$INSTDIR\dmxforgamershelp.chm"
 
+  RmDir /r "$INSTDIR\wwwroot"
   RmDir "$INSTDIR\Examples"
   RmDir "$INSTDIR"
 
