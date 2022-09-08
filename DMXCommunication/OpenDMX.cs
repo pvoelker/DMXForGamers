@@ -1,26 +1,20 @@
 ﻿using System;
-using System.Runtime.InteropServices;
 using System.Threading;
-using FTDIChip.FTD2XX;
+using FTD2XX_NET;
+using static FTD2XX_NET.FTDI;
 
 namespace DMXCommunication
 {
     public class OpenDMX : IDMXCommunication
     {
         private byte[] _buffer = new byte[513];
-        private uint _handle = 0;
+        private int _bytesWritten = 0;
         private EventWaitHandle _done = null;
         private EventWaitHandle _doneComplete = null;
         private bool _doneStarted = false;
-        private int _bytesWritten = 0;
         private FT_STATUS _status = FT_STATUS.FT_OK;
 
-        public const byte BITS_8 = 8;
-        public const byte STOP_BITS_2 = 2;
-        public const byte PARITY_NONE = 0;
-        public const UInt16 FLOW_NONE = 0;
-        public const byte PURGE_RX = 1;
-        public const byte PURGE_TX = 2;
+        private FTDI _ftdi = new FTDI();
 
         static public Guid ID = new Guid("b76abe7d-ef4a-4b05-bf41-bb4e68613ed7");
         public Guid Identifier { get { return ID; } }
@@ -28,19 +22,19 @@ namespace DMXCommunication
 
         private void Init()
         {
-            _status = NativeMethods.FT_ResetDevice(_handle);
+            _status = _ftdi.ResetDevice();
             CheckStatusAndThrowException(_status);
-            _status = NativeMethods.FT_SetDivisor(_handle, (char)12);  // Set baud rate
+            _status = _ftdi.SetBaudRate(250000);
             CheckStatusAndThrowException(_status);
-            _status = NativeMethods.FT_SetDataCharacteristics(_handle, BITS_8, STOP_BITS_2, PARITY_NONE);
+            _status = _ftdi.SetDataCharacteristics(FT_DATA_BITS.FT_BITS_8, FT_STOP_BITS.FT_STOP_BITS_2, FT_PARITY.FT_PARITY_NONE);
             CheckStatusAndThrowException(_status);
-            _status = NativeMethods.FT_SetFlowControl(_handle, (char)FLOW_NONE, 0, 0);
+            _status = _ftdi.SetFlowControl(FT_FLOW_CONTROL.FT_FLOW_NONE, 0, 0);
             CheckStatusAndThrowException(_status);
-            _status = NativeMethods.FT_ClrRts(_handle);
+            _status = _ftdi.SetRTS(false);
             CheckStatusAndThrowException(_status);
-            _status = NativeMethods.FT_Purge(_handle, PURGE_TX);
+            _status = _ftdi.Purge(FT_PURGE.FT_PURGE_TX);
             CheckStatusAndThrowException(_status);
-            _status = NativeMethods.FT_Purge(_handle, PURGE_RX);
+            _status = _ftdi.Purge(FT_PURGE.FT_PURGE_RX);
             CheckStatusAndThrowException(_status);
         }
 
@@ -51,8 +45,7 @@ namespace DMXCommunication
 
         public void Start()
         {
-            _handle = 0;
-            _status = NativeMethods.FT_Open(0, ref _handle);
+            _status = _ftdi.OpenByIndex(0);
             CheckStatusAndThrowException(_status);
             _doneStarted = false;
 
@@ -94,11 +87,7 @@ namespace DMXCommunication
                     _done.Set();
                     _doneComplete.WaitOne();
 
-                    if (_handle != 0)
-                    {
-                        NativeMethods.FT_Close(_handle);
-                        _handle = 0;
-                    }
+                    _ftdi.Close();
                 }
                 finally
                 {
@@ -151,33 +140,26 @@ namespace DMXCommunication
             {
                 Init();
 
-                _status = NativeMethods.FT_SetBreakOn(_handle);
-                _status = NativeMethods.FT_SetBreakOff(_handle);
+                _status = _ftdi.SetBreak(true);
+                _status = _ftdi.SetBreak(false);
+
                 lock (_buffer)
                 {
-                    _bytesWritten = Write(_handle, _buffer, _buffer.Length);
+                    _bytesWritten = Write(_buffer, _buffer.Length);
                 }
             }
 
             _doneComplete.Set();
         }
 
-        private int Write(uint handle, byte[] data, int length)
+        private int Write(byte[] data, int length)
         {
             try
             {
-                IntPtr ptr = Marshal.AllocHGlobal(length);
                 uint bytesWritten = 0;
-                try
-                {
-                    Marshal.Copy(data, 0, ptr, length);
-                    _status = NativeMethods.FT_Write(handle, ptr, (uint)length, ref bytesWritten);
-                }
-                finally
-                {
-                    Marshal.FreeHGlobal(ptr);
-                    ptr = IntPtr.Zero;
-                }
+                
+                _status = _ftdi.Write(data, length, ref bytesWritten);
+                
                 return (int)bytesWritten;
             }
             catch (Exception exp)
