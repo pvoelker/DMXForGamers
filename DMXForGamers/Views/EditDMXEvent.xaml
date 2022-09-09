@@ -43,7 +43,7 @@
         <ItemsControl Grid.Row="6" Grid.ColumnSpan="5" ItemsSource="{Binding Path=TimeBlocks}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <WrapPanel />
+                    <VirtualizingStackPanel Orientation="Horizontal" IsVirtualizing="True" VirtualizationMode="Recycling" />
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
@@ -55,7 +55,7 @@
             </ItemsControl.ItemTemplate>
             <ItemsControl.Template>
                 <ControlTemplate TargetType="{x:Type ItemsControl}">
-                    <ScrollViewer HorizontalScrollBarVisibility="Auto">
+                    <ScrollViewer HorizontalScrollBarVisibility="Auto" CanContentScroll="True">
                         <ItemsPresenter />
                     </ScrollViewer>
                 </ControlTemplate>
