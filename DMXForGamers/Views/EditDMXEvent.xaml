@@ -40,34 +40,38 @@
         <TextBox Grid.Row="2" Grid.Column="2" Width="100" HorizontalAlignment="Left" Text="{Binding Path='RepeatCount', ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" Validation.ErrorTemplate="{StaticResource ResourceKey=errorTemplateSilverlightStyle}"></TextBox>
         <TextBlock Grid.Row="4" Grid.Column="0" TextAlignment="Right">Sound:</TextBlock>
         <common:FileTextBox Grid.Row="4" Grid.Column="2" FreeEdit="False" Filter="Sound (WAV) file |*.wav|MP3 file |*.mp3" ReadData="True" FileNameOnly="True" FilePath="{Binding Path='SoundFileName'}" FileData="{Binding Path='SoundData'}" FileSizeByteLimit="10240000" />
-        <ItemsControl Grid.Row="6" Grid.ColumnSpan="5" ItemsSource="{Binding Path=TimeBlocks}">
-            <ItemsControl.ItemsPanel>
+        <ListBox Grid.Row="6" Grid.ColumnSpan="5" ItemsSource="{Binding Path=TimeBlocks}"
+                 SelectedItem="{Binding Path=SelectedTimeBlock}">
+            <ListBox.ItemsPanel>
                 <ItemsPanelTemplate>
                     <VirtualizingStackPanel Orientation="Horizontal" IsVirtualizing="True" VirtualizationMode="Recycling" />
                 </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
-            <ItemsControl.ItemTemplate>
+            </ListBox.ItemsPanel>
+            <ListBox.ItemTemplate>
                 <DataTemplate>
                     <GroupBox Header="Time Block" Margin="5" MaxHeight="200">
                         <local:EditTimeBlock />
                     </GroupBox>
                 </DataTemplate>
-            </ItemsControl.ItemTemplate>
-            <ItemsControl.Template>
-                <ControlTemplate TargetType="{x:Type ItemsControl}">
-                    <ScrollViewer HorizontalScrollBarVisibility="Auto" CanContentScroll="True">
-                        <ItemsPresenter />
-                    </ScrollViewer>
-                </ControlTemplate>
-            </ItemsControl.Template>
-        </ItemsControl>
-        <Button Grid.Row="8" Grid.Column="0" Command="{Binding Path='AddTimeBlock'}" HorizontalAlignment="Left">
-            <StackPanel Orientation="Horizontal">
-                <Image Source="/DMXForGamers;component/Images/Add16.png" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                <TextBlock Margin="5,0,0,0">Add Time Block</TextBlock>
-            </StackPanel>
-        </Button>
-        <StackPanel Grid.Row="8" Grid.Column="2" Orientation="Horizontal">
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <StackPanel Grid.Row="8" Grid.Column="0" Orientation="Horizontal">
+            <tk:DropDownButton>
+                <tk:DropDownButton.Content>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/DMXForGamers;component/Images/Add16.png" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        <TextBlock Margin="5,0,0,0">Add Time Block</TextBlock>
+                    </StackPanel>
+                </tk:DropDownButton.Content>
+                <tk:DropDownButton.DropDownContent>
+                    <StackPanel Margin="5">
+                        <Button Command="{Binding Path=AddTimeBlock}">Add to End</Button>
+                        <Grid Height="5" />
+                        <Button Command="{Binding Path=AddTimeBlockBeforeSelected}">Add Before Selected</Button>
+                    </StackPanel>
+                </tk:DropDownButton.DropDownContent>
+            </tk:DropDownButton>
+            <Grid Width="5"  />
             <Button  Command="{Binding Path='SortTimeBlocks'}" HorizontalAlignment="Right">
                 <StackPanel Orientation="Horizontal">
                     <Image Source="/DMXForGamers;component/Images/SortAsc16.png" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" />

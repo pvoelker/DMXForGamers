@@ -31,6 +31,15 @@ namespace DMXForGamers.Models
                 });
             });
 
+            AddTimeBlockBeforeSelected = new RelayCommand(() =>
+            {
+                var index = TimeBlocks.IndexOf(SelectedTimeBlock);
+                TimeBlocks.Insert(index, new DMXTimeBlock()
+                {
+                    StartTime = SelectedTimeBlock.StartTime
+                });
+            }, () => SelectedTimeBlock != null);
+
             SortTimeBlocks = new RelayCommand(() =>
             {
                 TimeBlocks.Sort((x, y) => x.StartTime - y.StartTime);
@@ -107,11 +116,29 @@ namespace DMXForGamers.Models
             get { return _timeBlocks; }
         }
 
+        private DMXTimeBlock _selectedTimeBlock;
+        public DMXTimeBlock SelectedTimeBlock
+        {
+            get => _selectedTimeBlock;
+            set
+            {
+                SetProperty(ref _selectedTimeBlock, value, false);
+                AddTimeBlockBeforeSelected.NotifyCanExecuteChanged();
+            }
+        }
+
         private ICommand _addTimeBlock;
         public ICommand AddTimeBlock
         {
             get => _addTimeBlock;
             set => SetProperty(ref _addTimeBlock, value, true);
+        }
+
+        private RelayCommand _addTimeBlockBeforeSelected;
+        public RelayCommand AddTimeBlockBeforeSelected
+        {
+            get => _addTimeBlockBeforeSelected;
+            set => SetProperty(ref _addTimeBlockBeforeSelected, value, true);
         }
 
         private ICommand _deleteEvent;

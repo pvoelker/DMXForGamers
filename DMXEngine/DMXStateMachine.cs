@@ -218,7 +218,6 @@ namespace DMXEngine
                         _waveOut.Play();
                     }
 
-
                     _activeEvents.Add(eventName, new ActiveEvent(DateTime.Now, foundEvent.RepeatCount, continuous));
 
                     if (_eventChangeQueue != null)
