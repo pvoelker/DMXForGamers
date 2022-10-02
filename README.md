@@ -12,4 +12,6 @@ Images in WPF need to be 96 DPI. This can be changed via a scaling function in a
 
 ##Building
 
-Make sure to update the certificate thumbnail in 'signfile.bat'.
+- Make sure a valid path to 'signtool.exe' is in the 'PATH' environment variable on the development machine.
+	- *Windows SDK* may need to be installed for 'signtool.exe' to be present on the development machine.
+- Make sure to update the certificate thumbnail in 'signfile.bat'.
