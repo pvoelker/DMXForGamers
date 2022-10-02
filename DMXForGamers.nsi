@@ -165,3 +165,10 @@ Function .onInit
   done:
  
 FunctionEnd
+
+;--------------------------------
+; Sign installer and uninstaller
+
+!finalize 'signfile.bat "DMXForGamersInstall.exe"'
+
+!uninstfinalize 'signfile.bat "%1"'
