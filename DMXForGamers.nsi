@@ -166,10 +166,9 @@ Function .onInit
  
 FunctionEnd
 
+;--------------------------------
 ; Sign installer and uninstaller
 
-;!finalize 'sign.bat "%1" "MyProduct Installer" http://example.com'
-!finalize 'signinstaller.bat'
+!finalize 'signfile.bat "DMXForGamersInstall.exe"'
 
-;!uninstfinalize 'sign.bat "%1" "MyProduct Installer" http://example.com'
-!uninstfinalize 'signuninstaller.bat'
+!uninstfinalize 'signfile.bat "%1"'

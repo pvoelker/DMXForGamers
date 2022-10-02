@@ -1,1 +1,0 @@
-signtool.exe sign /sm /debug /v /fd sha256 /tr http://timestamp.comodoca.com/?td=sha256 /td sha256 /sha1 8fd9f7c803428d3d12ff9586e0a5dcf9f0f7424f "DMXForGamersInstall.exe"

@@ -12,4 +12,4 @@ Images in WPF need to be 96 DPI. This can be changed via a scaling function in a
 
 ##Building
 
-Make sure to update the certificate thumbnail in 'signinstaller.bat' and 'signuninstaller.bat'.
+Make sure to update the certificate thumbnail in 'signfile.bat'.
