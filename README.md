@@ -9,3 +9,7 @@ Compile the SH5 to a CHM file and replace what is in 'DMXForGamers' folder.
 ##WPF and Images
 
 Images in WPF need to be 96 DPI. This can be changed via a scaling function in a graphics application like GIMP.
+
+##Building
+
+Make sure to update the certificate thumbnail in 'signinstaller.bat' and 'signuninstaller.bat'.

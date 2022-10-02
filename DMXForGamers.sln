@@ -62,6 +62,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Install", "Install", "{16DB
 	ProjectSection(SolutionItems) = preProject
 		DMXForGamers.nsi = DMXForGamers.nsi
 		DMXForGamersUninstall.ico = DMXForGamersUninstall.ico
+		signinstaller.bat = signinstaller.bat
+		signuninstaller.bat = signuninstaller.bat
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Help", "Help", "{8E5DF49E-86B3-4136-A71E-5ECCE779AADA}"

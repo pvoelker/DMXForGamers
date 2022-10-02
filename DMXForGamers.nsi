@@ -165,3 +165,11 @@ Function .onInit
   done:
  
 FunctionEnd
+
+; Sign installer and uninstaller
+
+;!finalize 'sign.bat "%1" "MyProduct Installer" http://example.com'
+!finalize 'signinstaller.bat'
+
+;!uninstfinalize 'sign.bat "%1" "MyProduct Installer" http://example.com'
+!uninstfinalize 'signuninstaller.bat'
