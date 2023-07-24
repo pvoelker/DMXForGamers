@@ -281,7 +281,10 @@ namespace DMXForGamers
                 // PEV - 3/21/2018 - Wait for UI to update and 'busy' to show...
                 this.Dispatcher.Invoke(new Action(() => { }), DispatcherPriority.ContextIdle, null);
 
-                CheckAndKillExistingProcesses();
+                if (m_Data.SelectedMonitorIndex == 0)
+                {
+                    CheckAndKillExistingProcesses();
+                }
 
                 IDMXCommunication dmxComm = null;
                 if (m_Data.SelectedProtocol != null)
