@@ -15,6 +15,8 @@ namespace DMXForGamers.Models
     {
         public DMXTimeBlock()
         {
+            _id = Guid.NewGuid();
+
             DMXValues.CollectionChanged += DMXValues_CollectionChanged;
 
             AddDMXValue = new RelayCommand(() =>
@@ -59,6 +61,15 @@ namespace DMXForGamers.Models
                     item.ParentCollection = DMXValues;
                 }
             }
+        }
+
+        private Guid _id;
+        /// <summary>
+        /// Internally generated unique ID
+        /// </summary>
+        public Guid Id
+        {
+            get => _id;
         }
 
         private int _startTime;
