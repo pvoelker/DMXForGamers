@@ -42,7 +42,10 @@
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Button Content="{Binding Path=EventID}" ToolTip="{Binding Path=Description}" IsEnabled="{Binding Path=State, Mode=OneWay, Converter={StaticResource invertBool}}" Margin="10" Padding="10" FontSize="18" Click="Button_Click"/>
+                    <StackPanel Margin="10">
+                        <Button Content="{Binding Path=EventID}" ToolTip="{Binding Path=Description}" IsEnabled="{Binding Path=State, Mode=OneWay, Converter={StaticResource invertBool}}" Padding="10" FontSize="18" Click="Button_Click"/>
+                        <Label HorizontalAlignment="Center" Content="{Binding Path=ExecutionTimeMs}"/>
+                    </StackPanel>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>

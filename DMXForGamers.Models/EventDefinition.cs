@@ -50,6 +50,22 @@ namespace DMXForGamers.Models
             set { SetProperty(ref _state, value, true); }
         }
 
+        private TimeSpan? _executionTime;
+        public TimeSpan? ExecutionTime
+        {
+            get { return _executionTime; }
+            set
+            {
+                SetProperty(ref _executionTime, value, true);
+                OnPropertyChanged(nameof(ExecutionTimeMs));
+            }
+        }
+
+        public long ExecutionTimeMs
+        {
+            get { return (long)_executionTime?.TotalMilliseconds; }
+        }
+
         public string EventIDNoSpaces
         {
             get { return _eventID.Replace(" ", String.Empty);  }

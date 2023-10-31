@@ -266,6 +266,7 @@ namespace DMXForGamers
                 if (foundEvent != null)
                 {
                     foundEvent.State = value.State;
+                    foundEvent.ExecutionTime = value.ExecutionTime;
                 }
             }
         }

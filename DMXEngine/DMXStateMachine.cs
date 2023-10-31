@@ -2,9 +2,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using DMXCommunication;
 using System.IO;
+using NAudio.Utils;
+using System.Xml.Linq;
+using System.Diagnostics;
 
 namespace DMXEngine
 {
@@ -36,14 +38,16 @@ namespace DMXEngine
 
     public class EventChange
     {
-        public EventChange(string eventID, bool state)
+        public EventChange(string eventID, bool state, TimeSpan? executionTime)
         {
             EventID = eventID;
             State = state;
+            ExecutionTime = executionTime;
         }
 
         public string EventID { get; set; }
         public bool State { get; set; }
+        public TimeSpan? ExecutionTime { get; set; }
     }
 
     public class DMXStateMachine : IDisposable
@@ -51,6 +55,7 @@ namespace DMXEngine
         private WaveOut _waveOut;
         private DMX _dmx;
         private Dictionary<string, int> _eventTotalTimeSpans;
+        private Dictionary<string, TimeSpan?> _lastExecTimeUpdate;
         private IDMXCommunication _dmxComm;
         private Dictionary<string, ActiveEvent> _activeEvents = new Dictionary<string, ActiveEvent>();
         private bool _disposing = false;
@@ -66,6 +71,7 @@ namespace DMXEngine
 
             _dmx = dmx;
             _eventTotalTimeSpans = _dmx.Events.Select(x => new Tuple<string, int>(x.EventID, x.TimeBlocks.Max(x2 => x2.StartTime + x2.TimeSpan))).ToDictionary(x => x.Item1, x => x.Item2);
+            _lastExecTimeUpdate = _dmx.Events.Select(x => new Tuple<string, TimeSpan?>(x.EventID, null)).ToDictionary(x => x.Item1, x => x.Item2);
 
             if (channelChange != null)
             {
@@ -124,13 +130,14 @@ namespace DMXEngine
 
                         if (_eventChangeQueue != null)
                         {
-                            _eventChangeQueue.AddToQueue(new EventChange(element, false));
+                            _eventChangeQueue.AddToQueue(new EventChange(element, false, null));
+                            _lastExecTimeUpdate[element] = null;
                         }
                     }
 
                     finishedEvents = null;
 
-                    Dictionary<ushort, byte> channelValues = new Dictionary<ushort, byte>();
+                    var channelValues = new Dictionary<ushort, byte>();
 
                     foreach (var element in _activeEvents)
                     {
@@ -139,6 +146,19 @@ namespace DMXEngine
                         var foundEvent = _dmx.Events.Find(x => String.Compare(x.EventID, element.Key, true) == 0);
                         if ((foundEvent != null) && ((int)ts.TotalMilliseconds <= _eventTotalTimeSpans[element.Key]))
                         {
+                            if (_waveOut != null)
+                            {
+                                // Throttle time updates to every 100 ms
+                                var last = _lastExecTimeUpdate[foundEvent.EventID];
+                                Debug.Assert(last.HasValue, "This should always have a value because the event is active");
+                                var current = _waveOut.GetPositionTimeSpan();
+                                if ((current - last.Value).TotalMilliseconds >= 100)
+                                {
+                                    _eventChangeQueue.AddToQueue(new EventChange(foundEvent.EventID, true, current));
+                                    _lastExecTimeUpdate[foundEvent.EventID] = current;
+                                }
+                            }
+
                             var eventEnum = foundEvent.TimeBlocks.GetEnumerator();
                             while (eventEnum.MoveNext() == true)
                             {
@@ -222,7 +242,8 @@ namespace DMXEngine
 
                     if (_eventChangeQueue != null)
                     {
-                        _eventChangeQueue.AddToQueue(new EventChange(eventName, true));
+                        _eventChangeQueue.AddToQueue(new EventChange(eventName, true, new TimeSpan(0)));
+                        _lastExecTimeUpdate[eventName] = new TimeSpan(0);
                     }
                 }
             }
@@ -247,7 +268,8 @@ namespace DMXEngine
 
                     if (_eventChangeQueue != null)
                     {
-                        _eventChangeQueue.AddToQueue(new EventChange(eventName, false));
+                        _eventChangeQueue.AddToQueue(new EventChange(eventName, false, null));
+                        _lastExecTimeUpdate[eventName] = null;
                     }
                 }
             }
@@ -275,7 +297,8 @@ namespace DMXEngine
             {
                 if (_eventChangeQueue != null)
                 {
-                    _eventChangeQueue.AddToQueue(new EventChange(element.Key, false));
+                    _eventChangeQueue.AddToQueue(new EventChange(element.Key, false, null));
+                    _lastExecTimeUpdate[element.Key] = null;
                 }
             }
             _activeEvents.Clear();
