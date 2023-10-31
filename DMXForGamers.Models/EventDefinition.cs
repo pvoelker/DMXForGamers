@@ -61,9 +61,9 @@ namespace DMXForGamers.Models
             }
         }
 
-        public long ExecutionTimeMs
+        public long? ExecutionTimeMs
         {
-            get { return (long)_executionTime?.TotalMilliseconds; }
+            get { return (long?)_executionTime?.TotalMilliseconds; }
         }
 
         public string EventIDNoSpaces
