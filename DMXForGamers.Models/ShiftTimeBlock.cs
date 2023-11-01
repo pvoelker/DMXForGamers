@@ -8,6 +8,13 @@ namespace DMXForGamers.Models
 {
     public class ShiftTimeBlock : ObservableValidator
     {
+        private Guid _id;
+        public Guid Id
+        {
+            get => _id;
+            set => _id = value;
+        }
+
         private int _startTime;
         public int StartTime
         {

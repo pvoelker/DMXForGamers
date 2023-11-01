@@ -44,7 +44,7 @@ namespace DMXForGamers.Views
             {
                 foreach (var item in dlgData.Values.Where(x => x.NewStartTime.HasValue))
                 {
-                    var itemToUpdate = data.TimeBlocks.Single(x => x.StartTime == item.StartTime);
+                    var itemToUpdate = data.TimeBlocks.Single(x => x.Id == item.Id);
                     mapper.UpdateFromModel(item, itemToUpdate);
                 }
             }

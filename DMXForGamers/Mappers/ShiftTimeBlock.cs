@@ -9,6 +9,7 @@ namespace DMXForGamers.Mappers
         {
             var retVal = new Models.ShiftTimeBlock
             {
+                Id = data.Id,
                 StartTime = data.StartTime,
                 TimeSpan = data.TimeSpan,
             };

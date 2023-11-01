@@ -266,6 +266,7 @@ namespace DMXForGamers
                 if (foundEvent != null)
                 {
                     foundEvent.State = value.State;
+                    foundEvent.ExecutionTime = value.ExecutionTime;
                 }
             }
         }
@@ -359,11 +360,13 @@ namespace DMXForGamers
                             Continuous = item.Continuous,
                             EventOn = new RelayCommand(() =>
                             {
-                                _engine.ManualAddEvent(item.EventID, item.Continuous);
+                                // PEV - 10/30/2023 - This is called from ASP.NET, InvokeIfNecessary is needed to prevent lockups and crashes
+                                WpfHelpers.InvokeIfNecessary(() => _engine.ManualAddEvent(item.EventID, item.Continuous));
                             }),
                             EventOff = new RelayCommand(() =>
                             {
-                                _engine.ManualRemoveEvent(item.EventID);
+                                // PEV - 10/30/2023 - This is called from ASP.NET, InvokeIfNecessary is needed to prevent lockups and crashes
+                                WpfHelpers.InvokeIfNecessary(() => _engine.ManualRemoveEvent(item.EventID));
                             })
                         });
                     }
