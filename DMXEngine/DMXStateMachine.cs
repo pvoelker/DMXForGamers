@@ -7,6 +7,7 @@ using System.IO;
 using NAudio.Utils;
 using System.Xml.Linq;
 using System.Diagnostics;
+using NAudio.Wave.SampleProviders;
 
 namespace DMXEngine
 {
@@ -224,7 +225,7 @@ namespace DMXEngine
                     {
                         var fileExt = Path.GetExtension(foundEvent.SoundFileName);
 
-                        var stream = GetWaveStream(fileExt, foundEvent.SoundData);
+                        var stream = AudioHelpers.GetWaveStream(fileExt, foundEvent.SoundData);
 
                         // PEV - 10/6/2021 - This isn't great and only allows for one sound file to play at a time
                         if (_waveOut != null)
@@ -272,22 +273,6 @@ namespace DMXEngine
                         _lastExecTimeUpdate[eventName] = null;
                     }
                 }
-            }
-        }
-
-        private WaveStream GetWaveStream(string fileExt, byte[] soundData)
-        {
-            if (fileExt.ToLower() == ".wav")
-            {
-                return new WaveFileReader(new MemoryStream(soundData));
-            }
-            else if (fileExt.ToLower() == ".mp3")
-            {
-                return new Mp3FileReader(new MemoryStream(soundData));
-            }
-            else
-            {
-                throw new Exception($"Unknown file format ({fileExt})");
             }
         }
 

@@ -1,11 +1,13 @@
 ﻿using System;
 using System.IO;
+using System.Runtime.Versioning;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace DMXForGamers.Views.Common
 {
+    [SupportedOSPlatform("windows")]
     public partial class FileTextBox : UserControl
     {
         public static readonly DependencyProperty FilterProperty = DependencyProperty.Register(nameof(Filter), typeof(string), typeof(FileTextBox),

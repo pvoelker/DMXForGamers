@@ -46,8 +46,15 @@ namespace DMXForGamers.Models
             set
             {
                 SetProperty(ref m_IsRunning, value, true);
+                OnPropertyChanged(nameof(IsNotRunning));
                 OnPropertyChanged(nameof(CanRun));
+                OnPropertyChanged(nameof(CanEditRemote));
+                EditSettings?.NotifyCanExecuteChanged();
             }
+        }
+        public bool IsNotRunning
+        {
+            get => !m_IsRunning;
         }
 
         private string m_RunningText;
@@ -161,7 +168,16 @@ namespace DMXForGamers.Models
         public bool EnabledRemote
         {
             get => m_EnableRemote;
-            set => SetProperty(ref m_EnableRemote, value, true);
+            set
+            {
+                SetProperty(ref m_EnableRemote, value, true);
+                OnPropertyChanged(nameof(CanEditRemote));
+            }
+        }
+
+        public bool CanEditRemote
+        {
+            get => !m_IsRunning && m_EnableRemote;
         }
 
         private ushort m_RemotePort = 80;

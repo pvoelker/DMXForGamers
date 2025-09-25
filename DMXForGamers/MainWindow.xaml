@@ -78,15 +78,17 @@
             <TextBlock Grid.Row="4" Grid.ColumnSpan="5" Foreground="Purple">Step 2: Define DMX Events and Resulting DMX Outputs</TextBlock>
             <TextBlock Grid.Row="6">Events File:</TextBlock>
             <common:DocTextBox Grid.Row="6" Grid.Column="2" Grid.ColumnSpan="5"
+                               IsEnabled="{Binding Path=IsNotRunning}"
                                EditCommand="{Binding Path='EditEvents'}" NewCommand="{Binding Path='NewEvents'}"
                                FilePath="{Binding Path=EventsFile}" Filter="Events File|*.dge|XML File|*.xml|All Files|*.*"></common:DocTextBox>
             <TextBlock Grid.Row="8">DMX File:</TextBlock>
             <common:DocTextBox Grid.Row="8" Grid.Column="2" Grid.ColumnSpan="5"
+                               IsEnabled="{Binding Path=IsNotRunning}"
                                EditCommand="{Binding Path='EditDMXEvents'}" NewCommand="{Binding Path='NewDMXEvents'}"
                                FilePath="{Binding Path=DMXFile}" Filter="DMX File|*.dgd|XML File|*.xml|All Files|*.*"></common:DocTextBox>
             <TextBlock Grid.Row="10" Grid.ColumnSpan="5" Foreground="Purple" Margin="0,0,0,5" Grid.RowSpan="2">Step 3: Select and Configure a DMX Adapter/Protocol and Options</TextBlock>
             <TextBlock Grid.Row="12">Protocol:</TextBlock>
-            <ComboBox Grid.Row="12" Grid.Column="2" Grid.ColumnSpan="3" ItemsSource="{Binding Path=Protocols}" DisplayMemberPath="Description" SelectedItem="{Binding Path=SelectedProtocol}"></ComboBox>
+            <ComboBox Grid.Row="12" Grid.Column="2" Grid.ColumnSpan="3" IsEnabled="{Binding Path=IsNotRunning}" ItemsSource="{Binding Path=Protocols}" DisplayMemberPath="Description" SelectedItem="{Binding Path=SelectedProtocol}"></ComboBox>
             <Button Grid.Row="12" Grid.Column="6" Command="{Binding Path='EditSettings'}" ToolTip="Protocol Settings">
                 <Image Source="/DMXForGamers;component/Images/Gear16.png" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" />
             </Button>
@@ -100,9 +102,9 @@
                     <ColumnDefinition Width="20" />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <CheckBox Grid.Column="0" IsChecked="{Binding Path=EnabledRemote}">Enable Web Remote Control</CheckBox>
-                <Label Grid.Column="2" IsEnabled="{Binding Path=EnabledRemote}" Padding="5,0">Remote Port:</Label>
-                <tk:IntegerUpDown Grid.Column="4" Value="{Binding Path=RemotePort}" Width="75" Minimum="0" Maximum="65535" IsEnabled="{Binding Path=EnabledRemote}"/>
+                <CheckBox Grid.Column="0" IsEnabled="{Binding Path=IsNotRunning}" IsChecked="{Binding Path=EnabledRemote}">Enable Web Remote Control</CheckBox>
+                <Label Grid.Column="2" IsEnabled="{Binding Path=CanEditRemote}" Padding="5,0">Remote Port:</Label>
+                <tk:IntegerUpDown Grid.Column="4" Value="{Binding Path=RemotePort}" Width="75" Minimum="0" Maximum="65535" IsEnabled="{Binding Path=CanEditRemote}"/>
                 <Button Grid.Column="6" Grid.ColumnSpan="3" FontSize="12" Command="{Binding Path='Help'}" CommandParameter="1" Style="{StaticResource ResourceKey=LinkButton}">What is this?</Button>
             </Grid>
             <TextBlock Grid.Row="16" Grid.ColumnSpan="5" Foreground="Purple">Step 4: Run it!</TextBlock>

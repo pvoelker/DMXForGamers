@@ -1,9 +1,11 @@
-﻿using System.Windows;
+﻿using System.Runtime.Versioning;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace DMXForGamers.Views.Common
 {
+    [SupportedOSPlatform("windows")]
     public partial class DirectoryTextBox : UserControl
     {
         public static readonly DependencyProperty DirectoryPathProperty = DependencyProperty.Register(nameof(DirectoryPath), typeof(string), typeof(DirectoryTextBox),
