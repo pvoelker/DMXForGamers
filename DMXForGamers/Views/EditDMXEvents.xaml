@@ -48,7 +48,7 @@
                     <ItemsControl Grid.Row="0" Grid.ColumnSpan="3" ItemsSource="{Binding Path=Events}">
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
-                                <StackPanel />
+                                <VirtualizingStackPanel IsVirtualizing="True" VirtualizationMode="Recycling" />
                             </ItemsPanelTemplate>
                         </ItemsControl.ItemsPanel>
                         <ItemsControl.ItemTemplate>
@@ -89,7 +89,7 @@
                     <TextBlock Foreground="Blue" TextWrapping="WrapWithOverflow">These are the DMX values used when no events are on or triggered...</TextBlock>
                     <DataGrid Grid.Row="2" AutoGenerateColumns="False" ItemsSource="{Binding Path=BaseDMXValues}" GridLinesVisibility="None" AlternationCount="1" HeadersVisibility="Column" CanUserResizeRows="False" CanUserResizeColumns="False" CanUserReorderColumns="False" CanUserSortColumns="False" CanUserAddRows="False" CanUserDeleteRows="False">
                         <DataGrid.AlternatingRowBackground>
-                            <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
+                            <SolidColorBrush Color="{StaticResource {x:Static SystemColors.ControlColorKey}}"/>
                         </DataGrid.AlternatingRowBackground>
                         <DataGrid.Columns>
                             <DataGridTemplateColumn Header="Channel" Width="Auto" IsReadOnly="False">

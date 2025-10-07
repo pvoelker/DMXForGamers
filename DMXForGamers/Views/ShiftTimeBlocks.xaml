@@ -17,7 +17,7 @@
                   SelectionMode="Single"
                   FontSize="18">
             <DataGrid.AlternatingRowBackground>
-                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
+                <SolidColorBrush Color="{StaticResource {x:Static SystemColors.ControlColorKey}}"/>
             </DataGrid.AlternatingRowBackground>
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Start Time" Binding="{Binding StartTime, StringFormat='{}{0} ms'}" Width="120" />
