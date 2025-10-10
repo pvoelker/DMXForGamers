@@ -74,6 +74,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DMXForGamers.Models", "DMXF
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{001B389E-350F-4D2A-AF23-DD315C9D3E82}"
 	ProjectSection(SolutionItems) = preProject
+		LICENSE.txt = LICENSE.txt
 		README.md = README.md
 	EndProjectSection
 EndProject
