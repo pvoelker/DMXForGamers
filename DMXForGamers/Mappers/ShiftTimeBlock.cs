@@ -5,7 +5,7 @@ namespace DMXForGamers.Mappers
 {
     public class ShiftTimeBlock
     {
-        public Models.ShiftTimeBlock ToModel(Models.DMXTimeBlock data)
+        public static Models.ShiftTimeBlock ToModel(Models.DMXTimeBlock data)
         {
             var retVal = new Models.ShiftTimeBlock
             {
@@ -17,9 +17,9 @@ namespace DMXForGamers.Mappers
             return retVal;
         }
 
-        public void UpdateFromModel(Models.ShiftTimeBlock data, Models.DMXTimeBlock dataToUpdate)
+        public static void UpdateFromModel(Models.ShiftTimeBlock data, Models.DMXTimeBlock dataToUpdate)
         {
-            dataToUpdate.StartTime = data.NewStartTime.HasValue ? data.NewStartTime.Value : dataToUpdate.StartTime;
+            dataToUpdate.StartTime = data.NewStartTime ?? dataToUpdate.StartTime;
         }
     }
 }

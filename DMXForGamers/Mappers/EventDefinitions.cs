@@ -8,7 +8,7 @@ namespace DMXForGamers.Mappers
 {
     public class EventDefinitions
     {
-        public Models.EventDefinitions ToModel(DMXEngine.EventDefinitions data)
+        public static Models.EventDefinitions ToModel(DMXEngine.EventDefinitions data)
         {
             var retVal = new Models.EventDefinitions
             {
@@ -16,16 +16,15 @@ namespace DMXForGamers.Mappers
                 Notes = data.Notes
             };
 
-            var mapper = new EventDefinition();
             foreach(var item in data.Events)
             {
-                retVal.Events.Add(mapper.ToModel(item));
+                retVal.Events.Add(EventDefinition.ToModel(item));
             }
 
             return retVal;
         }
 
-        public DMXEngine.EventDefinitions FromModel(Models.EventDefinitions data)
+        public static DMXEngine.EventDefinitions FromModel(Models.EventDefinitions data)
         {
             var retVal = new DMXEngine.EventDefinitions
             {
@@ -33,10 +32,9 @@ namespace DMXForGamers.Mappers
                 Notes = data.Notes
             };
 
-            var mapper = new EventDefinition();
             foreach (var item in data.Events)
             {
-                retVal.Events.Add(mapper.FromModel(item));
+                retVal.Events.Add(EventDefinition.FromModel(item));
             }
 
             return retVal;

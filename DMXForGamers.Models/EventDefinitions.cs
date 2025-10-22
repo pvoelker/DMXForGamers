@@ -64,7 +64,7 @@ namespace DMXForGamers.Models
             set { SetProperty(ref _notes, value, true); }
         }
 
-        private DeepObservableCollection<EventDefinition> _events = new DeepObservableCollection<EventDefinition>(new List<string>
+        private DeepObservableCollection<EventDefinition> _events = new DeepObservableCollection<EventDefinition>(new HashSet<string>
         {
             nameof(EventDefinition.DeleteEvent),
             nameof(EventDefinition.ParentCollection)

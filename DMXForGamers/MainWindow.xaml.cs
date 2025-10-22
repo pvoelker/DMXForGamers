@@ -166,10 +166,9 @@ namespace DMXForGamers
             }
 
             var dmxPortAdapters = new List<DMXProtocol>();
-            var mapper = new Mappers.DMXProtocol();
             foreach (var item in DMXPortAdapterHelpers.GetPortAdapters())
             {
-                dmxPortAdapters.Add(mapper.ToModel(item));
+                dmxPortAdapters.Add(Mappers.DMXProtocol.ToModel(item));
             }
 
             m_Data.Protocols.AddRange(dmxPortAdapters);
@@ -502,12 +501,11 @@ namespace DMXForGamers
         private static void CreateOrEditEvents(string fileName, DMXEngine.EventDefinitions fileData)
         {
             var frm = new EditEventsWindow();
-            var mapper = new Mappers.EventDefinitions();
-            frm.DataContext = mapper.ToModel(fileData);
+            frm.DataContext = Mappers.EventDefinitions.ToModel(fileData);
             frm.ShowDialog();
             if (frm.IsSave == true)
             {
-                fileData = mapper.FromModel(frm.DataContext as Models.EventDefinitions);
+                fileData = Mappers.EventDefinitions.FromModel(frm.DataContext as Models.EventDefinitions);
                 EventDefinitionsFile.SaveFile(fileData, fileName);
             }
         }
@@ -515,12 +513,11 @@ namespace DMXForGamers
         private static void CreateOrEditDMXEvents(string fileName, DMXEngine.DMX fileData)
         {
             var frm = new EditDMXEventsWindow();
-            var mapper = new Mappers.DMXDefinitions();
-            frm.DataContext = mapper.ToModel(fileData);
+            frm.DataContext = Mappers.DMXDefinitions.ToModel(fileData);
             frm.ShowDialog();
             if (frm.IsSave == true)
             {
-                fileData = mapper.FromModel(frm.DataContext as DMXDefinitions);
+                fileData = Mappers.DMXDefinitions.FromModel(frm.DataContext as DMXDefinitions);
                 DMXEventsFile.SaveFile(fileData, fileName);
             }
         }

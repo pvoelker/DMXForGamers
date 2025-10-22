@@ -29,12 +29,10 @@ namespace DMXForGamers.Views
         {
             var data = DataContext as Models.DMXEvent;
 
-            var mapper = new Mappers.ShiftTimeBlock();
-
             var dlg = new ShiftTimeBlocksWindow();
 
             var dlgData = new Models.ShiftTimeBlocks();
-            dlgData.Values.AddRange(data.TimeBlocks.OrderBy(x => x.StartTime).Select(x => mapper.ToModel(x)));
+            dlgData.Values.AddRange(data.TimeBlocks.OrderBy(x => x.StartTime).Select(x => Mappers.ShiftTimeBlock.ToModel(x)));
 
             dlg.DataContext = dlgData;
 
@@ -45,7 +43,7 @@ namespace DMXForGamers.Views
                 foreach (var item in dlgData.Values.Where(x => x.NewStartTime.HasValue))
                 {
                     var itemToUpdate = data.TimeBlocks.Single(x => x.Id == item.Id);
-                    mapper.UpdateFromModel(item, itemToUpdate);
+                    Mappers.ShiftTimeBlock.UpdateFromModel(item, itemToUpdate);
                 }
             }
         }

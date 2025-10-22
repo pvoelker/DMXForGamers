@@ -8,7 +8,7 @@ namespace DMXForGamers.Mappers
 {
     public class DMXEvent
     {
-        public Models.DMXEvent ToModel(DMXEngine.Event data)
+        public static Models.DMXEvent ToModel(DMXEngine.Event data)
         {
             var retVal = new Models.DMXEvent()
             {
@@ -18,16 +18,15 @@ namespace DMXForGamers.Mappers
                 SoundData = data.SoundData
             };
 
-            var mapper = new DMXTimeBlock();
             foreach (var item in data.TimeBlocks)
             {
-                retVal.TimeBlocks.Add(mapper.ToModel(item));
+                retVal.TimeBlocks.Add(DMXTimeBlock.ToModel(item));
             }
 
             return retVal;
         }
 
-        public DMXEngine.Event FromModel(Models.DMXEvent data)
+        public static DMXEngine.Event FromModel(Models.DMXEvent data)
         {
             var retVal = new DMXEngine.Event()
             {
@@ -37,10 +36,9 @@ namespace DMXForGamers.Mappers
                 SoundData = data.SoundData
             };
 
-            var mapper = new DMXTimeBlock();
             foreach (var item in data.TimeBlocks)
             {
-                retVal.TimeBlocks.Add(mapper.FromModel(item));
+                retVal.TimeBlocks.Add(DMXTimeBlock.FromModel(item));
             }
 
             return retVal;

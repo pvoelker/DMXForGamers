@@ -4,17 +4,15 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DMXForGamers.Models
 {
     public sealed class DeepObservableCollection<T> : ObservableCollection<T>
         where T : INotifyPropertyChanged
     {
-        private List<string> _ignorePropertyNames = new List<string>();
+        private readonly HashSet<string> _ignorePropertyNames = new HashSet<string>();
 
-        public DeepObservableCollection(List<string> ignorePropertyNames = null)
+        public DeepObservableCollection(HashSet<string> ignorePropertyNames = null)
         {
             if (ignorePropertyNames != null)
             {
@@ -52,7 +50,7 @@ namespace DMXForGamers.Models
 
         private void ItemPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (_ignorePropertyNames.Count == 0 || !_ignorePropertyNames.Any(x => x == e.PropertyName))
+            if (_ignorePropertyNames.Count == 0 || !_ignorePropertyNames.Contains(e.PropertyName))
             {
                 var args = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, sender, sender, IndexOf((T)sender));
                 OnCollectionChanged(args);

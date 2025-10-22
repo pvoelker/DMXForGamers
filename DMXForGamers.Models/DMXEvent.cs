@@ -110,7 +110,7 @@ namespace DMXForGamers.Models
             set => SetProperty(ref _soundData, value, true);
         }
 
-        private DeepObservableCollection<DMXTimeBlock> _timeBlocks = new DeepObservableCollection<DMXTimeBlock>(new List<string> { nameof(DMXTimeBlock.DeleteTimeBlock) });
+        private DeepObservableCollection<DMXTimeBlock> _timeBlocks = new DeepObservableCollection<DMXTimeBlock>(new HashSet<string> { nameof(DMXTimeBlock.DeleteTimeBlock) });
         public DeepObservableCollection<DMXTimeBlock> TimeBlocks
         {
             get { return _timeBlocks; }
