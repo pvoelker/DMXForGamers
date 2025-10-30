@@ -6,7 +6,20 @@ namespace DMXEngine
 {
     public static class EventDefinitionsFile
     {
-        private static XmlSerializer _serializer = null;
+        private static readonly XmlSerializer _serializer = null;
+
+        private static readonly XmlReaderSettings _readerSettings = new()
+        {
+            ConformanceLevel = ConformanceLevel.Document
+        };
+
+        private static readonly XmlWriterSettings _writeSettings = new()
+        {
+            Encoding = System.Text.Encoding.UTF8,
+            NewLineChars = Environment.NewLine,
+            Indent = true,
+            ConformanceLevel = ConformanceLevel.Document
+        };
 
         static EventDefinitionsFile()
         {
@@ -15,31 +28,16 @@ namespace DMXEngine
 
         public static EventDefinitions LoadFile(string path)
         {
-            var settings = new XmlReaderSettings()
-            {
-                ConformanceLevel = ConformanceLevel.Document
-            };
+            using var xmlReader = XmlReader.Create(path, _readerSettings);
 
-            using (var xmlReader = XmlReader.Create(path, settings))
-            {
-                return (EventDefinitions)_serializer.Deserialize(xmlReader);
-            }
+            return (EventDefinitions)_serializer.Deserialize(xmlReader);
         }
 
         public static void SaveFile(EventDefinitions data, string path)
         {
-            var settings = new XmlWriterSettings()
-            {
-                Encoding = System.Text.Encoding.UTF8,
-                NewLineChars = Environment.NewLine,
-                Indent = true,
-                ConformanceLevel = ConformanceLevel.Document
-            };
+            using var xmlWriter = XmlWriter.Create(path, _writeSettings);
 
-            using (var xmlWriter = XmlWriter.Create(path, settings))
-            {
-                _serializer.Serialize(xmlWriter, data);
-            }
+            _serializer.Serialize(xmlWriter, data);
         }
     }
 }
