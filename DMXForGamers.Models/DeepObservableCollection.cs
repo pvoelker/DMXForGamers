@@ -18,8 +18,6 @@ namespace DMXForGamers.Models
             {
                 _ignorePropertyNames = ignorePropertyNames;
             }
-
-            CollectionChanged += DeepObservableCollectionCollectionChanged;
         }
 
         public DeepObservableCollection(IEnumerable<T> pItems) : this()
@@ -30,21 +28,49 @@ namespace DMXForGamers.Models
             }
         }
 
-        private void DeepObservableCollectionCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        protected override void InsertItem(int index, T item)
         {
-            if (e.NewItems != null)
+            base.InsertItem(index, item);
+            AttachItem(item);
+        }
+
+        protected override void SetItem(int index, T item)
+        {
+            var oldItem = this[index];
+            DetachItem(oldItem);
+            base.SetItem(index, item);
+            AttachItem(item);
+        }
+
+        protected override void RemoveItem(int index)
+        {
+            var item = this[index];
+            DetachItem(item);
+            base.RemoveItem(index);
+        }
+
+        protected override void ClearItems()
+        {
+            foreach (var item in this.ToList())
             {
-                foreach (Object item in e.NewItems)
-                {
-                    ((INotifyPropertyChanged)item).PropertyChanged += ItemPropertyChanged;
-                }
+                DetachItem(item);
             }
-            if (e.OldItems != null)
+            base.ClearItems();
+        }
+
+        private void AttachItem(INotifyPropertyChanged item)
+        {
+            if (item != null)
             {
-                foreach (Object item in e.OldItems)
-                {
-                    ((INotifyPropertyChanged)item).PropertyChanged -= ItemPropertyChanged;
-                }
+                item.PropertyChanged += ItemPropertyChanged;
+            }
+        }
+
+        private void DetachItem(INotifyPropertyChanged item)
+        {
+            if (item != null)
+            {
+                item.PropertyChanged -= ItemPropertyChanged;
             }
         }
 

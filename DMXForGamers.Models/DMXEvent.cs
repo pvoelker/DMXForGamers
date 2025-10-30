@@ -70,7 +70,7 @@ namespace DMXForGamers.Models
             }
         }
 
-        public IEnumerable<DMXEvent> ParentCollection { get; set; }
+        public WeakReference<IEnumerable<DMXEvent>> ParentCollection { get; set; }
 
         private string _eventID;
         [Required(ErrorMessage = "Event ID is Required")]
@@ -163,11 +163,14 @@ namespace DMXForGamers.Models
 
             if (instance.ParentCollection != null)
             {
-                var duplicateCount = instance.ParentCollection.Where(x => x != instance)
-                    .Count(x => String.Compare(x.EventID, instance.EventID) == 0);
-                if (duplicateCount > 0)
+                if (instance.ParentCollection.TryGetTarget(out var parentCollection))
                 {
-                    return new ValidationResult("Event ID is duplicated in another event");
+                    var duplicateCount = parentCollection.Where(x => x != instance)
+                        .Count(x => String.Compare(x.EventID, instance.EventID) == 0);
+                    if (duplicateCount > 0)
+                    {
+                        return new ValidationResult("Event ID is duplicated in another event");
+                    }
                 }
             }
 

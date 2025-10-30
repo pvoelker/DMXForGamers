@@ -45,7 +45,7 @@ namespace DMXForGamers.Models
                 foreach (var item in newItems)
                 {
                     item.DeleteEvent = new RelayCommand(() => Events.Remove(item));
-                    item.ParentCollection = Events;
+                    item.ParentCollection = new WeakReference<IEnumerable<EventDefinition>>(Events);
                 }
             }
         }

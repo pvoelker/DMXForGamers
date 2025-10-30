@@ -58,7 +58,7 @@ namespace DMXForGamers.Models
                 foreach (var item in newItems)
                 {
                     item.DeleteDMXValue = new RelayCommand(() => DMXValues.Remove(item));
-                    item.ParentCollection = DMXValues;
+                    item.ParentCollection = new WeakReference<IEnumerable<DMXValue>>(DMXValues);
                 }
             }
         }
