@@ -16,10 +16,7 @@ namespace DMXForGamers.Mappers
                 Notes = data.Notes
             };
 
-            foreach(var item in data.Events)
-            {
-                retVal.Events.Add(EventDefinition.ToModel(item));
-            }
+            retVal.Events.AddRange(data.Events.Select(EventDefinition.ToModel));
 
             return retVal;
         }
@@ -32,10 +29,7 @@ namespace DMXForGamers.Mappers
                 Notes = data.Notes
             };
 
-            foreach (var item in data.Events)
-            {
-                retVal.Events.Add(EventDefinition.FromModel(item));
-            }
+            retVal.Events.AddRange(data.Events.Select(EventDefinition.FromModel));
 
             return retVal;
         }

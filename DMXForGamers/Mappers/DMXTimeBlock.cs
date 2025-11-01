@@ -16,10 +16,7 @@ namespace DMXForGamers.Mappers
                 TimeSpan = data.TimeSpan,
             };
 
-            foreach(var item in data.DMXValues)
-            {
-                retVal.DMXValues.Add(DMXValue.ToModel(item));
-            }
+            retVal.DMXValues.AddRange(data.DMXValues.Select(DMXValue.ToModel));
 
             return retVal;
         }
@@ -32,10 +29,7 @@ namespace DMXForGamers.Mappers
                 TimeSpan = data.TimeSpan,
             };
 
-            foreach (var item in data.DMXValues)
-            {
-                retVal.DMXValues.Add(DMXValue.FromModel(item));
-            }
+            retVal.DMXValues.AddRange(data.DMXValues.Select(DMXValue.FromModel));
 
             return retVal;
         }

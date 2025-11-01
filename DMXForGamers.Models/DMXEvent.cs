@@ -3,10 +3,8 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Text;
 using System.Windows.Input;
 
 namespace DMXForGamers.Models
@@ -70,7 +68,7 @@ namespace DMXForGamers.Models
             }
         }
 
-        public WeakReference<IEnumerable<DMXEvent>> ParentCollection { get; set; }
+        public WeakReference<IReadOnlyCollection<DMXEvent>> ParentCollection { get; set; }
 
         private string _eventID;
         [Required(ErrorMessage = "Event ID is Required")]

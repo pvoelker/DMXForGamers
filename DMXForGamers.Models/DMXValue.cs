@@ -2,9 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Diagnostics;
 using System.Linq;
-using System.Text;
 using System.Windows.Input;
 
 namespace DMXForGamers.Models
@@ -16,7 +14,7 @@ namespace DMXForGamers.Models
             ValidateAllProperties();
         }
 
-        public WeakReference<IEnumerable<DMXValue>> ParentCollection { get; set; }
+        public WeakReference<IReadOnlyCollection<DMXValue>> ParentCollection { get; set; }
 
         private ushort _channel;
         [Range(1, 512,

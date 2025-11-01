@@ -3,8 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace DMXForGamers.Models
@@ -16,7 +14,7 @@ namespace DMXForGamers.Models
             ValidateAllProperties();
         }
 
-        public WeakReference<IEnumerable<EventDefinition>> ParentCollection { get; set; }
+        public WeakReference<IReadOnlyCollection<EventDefinition>> ParentCollection { get; set; }
 
         private string _description;
         public string Description

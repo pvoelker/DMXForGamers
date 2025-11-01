@@ -3,9 +3,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using System.Windows.Input;
 
 namespace DMXForGamers.Models
@@ -54,7 +52,7 @@ namespace DMXForGamers.Models
                 foreach (var item in newItems)
                 {
                     item.DeleteDMXValue = new RelayCommand(() => BaseDMXValues.Remove(item));
-                    item.ParentCollection = new WeakReference<IEnumerable<DMXValue>>(BaseDMXValues);
+                    item.ParentCollection = new WeakReference<IReadOnlyCollection<DMXValue>>(BaseDMXValues);
                 }
             }
         }
@@ -78,7 +76,7 @@ namespace DMXForGamers.Models
                 foreach (var item in newItems)
                 {
                     item.DeleteEvent = new RelayCommand(() => Events.Remove(item));
-                    item.ParentCollection = new WeakReference<IEnumerable<DMXEvent>>(Events);
+                    item.ParentCollection = new WeakReference<IReadOnlyCollection<DMXEvent>>(Events);
                 }
             }
         }

@@ -18,10 +18,7 @@ namespace DMXForGamers.Mappers
                 SoundData = data.SoundData
             };
 
-            foreach (var item in data.TimeBlocks)
-            {
-                retVal.TimeBlocks.Add(DMXTimeBlock.ToModel(item));
-            }
+            retVal.TimeBlocks.AddRange(data.TimeBlocks.Select(DMXTimeBlock.ToModel));
 
             return retVal;
         }
@@ -36,10 +33,7 @@ namespace DMXForGamers.Mappers
                 SoundData = data.SoundData
             };
 
-            foreach (var item in data.TimeBlocks)
-            {
-                retVal.TimeBlocks.Add(DMXTimeBlock.FromModel(item));
-            }
+            retVal.TimeBlocks.AddRange(data.TimeBlocks.Select(DMXTimeBlock.FromModel));
 
             return retVal;
         }

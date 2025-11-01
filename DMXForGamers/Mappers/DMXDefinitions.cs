@@ -16,15 +16,9 @@ namespace DMXForGamers.Mappers
                 AllowOneActiveEvent = data.AllowOneActiveEvent
             };
 
-            foreach(var item in data.BaseDMXValues)
-            {
-                retVal.BaseDMXValues.Add(DMXValue.ToModel(item));
-            }
+            retVal.BaseDMXValues.AddRange(data.BaseDMXValues.Select(DMXValue.ToModel));
 
-            foreach (var item in data.Events)
-            {
-                retVal.Events.Add(DMXEvent.ToModel(item));
-            }
+            retVal.Events.AddRange(data.Events.Select(DMXEvent.ToModel));
 
             return retVal;
         }
@@ -37,15 +31,9 @@ namespace DMXForGamers.Mappers
                 AllowOneActiveEvent = data.AllowOneActiveEvent
             };
 
-            foreach (var item in data.BaseDMXValues)
-            {
-                retVal.BaseDMXValues.Add(DMXValue.FromModel(item));
-            }
+            retVal.BaseDMXValues.AddRange(data.BaseDMXValues.Select(DMXValue.FromModel));
 
-            foreach (var item in data.Events)
-            {
-                retVal.Events.Add(DMXEvent.FromModel(item));
-            }
+            retVal.Events.AddRange(data.Events.Select(DMXEvent.FromModel));
 
             return retVal;
         }

@@ -2,12 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Collections.Specialized;
-using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace DMXForGamers.Models
@@ -45,7 +40,7 @@ namespace DMXForGamers.Models
                 foreach (var item in newItems)
                 {
                     item.DeleteEvent = new RelayCommand(() => Events.Remove(item));
-                    item.ParentCollection = new WeakReference<IEnumerable<EventDefinition>>(Events);
+                    item.ParentCollection = new WeakReference<IReadOnlyCollection<EventDefinition>>(Events);
                 }
             }
         }
