@@ -2,9 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Diagnostics;
 using System.Linq;
-using System.Text;
 using System.Windows.Input;
 
 namespace DMXForGamers.Models
@@ -16,7 +14,7 @@ namespace DMXForGamers.Models
             ValidateAllProperties();
         }
 
-        public IEnumerable<DMXValue> ParentCollection { get; set; }
+        public WeakReference<IReadOnlyCollection<DMXValue>> ParentCollection { get; set; }
 
         private ushort _channel;
         [Range(1, 512,
@@ -67,11 +65,14 @@ namespace DMXForGamers.Models
 
             if (instance.ParentCollection != null)
             {
-                var duplicateCount = instance.ParentCollection.Where(x => x != instance)
-                    .Count(x => x.Channel == instance.Channel);
-                if (duplicateCount > 0)
+                if (instance.ParentCollection.TryGetTarget(out var parentCollection))
                 {
-                    return new ValidationResult("Channel is duplicated");
+                    var duplicateCount = parentCollection.Where(x => x != instance)
+                        .Count(x => x.Channel == instance.Channel);
+                    if (duplicateCount > 0)
+                    {
+                        return new ValidationResult("Channel is duplicated");
+                    }
                 }
             }
 

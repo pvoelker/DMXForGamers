@@ -8,7 +8,7 @@ namespace DMXForGamers.Mappers
 {
     public class DMXValue
     {
-        public Models.DMXValue ToModel(DMXEngine.DMXValue data)
+        public static Models.DMXValue ToModel(DMXEngine.DMXValue data)
         {
             return new Models.DMXValue
             {
@@ -18,7 +18,7 @@ namespace DMXForGamers.Mappers
             };
         }
 
-        public DMXEngine.DMXValue FromModel(Models.DMXValue data)
+        public static DMXEngine.DMXValue FromModel(Models.DMXValue data)
         {
             return new DMXEngine.DMXValue
             {

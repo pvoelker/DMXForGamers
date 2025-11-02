@@ -40,53 +40,62 @@
         <TextBox Grid.Row="0" Grid.Column="2" Width="100" HorizontalAlignment="Left" Text="{Binding Path='StartTime', ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" Validation.ErrorTemplate="{StaticResource ResourceKey=errorTemplateSilverlightStyle}"></TextBox>
         <TextBlock Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right">Time Span:</TextBlock>
         <TextBox Grid.Row="2" Grid.Column="2" Width="100" HorizontalAlignment="Left" Text="{Binding Path='TimeSpan', ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" Validation.ErrorTemplate="{StaticResource ResourceKey=errorTemplateSilverlightStyle}"></TextBox>
-        <DataGrid Grid.Row="4" Grid.ColumnSpan="5" AutoGenerateColumns="False" ItemsSource="{Binding Path=DMXValues}" GridLinesVisibility="None" AlternationCount="1" HeadersVisibility="Column" CanUserResizeRows="False" CanUserResizeColumns="False" CanUserReorderColumns="False" CanUserSortColumns="False" CanUserAddRows="False" CanUserDeleteRows="False">
-            <DataGrid.AlternatingRowBackground>
-                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
-            </DataGrid.AlternatingRowBackground>
-            <DataGrid.Columns>
-                <DataGridTemplateColumn Header="Channel" Width="Auto" IsReadOnly="False">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <tk:IntegerUpDown Value="{Binding Path=Channel, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" Minimum="{Binding Path=MinChannel}" Maximum="{Binding Path=MaxChannel}"/>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="Value" Width="Auto" IsReadOnly="False">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <tk:ByteUpDown Value="{Binding Path=Value, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" Validation.ErrorTemplate="{StaticResource ResourceKey=errorTemplateSilverlightStyle}" Minimum="{Binding Path=MinValue}" Maximum="{Binding Path=MaxValue}"/>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="Delta" Width="Auto" IsReadOnly="False">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <tk:ShortUpDown Value="{Binding Path=Delta, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" Validation.ErrorTemplate="{StaticResource ResourceKey=errorTemplateSilverlightStyle}" Minimum="{Binding Path=MinDelta}" Maximum="{Binding Path=MaxDelta}"/>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTemplateColumn Width="Auto" IsReadOnly="False">
-                    <DataGridTemplateColumn.Header>
-                        <Button Command="{Binding Path=DataContext.AddDMXValue, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type DataGrid}}}">
-                            <Image Source="/DMXForGamers;component/Images/Add16.png" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                        </Button>
-                    </DataGridTemplateColumn.Header>
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <Button HorizontalAlignment="Center">
-                                <Image Source="/DMXForGamers;component/Images/Delete16.png" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                                <Button.InputBindings>
-                                    <MouseBinding Gesture="LeftDoubleClick" Command="{Binding Path='DeleteDMXValue'}" CommandParameter="{Binding}" />
-                                </Button.InputBindings>
+        <ListView Grid.Row="4" Grid.ColumnSpan="5" ItemsSource="{Binding Path=DMXValues}">
+            <ListView.View>
+                <GridView AllowsColumnReorder="False">
+                    <GridViewColumn Header="Channel" Width="Auto">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <tk:IntegerUpDown Value="{Binding Path=Channel, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" 
+                                                  Minimum="{Binding Path=MinChannel}" 
+                                                  Maximum="{Binding Path=MaxChannel}"
+                                                  Margin="0" Padding="0"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Value" Width="Auto">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <tk:ByteUpDown Value="{Binding Path=Value, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" 
+                                               Validation.ErrorTemplate="{StaticResource ResourceKey=errorTemplateSilverlightStyle}" 
+                                               Minimum="{Binding Path=MinValue}" 
+                                               Maximum="{Binding Path=MaxValue}"
+                                               Margin="0" Padding="0"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Delta" Width="Auto">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <tk:ShortUpDown Value="{Binding Path=Delta, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" 
+                                                Validation.ErrorTemplate="{StaticResource ResourceKey=errorTemplateSilverlightStyle}" 
+                                                Minimum="{Binding Path=MinDelta}" 
+                                                Maximum="{Binding Path=MaxDelta}"
+                                                />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Width="Auto">
+                        <GridViewColumn.Header>
+                            <Button Command="{Binding Path=DataContext.AddDMXValue, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListView}}}">
+                                <Image Source="/DMXForGamers;component/Images/Add16.png" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" />
                             </Button>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-            </DataGrid.Columns>
-        </DataGrid>
-        <Button Grid.Row="2" Grid.Column="4"
-                Command="{Binding Path=SortDMXValues}" HorizontalAlignment="Right">
+                        </GridViewColumn.Header>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button HorizontalAlignment="Center">
+                                    <Image Source="/DMXForGamers;component/Images/Delete16.png" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                    <Button.InputBindings>
+                                        <MouseBinding Gesture="LeftDoubleClick" Command="{Binding Path='DeleteDMXValue'}" CommandParameter="{Binding}" />
+                                    </Button.InputBindings>
+                                </Button>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <Button Grid.Row="2" Grid.Column="4" Command="{Binding Path=SortDMXValues}" HorizontalAlignment="Right">
             <Image Source="/DMXForGamers;component/Images/SortAsc16.png" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" />
             <Button.ToolTip>Sort DMX Values by Channel</Button.ToolTip>
         </Button>

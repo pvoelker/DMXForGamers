@@ -3,10 +3,8 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Text;
 using System.Windows.Input;
 
 namespace DMXForGamers.Models
@@ -70,7 +68,7 @@ namespace DMXForGamers.Models
             }
         }
 
-        public IEnumerable<DMXEvent> ParentCollection { get; set; }
+        public WeakReference<IReadOnlyCollection<DMXEvent>> ParentCollection { get; set; }
 
         private string _eventID;
         [Required(ErrorMessage = "Event ID is Required")]
@@ -110,7 +108,7 @@ namespace DMXForGamers.Models
             set => SetProperty(ref _soundData, value, true);
         }
 
-        private DeepObservableCollection<DMXTimeBlock> _timeBlocks = new DeepObservableCollection<DMXTimeBlock>(new List<string> { nameof(DMXTimeBlock.DeleteTimeBlock) });
+        private DeepObservableCollection<DMXTimeBlock> _timeBlocks = new DeepObservableCollection<DMXTimeBlock>(new HashSet<string> { nameof(DMXTimeBlock.DeleteTimeBlock) });
         public DeepObservableCollection<DMXTimeBlock> TimeBlocks
         {
             get { return _timeBlocks; }
@@ -163,11 +161,14 @@ namespace DMXForGamers.Models
 
             if (instance.ParentCollection != null)
             {
-                var duplicateCount = instance.ParentCollection.Where(x => x != instance)
-                    .Count(x => String.Compare(x.EventID, instance.EventID) == 0);
-                if (duplicateCount > 0)
+                if (instance.ParentCollection.TryGetTarget(out var parentCollection))
                 {
-                    return new ValidationResult("Event ID is duplicated in another event");
+                    var duplicateCount = parentCollection.Where(x => x != instance)
+                        .Count(x => String.Compare(x.EventID, instance.EventID) == 0);
+                    if (duplicateCount > 0)
+                    {
+                        return new ValidationResult("Event ID is duplicated in another event");
+                    }
                 }
             }
 

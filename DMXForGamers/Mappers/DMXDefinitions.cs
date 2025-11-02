@@ -8,7 +8,7 @@ namespace DMXForGamers.Mappers
 {
     public class DMXDefinitions
     {
-        public Models.DMXDefinitions ToModel(DMXEngine.DMX data)
+        public static Models.DMXDefinitions ToModel(DMXEngine.DMX data)
         {
             var retVal = new Models.DMXDefinitions()
             {
@@ -16,22 +16,14 @@ namespace DMXForGamers.Mappers
                 AllowOneActiveEvent = data.AllowOneActiveEvent
             };
 
-            var dmxMapper = new DMXValue();
-            foreach(var item in data.BaseDMXValues)
-            {
-                retVal.BaseDMXValues.Add(dmxMapper.ToModel(item));
-            }
+            retVal.BaseDMXValues.AddRange(data.BaseDMXValues.Select(DMXValue.ToModel));
 
-            var eventMapper = new DMXEvent();
-            foreach (var item in data.Events)
-            {
-                retVal.Events.Add(eventMapper.ToModel(item));
-            }
+            retVal.Events.AddRange(data.Events.Select(DMXEvent.ToModel));
 
             return retVal;
         }
 
-        public DMXEngine.DMX FromModel(Models.DMXDefinitions data)
+        public static DMXEngine.DMX FromModel(Models.DMXDefinitions data)
         {
             var retVal = new DMXEngine.DMX()
             {
@@ -39,17 +31,9 @@ namespace DMXForGamers.Mappers
                 AllowOneActiveEvent = data.AllowOneActiveEvent
             };
 
-            var dmxMapper = new DMXValue();
-            foreach (var item in data.BaseDMXValues)
-            {
-                retVal.BaseDMXValues.Add(dmxMapper.FromModel(item));
-            }
+            retVal.BaseDMXValues.AddRange(data.BaseDMXValues.Select(DMXValue.FromModel));
 
-            var eventMapper = new DMXEvent();
-            foreach (var item in data.Events)
-            {
-                retVal.Events.Add(eventMapper.FromModel(item));
-            }
+            retVal.Events.AddRange(data.Events.Select(DMXEvent.FromModel));
 
             return retVal;
         }

@@ -8,7 +8,7 @@ namespace DMXForGamers.Mappers
 {
     public class DMXTimeBlock
     {
-        public Models.DMXTimeBlock ToModel(DMXEngine.TimeBlock data)
+        public static Models.DMXTimeBlock ToModel(DMXEngine.TimeBlock data)
         {
             var retVal = new Models.DMXTimeBlock
             {
@@ -16,16 +16,12 @@ namespace DMXForGamers.Mappers
                 TimeSpan = data.TimeSpan,
             };
 
-            var mapper = new DMXValue();
-            foreach(var item in data.DMXValues)
-            {
-                retVal.DMXValues.Add(mapper.ToModel(item));
-            }
+            retVal.DMXValues.AddRange(data.DMXValues.Select(DMXValue.ToModel));
 
             return retVal;
         }
 
-        public DMXEngine.TimeBlock FromModel(Models.DMXTimeBlock data)
+        public static DMXEngine.TimeBlock FromModel(Models.DMXTimeBlock data)
         {
             var retVal = new DMXEngine.TimeBlock
             {
@@ -33,11 +29,7 @@ namespace DMXForGamers.Mappers
                 TimeSpan = data.TimeSpan,
             };
 
-            var mapper = new DMXValue();
-            foreach (var item in data.DMXValues)
-            {
-                retVal.DMXValues.Add(mapper.FromModel(item));
-            }
+            retVal.DMXValues.AddRange(data.DMXValues.Select(DMXValue.FromModel));
 
             return retVal;
         }

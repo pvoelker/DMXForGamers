@@ -1,8 +1,8 @@
-﻿using DMXCommunication;
+﻿using CommunityToolkit.Mvvm.Input;
+using DMXCommunication;
 using DMXEngine;
 using DMXForGamers.Models;
 using DMXForGamers.Web;
-using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -12,6 +12,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Reflection;
+using System.Runtime.Versioning;
 using System.Timers;
 using System.Windows;
 using System.Windows.Threading;
@@ -21,6 +22,7 @@ namespace DMXForGamers
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
+    [SupportedOSPlatform("windows")]
     public partial class MainWindow : Window
     {
         public MainWindow()
@@ -53,7 +55,7 @@ namespace DMXForGamers
             },
             () =>
             {
-                return (m_Data.SelectedProtocol == null) ? false : (m_Data.SelectedProtocol.Settings != null);
+                return m_Data.IsNotRunning && ((m_Data.SelectedProtocol == null) ? false : (m_Data.SelectedProtocol.Settings != null));
             });
 
             m_Data.EditEvents = new RelayCommand(() =>
@@ -61,6 +63,10 @@ namespace DMXForGamers
                 if (File.Exists(m_Data.EventsFile) == false)
                 {
                     MessageBox.Show("Unable to load: " + m_Data.EventsFile, "File Not Found", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                else if (m_Data.IsRunning)
+                {
+                    MessageBox.Show("DMX must be stopped before editing.", "DMX Running", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
                 else
                 {
@@ -83,6 +89,10 @@ namespace DMXForGamers
                 if (File.Exists(m_Data.DMXFile) == false)
                 {
                     MessageBox.Show("Unable to load: " + m_Data.DMXFile, "File Not Found", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                else if (m_Data.IsRunning)
+                {
+                    MessageBox.Show("DMX must be stopped before editing.", "DMX Running", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
                 else
                 {
@@ -156,10 +166,9 @@ namespace DMXForGamers
             }
 
             var dmxPortAdapters = new List<DMXProtocol>();
-            var mapper = new Mappers.DMXProtocol();
             foreach (var item in DMXPortAdapterHelpers.GetPortAdapters())
             {
-                dmxPortAdapters.Add(mapper.ToModel(item));
+                dmxPortAdapters.Add(Mappers.DMXProtocol.ToModel(item));
             }
 
             m_Data.Protocols.AddRange(dmxPortAdapters);
@@ -387,6 +396,10 @@ namespace DMXForGamers
 
                         m_Data.RunningText = "Remote Control: http://" + string.Join(",", GetLocalIPs()) + ":" + m_Data.RemotePort;
                     }
+                    else
+                    {
+                        m_Data.RunningText = string.Empty;
+                    }
                 }
             }
             catch (Exception ex)
@@ -488,12 +501,11 @@ namespace DMXForGamers
         private static void CreateOrEditEvents(string fileName, DMXEngine.EventDefinitions fileData)
         {
             var frm = new EditEventsWindow();
-            var mapper = new Mappers.EventDefinitions();
-            frm.DataContext = mapper.ToModel(fileData);
+            frm.DataContext = Mappers.EventDefinitions.ToModel(fileData);
             frm.ShowDialog();
             if (frm.IsSave == true)
             {
-                fileData = mapper.FromModel(frm.DataContext as Models.EventDefinitions);
+                fileData = Mappers.EventDefinitions.FromModel(frm.DataContext as Models.EventDefinitions);
                 EventDefinitionsFile.SaveFile(fileData, fileName);
             }
         }
@@ -501,12 +513,11 @@ namespace DMXForGamers
         private static void CreateOrEditDMXEvents(string fileName, DMXEngine.DMX fileData)
         {
             var frm = new EditDMXEventsWindow();
-            var mapper = new Mappers.DMXDefinitions();
-            frm.DataContext = mapper.ToModel(fileData);
+            frm.DataContext = Mappers.DMXDefinitions.ToModel(fileData);
             frm.ShowDialog();
             if (frm.IsSave == true)
             {
-                fileData = mapper.FromModel(frm.DataContext as DMXDefinitions);
+                fileData = Mappers.DMXDefinitions.FromModel(frm.DataContext as DMXDefinitions);
                 DMXEventsFile.SaveFile(fileData, fileName);
             }
         }

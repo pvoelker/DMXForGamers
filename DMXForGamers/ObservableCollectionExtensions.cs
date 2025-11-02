@@ -8,10 +8,7 @@ namespace DMXForGamers
     {
         public static void AddRange<T>(this ObservableCollection<T> oc, IEnumerable<T> collection)
         {
-            if (collection == null)
-            {
-                throw new ArgumentNullException("collection");
-            }
+            ArgumentNullException.ThrowIfNull(collection);
 
             foreach (var item in collection)
             {

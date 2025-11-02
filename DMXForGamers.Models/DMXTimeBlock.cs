@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Text;
 using System.Windows.Input;
 
 namespace DMXForGamers.Models
@@ -58,7 +57,7 @@ namespace DMXForGamers.Models
                 foreach (var item in newItems)
                 {
                     item.DeleteDMXValue = new RelayCommand(() => DMXValues.Remove(item));
-                    item.ParentCollection = DMXValues;
+                    item.ParentCollection = new WeakReference<IReadOnlyCollection<DMXValue>>(DMXValues);
                 }
             }
         }

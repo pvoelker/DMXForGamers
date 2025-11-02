@@ -2,12 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Collections.Specialized;
-using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace DMXForGamers.Models
@@ -45,7 +40,7 @@ namespace DMXForGamers.Models
                 foreach (var item in newItems)
                 {
                     item.DeleteEvent = new RelayCommand(() => Events.Remove(item));
-                    item.ParentCollection = Events;
+                    item.ParentCollection = new WeakReference<IReadOnlyCollection<EventDefinition>>(Events);
                 }
             }
         }
@@ -64,7 +59,7 @@ namespace DMXForGamers.Models
             set { SetProperty(ref _notes, value, true); }
         }
 
-        private DeepObservableCollection<EventDefinition> _events = new DeepObservableCollection<EventDefinition>(new List<string>
+        private DeepObservableCollection<EventDefinition> _events = new DeepObservableCollection<EventDefinition>(new HashSet<string>
         {
             nameof(EventDefinition.DeleteEvent),
             nameof(EventDefinition.ParentCollection)

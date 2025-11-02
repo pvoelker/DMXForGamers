@@ -3,9 +3,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using System.Windows.Input;
 
 namespace DMXForGamers.Models
@@ -54,7 +52,7 @@ namespace DMXForGamers.Models
                 foreach (var item in newItems)
                 {
                     item.DeleteDMXValue = new RelayCommand(() => BaseDMXValues.Remove(item));
-                    item.ParentCollection = BaseDMXValues;
+                    item.ParentCollection = new WeakReference<IReadOnlyCollection<DMXValue>>(BaseDMXValues);
                 }
             }
         }
@@ -78,7 +76,7 @@ namespace DMXForGamers.Models
                 foreach (var item in newItems)
                 {
                     item.DeleteEvent = new RelayCommand(() => Events.Remove(item));
-                    item.ParentCollection = Events;
+                    item.ParentCollection = new WeakReference<IReadOnlyCollection<DMXEvent>>(Events);
                 }
             }
         }
@@ -97,7 +95,7 @@ namespace DMXForGamers.Models
             set => SetProperty(ref _allowOneActiveEvent, value, true);
         }
 
-        private DeepObservableCollection<DMXValue> _baseDMXValues = new DeepObservableCollection<DMXValue>(new List<string> { nameof(DMXValue.DeleteDMXValue), nameof(DMXValue.ParentCollection) });
+        private DeepObservableCollection<DMXValue> _baseDMXValues = new DeepObservableCollection<DMXValue>(new HashSet<string> { nameof(DMXValue.DeleteDMXValue), nameof(DMXValue.ParentCollection) });
         public DeepObservableCollection<DMXValue> BaseDMXValues
         {
             get { return _baseDMXValues; }
@@ -105,7 +103,7 @@ namespace DMXForGamers.Models
 
         public IEnumerable<ushort> UsedBaseChannels { get { return BaseDMXValues.Select(x => x.Channel).Distinct(); } }
 
-        private DeepObservableCollection<DMXEvent> _events = new DeepObservableCollection<DMXEvent>(new List<string> { nameof(DMXEvent.DeleteEvent), nameof(DMXValue.ParentCollection) });
+        private DeepObservableCollection<DMXEvent> _events = new DeepObservableCollection<DMXEvent>(new HashSet<string> { nameof(DMXEvent.DeleteEvent), nameof(DMXValue.ParentCollection) });
         public DeepObservableCollection<DMXEvent> Events
         {
             get { return _events; }

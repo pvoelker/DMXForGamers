@@ -8,7 +8,7 @@ namespace DMXForGamers.Mappers
 {
     public class EventDefinition
     {
-        public Models.EventDefinition ToModel(DMXEngine.EventDefinition data)
+        public static Models.EventDefinition ToModel(DMXEngine.EventDefinition data)
         {
             return new Models.EventDefinition
             {
@@ -20,7 +20,7 @@ namespace DMXForGamers.Mappers
             };
         }
 
-        public DMXEngine.EventDefinition FromModel(Models.EventDefinition data)
+        public static DMXEngine.EventDefinition FromModel(Models.EventDefinition data)
         {
             return new DMXEngine.EventDefinition
             {

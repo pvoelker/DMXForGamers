@@ -3,8 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace DMXForGamers.Models
@@ -16,7 +14,7 @@ namespace DMXForGamers.Models
             ValidateAllProperties();
         }
 
-        public IEnumerable<EventDefinition> ParentCollection { get; set; }
+        public WeakReference<IReadOnlyCollection<EventDefinition>> ParentCollection { get; set; }
 
         private string _description;
         public string Description
@@ -127,11 +125,14 @@ namespace DMXForGamers.Models
 
             if (instance.ParentCollection != null)
             {
-                var duplicateCount = instance.ParentCollection.Where(x => x != instance)
-                    .Count(x => String.Compare(x.EventID, instance.EventID) == 0);
-                if (duplicateCount > 0)
+                if (instance.ParentCollection.TryGetTarget(out var parentCollection))
                 {
-                    return new ValidationResult("Event ID is duplicated in another event");
+                    var duplicateCount = parentCollection.Where(x => x != instance)
+                        .Count(x => String.Compare(x.EventID, instance.EventID) == 0);
+                    if (duplicateCount > 0)
+                    {
+                        return new ValidationResult("Event ID is duplicated in another event");
+                    }
                 }
             }
 
