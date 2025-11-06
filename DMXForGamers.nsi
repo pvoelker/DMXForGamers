@@ -66,16 +66,20 @@
 Section
 
   SetOutPath "$INSTDIR"
-  
   File .\DMXForGamers\bin\Release\net9.0-windows\*.exe
   File .\DMXForGamers\bin\Release\net9.0-windows\*.dll
   File .\DMXForGamers\bin\Release\net9.0-windows\*.runtimeconfig.json
   File .\DMXForGamers\bin\Release\net9.0-windows\dmxforgamershelp.chm
-  
   File /nonfatal /a /r .\DMXForGamers\bin\Release\net9.0-windows\wwwroot\
 
-  SetOutPath "$INSTDIR\Examples"
+  SetOutPath "$INSTDIR\runtimes\win"
+  File /r .\DMXForGamers\bin\Release\net9.0-windows\runtimes\win\*
+  SetOutPath "$INSTDIR\runtimes\win-x86"
+  File /r .\DMXForGamers\bin\Release\net9.0-windows\runtimes\win-x86\*
+  SetOutPath "$INSTDIR\runtimes\win-x64"
+  File /r .\DMXForGamers\bin\Release\net9.0-windows\runtimes\win-x64\*
 
+  SetOutPath "$INSTDIR\Examples"
   File .\ConfigFiles\*.dgd
   File .\ConfigFiles\*.dge
 
@@ -133,8 +137,12 @@ Section "Uninstall"
   Delete "$INSTDIR\*.runtimeconfig.json"
   Delete "$INSTDIR\dmxforgamershelp.chm"
 
+  RmDir /r "$INSTDIR\runtimes"
+
   RmDir /r "$INSTDIR\wwwroot"
+
   RmDir "$INSTDIR\Examples"
+
   RmDir "$INSTDIR"
 
   DeleteRegKey /ifempty HKCU "Software\${APP_NAME}"
