@@ -49,6 +49,7 @@ namespace DMXForGamers.Models
                 OnPropertyChanged(nameof(IsNotRunning));
                 OnPropertyChanged(nameof(CanRun));
                 OnPropertyChanged(nameof(CanEditRemote));
+                OnPropertyChanged(nameof(CanEditAutoPlay));
                 EditSettings?.NotifyCanExecuteChanged();
             }
         }
@@ -187,6 +188,31 @@ namespace DMXForGamers.Models
         {
             get => m_RemotePort;
             set => SetProperty(ref m_RemotePort, value, true);
+        }
+
+        private bool m_EnableAutoPlay = false;
+        public bool EnableAutoPlay
+        {
+            get => m_EnableAutoPlay;
+            set
+            {
+                SetProperty(ref m_EnableAutoPlay, value, true);
+                OnPropertyChanged(nameof(CanEditAutoPlay));
+            }
+        }
+
+        public bool CanEditAutoPlay
+        {
+            get => !m_IsRunning && m_EnableAutoPlay;
+        }
+
+        private int m_AutoPlayDelay = 10;
+        [Range(1, int.MaxValue,
+            ErrorMessage = "Auto Play Delay must be greater than 0")]
+        public int AutoPlayDelay
+        {
+            get => m_AutoPlayDelay;
+            set => SetProperty(ref m_AutoPlayDelay, value, true);
         }
 
         private ObservableCollection<EventDefinition> m_Events;

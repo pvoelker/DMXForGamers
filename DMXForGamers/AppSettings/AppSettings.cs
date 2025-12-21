@@ -19,6 +19,9 @@ namespace DMXForGamers
 
         public bool EnableRemoteControl { get; set; }
         public ushort RemoteControlPort { get; set; }
-	}
+
+		public bool EnableAutoPlay { get; set; }
+		public int AutoPlayDelay { get; set; }
+    }
 }
 

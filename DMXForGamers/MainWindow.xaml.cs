@@ -32,8 +32,11 @@ namespace DMXForGamers
             LoadData();
 
             _dmxUpdateTimer = new Timer();
-            _dmxUpdateTimer.Interval = 10;
             _dmxUpdateTimer.Elapsed += DMXUpdateTimer_Elapsed;
+
+            _autoPlayTimer = new Timer();
+            _autoPlayTimer.Interval = 1000;
+            _autoPlayTimer.Elapsed += AutoPlayTimer_Elapsed;
 
             m_Data.Help = new RelayCommand<string>((x) =>
             {
@@ -126,10 +129,15 @@ namespace DMXForGamers
 
         private TextEventEngine _engine = null;
         private ITextMonitor _textMonitor = null;
-        private Timer _dmxUpdateTimer = null;
+        private readonly Timer _dmxUpdateTimer = null;
         private const int MAX_LINE_COUNT = 100;
 
+        private readonly Timer _autoPlayTimer = null;
+        private int _autoPlayElapsedSeconds = 0;
+
         private SelfHost _webHost = null;
+
+        private readonly Random _random = new();
 
         private void LoadData()
         {
@@ -192,6 +200,9 @@ namespace DMXForGamers
             m_Data.EnabledRemote = m_AppSettings.EnableRemoteControl;
             m_Data.RemotePort = m_AppSettings.RemoteControlPort;
 
+            m_Data.EnableAutoPlay = m_AppSettings.EnableAutoPlay;
+            m_Data.AutoPlayDelay = m_AppSettings.AutoPlayDelay;
+
             this.DataContext = m_Data;
         }
 
@@ -215,6 +226,9 @@ namespace DMXForGamers
 
             m_AppSettings.EnableRemoteControl = m_Data.EnabledRemote;
             m_AppSettings.RemoteControlPort = m_Data.RemotePort;
+
+            m_AppSettings.EnableAutoPlay = m_Data.EnableAutoPlay;
+            m_AppSettings.AutoPlayDelay = m_Data.AutoPlayDelay;
 
             MessageBoxResult response = MessageBoxResult.Yes;
             while (response == MessageBoxResult.Yes)
@@ -284,6 +298,7 @@ namespace DMXForGamers
         {
             m_Data.IsRunning = true;
 
+#pragma warning disable CS0168 // Variable is declared but never used
             try
             {
                 m_Data.IsBusy = true;
@@ -400,6 +415,9 @@ namespace DMXForGamers
                     {
                         m_Data.RunningText = string.Empty;
                     }
+
+                    _autoPlayElapsedSeconds = 0;
+                    _autoPlayTimer.Enabled = m_Data.EnableAutoPlay;
                 }
             }
             catch (Exception ex)
@@ -417,10 +435,14 @@ namespace DMXForGamers
             {
                 m_Data.IsBusy = false;
             }
+#pragma warning restore CS0168 // Variable is declared but never used
         }
 
         private void StopButton_Click(object sender, RoutedEventArgs e)
         {
+            _autoPlayElapsedSeconds = 0;
+            _autoPlayTimer.Enabled = false;
+
             if (_webHost != null)
             {
                 _webHost.Dispose();
@@ -490,6 +512,33 @@ namespace DMXForGamers
             finally
             {
                 _dmxUpdateTimer.Enabled = true;
+            }
+        }
+
+        void AutoPlayTimer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            // Make sure no events are active
+            if(m_Data.Events.All(x => x.State == false))
+            {
+                _autoPlayElapsedSeconds++;
+
+                if(_autoPlayElapsedSeconds >= m_Data.AutoPlayDelay)
+                {
+                    try
+                    {
+                        var eventIndex = _random.Next(m_Data.Events.Count);
+                        var selectedEvent = m_Data.Events[eventIndex];
+                        selectedEvent.EventOn.Execute(null);
+                    }
+                    finally
+                    {
+                        _autoPlayElapsedSeconds = 0;
+                    }
+                }
+            }
+            else
+            {
+                _autoPlayElapsedSeconds = 0;
             }
         }
 

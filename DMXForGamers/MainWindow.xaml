@@ -93,6 +93,11 @@
                 <Image Source="/DMXForGamers;component/Images/Gear16.png" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" />
             </Button>
             <Grid Grid.Row="14" Grid.Column="2" Grid.ColumnSpan="6">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="5" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="20" />
@@ -102,10 +107,13 @@
                     <ColumnDefinition Width="20" />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <CheckBox Grid.Column="0" IsEnabled="{Binding Path=IsNotRunning}" IsChecked="{Binding Path=EnabledRemote}">Enable Web Remote Control</CheckBox>
-                <Label Grid.Column="2" IsEnabled="{Binding Path=CanEditRemote}" Padding="5,0">Remote Port:</Label>
-                <tk:IntegerUpDown Grid.Column="4" Value="{Binding Path=RemotePort}" Width="75" Minimum="0" Maximum="65535" IsEnabled="{Binding Path=CanEditRemote}"/>
-                <Button Grid.Column="6" Grid.ColumnSpan="3" FontSize="12" Command="{Binding Path='Help'}" CommandParameter="1" Style="{StaticResource ResourceKey=LinkButton}">What is this?</Button>
+                <CheckBox Grid.Row="0" Grid.Column="0" IsEnabled="{Binding Path=IsNotRunning}" IsChecked="{Binding Path=EnabledRemote}">Enable Web Remote Control</CheckBox>
+                <Label Grid.Row="0" Grid.Column="2" IsEnabled="{Binding Path=CanEditRemote}" Padding="5,0">Remote Port:</Label>
+                <tk:IntegerUpDown Grid.Row="0" Grid.Column="4" Value="{Binding Path=RemotePort}" Width="75" Minimum="0" Maximum="65535" IsEnabled="{Binding Path=CanEditRemote}"/>
+                <Button Grid.Row="0" Grid.Column="6" Grid.ColumnSpan="3" FontSize="12" Command="{Binding Path='Help'}" CommandParameter="1" Style="{StaticResource ResourceKey=LinkButton}">What is this?</Button>
+                <CheckBox Grid.Row="2" Grid.Column="0" IsEnabled="{Binding Path=IsNotRunning}" IsChecked="{Binding Path=EnableAutoPlay}">Enable Auto Play</CheckBox>
+                <Label Grid.Row="2" Grid.Column="2" IsEnabled="{Binding Path=CanEditAutoPlay}" Padding="5,0">Auto Play Delay:</Label>
+                <tk:IntegerUpDown Grid.Row="2" Grid.Column="4" Value="{Binding Path=AutoPlayDelay}" Width="75" Minimum="1" Maximum="60" IsEnabled="{Binding Path=CanEditAutoPlay}"/>
             </Grid>
             <TextBlock Grid.Row="16" Grid.ColumnSpan="5" Foreground="Purple">Step 4: Run it!</TextBlock>
             <TabControl Grid.Row="18" Grid.ColumnSpan="8">
