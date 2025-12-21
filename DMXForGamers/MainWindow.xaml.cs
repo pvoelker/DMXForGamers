@@ -31,16 +31,21 @@ namespace DMXForGamers
 
             LoadData();
 
-            _dmxUpdateTimer = new Timer();
+            _dmxUpdateTimer = new Timer
+            {
+                Interval = 10
+            };
             _dmxUpdateTimer.Elapsed += DMXUpdateTimer_Elapsed;
 
-            _autoPlayTimer = new Timer();
-            _autoPlayTimer.Interval = 1000;
+            _autoPlayTimer = new Timer
+            {
+                Interval = 1000
+            };
             _autoPlayTimer.Elapsed += AutoPlayTimer_Elapsed;
 
             m_Data.Help = new RelayCommand<string>((x) =>
             {
-                var helpTopic = x as string;
+                string helpTopic = x;
 
                 var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
                 var chmPath = Path.Combine(path, "DMXForGamersHelp.chm");
@@ -122,7 +127,7 @@ namespace DMXForGamers
 #endif
         }
 
-        private Main m_Data = Main.Instance;
+        private readonly Main m_Data = Main.Instance;
 
         private AppSettings m_AppSettings = null;
         private string m_AppSettingsFilePath = null;
@@ -348,7 +353,7 @@ namespace DMXForGamers
                 else
                 {
                     var dmxEvents = DMXEventsFile.LoadFile(m_Data.DMXFile);
-                    DMXStateMachine dmx = new DMXStateMachine(dmxEvents, dmxComm, UpdateChannel, UpdateEvent);
+                    DMXStateMachine dmx = new(dmxEvents, dmxComm, UpdateChannel, UpdateEvent);
 
                     var eventDefs = EventDefinitionsFile.LoadFile(m_Data.EventsFile);
                     _engine = new TextEventEngine(dmx, eventDefs);

@@ -5,9 +5,9 @@ namespace DMXEngine
 {
     public class NewProcessTextMonitor : ITextMonitor
     {
-        private string _fileName = null;
-        private string _arguments = null;
-        private Action<string> _processorAction = null;
+        private readonly string _fileName = null;
+        private readonly string _arguments = null;
+        private readonly Action<string> _processorAction = null;
         private ThreadedProcessingQueue<string> _queue = null;
 
         private Process _process = null;

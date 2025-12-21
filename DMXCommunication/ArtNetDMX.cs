@@ -65,7 +65,7 @@ namespace DMXCommunication
     {
         private IPEndPoint _endPoint;
         private Socket _socket;
-        private byte[] _buffer = new byte[512];
+        private readonly byte[] _buffer = new byte[512];
         private EventWaitHandle _done = null;
         private EventWaitHandle _doneComplete = null;
         private bool _doneStarted = false;

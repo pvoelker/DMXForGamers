@@ -7,14 +7,14 @@ namespace DMXCommunication
 {
     public class OpenDMX : IDMXCommunication
     {
-        private byte[] _buffer = new byte[513];
+        private readonly byte[] _buffer = new byte[513];
         private int _bytesWritten = 0;
         private EventWaitHandle _done = null;
         private EventWaitHandle _doneComplete = null;
         private bool _doneStarted = false;
         private FT_STATUS _status = FT_STATUS.FT_OK;
 
-        private FTDI _ftdi = new FTDI();
+        private readonly FTDI _ftdi = new FTDI();
 
         static public Guid ID = new Guid("b76abe7d-ef4a-4b05-bf41-bb4e68613ed7");
         public Guid Identifier { get { return ID; } }
