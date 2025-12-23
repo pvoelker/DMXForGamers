@@ -17,7 +17,7 @@
 ;--------------------------------
 ;General
 
-  !getdllversion ".\DMXForGamers\bin\Release\net9.0-windows\DMXForGamers.exe" MyVer_
+  !getdllversion ".\DMXForGamers\bin\Release\net10.0-windows\DMXForGamers.exe" MyVer_
 
   ;Name and file
   Name "DMX for Gamers v${MyVer_1}.${MyVer_2}"
@@ -66,18 +66,18 @@
 Section
 
   SetOutPath "$INSTDIR"
-  File .\DMXForGamers\bin\Release\net9.0-windows\*.exe
-  File .\DMXForGamers\bin\Release\net9.0-windows\*.dll
-  File .\DMXForGamers\bin\Release\net9.0-windows\*.runtimeconfig.json
-  File .\DMXForGamers\bin\Release\net9.0-windows\dmxforgamershelp.chm
-  File /nonfatal /a /r .\DMXForGamers\bin\Release\net9.0-windows\wwwroot\
+  File .\DMXForGamers\bin\Release\net10.0-windows\*.exe
+  File .\DMXForGamers\bin\Release\net10.0-windows\*.dll
+  File .\DMXForGamers\bin\Release\net10.0-windows\*.runtimeconfig.json
+  File .\DMXForGamers\bin\Release\net10.0-windows\dmxforgamershelp.chm
+  File /nonfatal /a /r .\DMXForGamers\bin\Release\net10.0-windows\wwwroot\
 
   SetOutPath "$INSTDIR\runtimes\win"
-  File /r .\DMXForGamers\bin\Release\net9.0-windows\runtimes\win\*
+  File /r .\DMXForGamers\bin\Release\net10.0-windows\runtimes\win\*
   SetOutPath "$INSTDIR\runtimes\win-x86"
-  File /r .\DMXForGamers\bin\Release\net9.0-windows\runtimes\win-x86\*
+  File /r .\DMXForGamers\bin\Release\net10.0-windows\runtimes\win-x86\*
   SetOutPath "$INSTDIR\runtimes\win-x64"
-  File /r .\DMXForGamers\bin\Release\net9.0-windows\runtimes\win-x64\*
+  File /r .\DMXForGamers\bin\Release\net10.0-windows\runtimes\win-x64\*
 
   SetOutPath "$INSTDIR\Examples"
   File .\ConfigFiles\*.dgd
