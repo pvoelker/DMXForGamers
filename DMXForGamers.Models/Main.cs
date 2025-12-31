@@ -79,13 +79,13 @@ namespace DMXForGamers.Models
             set => SetProperty(ref m_IsBusy, value);
         }
 
-        private ObservableCollection<DMXChannel> m_Channels = new ObservableCollection<DMXChannel>();
+        private readonly ObservableCollection<DMXChannel> m_Channels = new ObservableCollection<DMXChannel>();
         public ObservableCollection<DMXChannel> Channels
         {
             get => m_Channels;
         }
 
-        private List<DMXProtocol> m_Protocols = new List<DMXProtocol>();
+        private readonly List<DMXProtocol> m_Protocols = new List<DMXProtocol>();
         public List<DMXProtocol> Protocols
         {
             get => m_Protocols;
@@ -98,8 +98,7 @@ namespace DMXForGamers.Models
             set
             {
                 SetProperty(ref m_SelectedProtocol, value, true);
-                if(EditSettings != null)
-                    EditSettings.NotifyCanExecuteChanged();
+                EditSettings?.NotifyCanExecuteChanged();
             }
         }
 
@@ -146,8 +145,7 @@ namespace DMXForGamers.Models
             {
                 SetProperty(ref m_EventsFile, value, true);
                 OnPropertyChanged(nameof(CanRun));
-                if(EditEvents != null)
-                    EditEvents.NotifyCanExecuteChanged();
+                EditEvents?.NotifyCanExecuteChanged();
             }
         }
 
@@ -160,8 +158,7 @@ namespace DMXForGamers.Models
             {
                 SetProperty(ref m_DMXFile, value, true);
                 OnPropertyChanged(nameof(CanRun));
-                if(EditDMXEvents != null)
-                    EditDMXEvents.NotifyCanExecuteChanged();
+                EditDMXEvents?.NotifyCanExecuteChanged();
             }
         }
 
@@ -213,6 +210,22 @@ namespace DMXForGamers.Models
         {
             get => m_AutoPlayDelay;
             set => SetProperty(ref m_AutoPlayDelay, value, true);
+        }
+
+        private int m_AutoPlayCount;
+        public int AutoPlayCount
+        {
+            get => m_AutoPlayCount;
+            set
+            {
+                SetProperty(ref m_AutoPlayCount, value);
+                OnPropertyChanged(nameof(AutoPlayIdle));
+            }
+        }
+
+        public bool AutoPlayIdle
+        {
+            get => m_AutoPlayCount > 0;
         }
 
         private ObservableCollection<EventDefinition> m_Events;

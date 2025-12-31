@@ -114,6 +114,7 @@
                 <CheckBox Grid.Row="2" Grid.Column="0" IsEnabled="{Binding Path=IsNotRunning}" IsChecked="{Binding Path=EnableAutoPlay}">Enable Auto Play</CheckBox>
                 <Label Grid.Row="2" Grid.Column="2" IsEnabled="{Binding Path=CanEditAutoPlay}" Padding="5,0">Auto Play Delay:</Label>
                 <tk:IntegerUpDown Grid.Row="2" Grid.Column="4" Value="{Binding Path=AutoPlayDelay}" Width="75" Minimum="1" Maximum="60" IsEnabled="{Binding Path=CanEditAutoPlay}"/>
+                <Label Grid.Row="2" Grid.Column="6" Visibility="{Binding Path=AutoPlayIdle, Converter={StaticResource booleanToVisibilityConverter}}" Content="{Binding Path=AutoPlayCount}" ContentStringFormat="Idle Time: {0}" Padding="5,0"/>
             </Grid>
             <TextBlock Grid.Row="16" Grid.ColumnSpan="5" Foreground="Purple">Step 4: Run it!</TextBlock>
             <TabControl Grid.Row="18" Grid.ColumnSpan="8">

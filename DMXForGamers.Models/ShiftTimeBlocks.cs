@@ -31,7 +31,7 @@ namespace DMXForGamers.Models
             }
         }
 
-        private ObservableCollection<ShiftTimeBlock> _values = new ObservableCollection<ShiftTimeBlock>();
+        private readonly ObservableCollection<ShiftTimeBlock> _values = new ObservableCollection<ShiftTimeBlock>();
         public ObservableCollection<ShiftTimeBlock> Values
         {
             get { return _values; }

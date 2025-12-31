@@ -138,7 +138,6 @@ namespace DMXForGamers
         private const int MAX_LINE_COUNT = 100;
 
         private readonly Timer _autoPlayTimer = null;
-        private int _autoPlayElapsedSeconds = 0;
 
         private SelfHost _webHost = null;
 
@@ -421,7 +420,7 @@ namespace DMXForGamers
                         m_Data.RunningText = string.Empty;
                     }
 
-                    _autoPlayElapsedSeconds = 0;
+                    m_Data.AutoPlayCount = 0;
                     _autoPlayTimer.Enabled = m_Data.EnableAutoPlay;
                 }
             }
@@ -445,7 +444,7 @@ namespace DMXForGamers
 
         private void StopButton_Click(object sender, RoutedEventArgs e)
         {
-            _autoPlayElapsedSeconds = 0;
+            m_Data.AutoPlayCount = 0;
             _autoPlayTimer.Enabled = false;
 
             if (_webHost != null)
@@ -525,9 +524,9 @@ namespace DMXForGamers
             // Make sure no events are active
             if(m_Data.Events.All(x => x.State == false))
             {
-                _autoPlayElapsedSeconds++;
+                m_Data.AutoPlayCount++;
 
-                if(_autoPlayElapsedSeconds >= m_Data.AutoPlayDelay)
+                if(m_Data.AutoPlayCount >= m_Data.AutoPlayDelay)
                 {
                     try
                     {
@@ -537,13 +536,13 @@ namespace DMXForGamers
                     }
                     finally
                     {
-                        _autoPlayElapsedSeconds = 0;
+                        m_Data.AutoPlayCount = 0;
                     }
                 }
             }
             else
             {
-                _autoPlayElapsedSeconds = 0;
+                m_Data.AutoPlayCount = 0;
             }
         }
 
