@@ -1,66 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using DMXCommunication.Models;
+using DMXCommunication.Settings;
+using System;
 using System.Net;
 using System.Net.Sockets;
-using System.Runtime.InteropServices;
 using System.Threading;
-using System.Xml.Serialization;
 
 namespace DMXCommunication
 {
-    public class IPAddressConverter : TypeConverter
-    {
-        public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType)
-        {
-            if (sourceType == typeof(string)) return true;
-            return base.CanConvertFrom(context, sourceType);
-        }
-        public override object ConvertFrom(ITypeDescriptorContext context, System.Globalization.CultureInfo culture, object value)
-        {
-            if (value is string)
-                return IPAddress.Parse((string)value);
-            return base.ConvertFrom(context, culture, value);
-        }
-    }
-
-    // --------------------------------------------------------------------------------------------
-
-    [Serializable]
-    public class ArtNetDMXSettings : BaseSettings
-    {
-        [Category("Configuration")]
-        [DisplayName("Node IP Address")]
-        [Description("This property specifies the IP address to send the DMX data (ArtDmx) packets to.")]
-        [TypeConverter(typeof(IPAddressConverter))]
-        [XmlIgnore]
-        public IPAddress NodeIPAddress { get; set; } = IPAddress.Parse("127.0.0.1");
-        [XmlElement("NodeIPAddress")]
-        [Browsable(false)]
-        public string MasterIPForXML
-        {
-            get
-            {
-                return NodeIPAddress.ToString();
-            }
-            set
-            {
-                NodeIPAddress = String.IsNullOrEmpty(value) ? null : IPAddress.Parse(value);
-            }
-        }
-
-        [Category("Configuration")]
-        [DisplayName("Universe")]
-        [Description("This property defines the 'universe' to be used.")]
-        public ushort Universe { get; set; } = 0;
-
-        [Category("Configuration")]
-        [DisplayName("Port")]
-        [Description("This property defines the UDP port number to be used (default 6454).")]
-        [TypeConverter(typeof(IPAddressConverter))]
-        public ushort Port { get; set; } = 6454;
-    }
-
+    /// <summary>
+    /// Provides Art-Net DMX (Digital Multiplex) communication over IP networks, enabling the transmission and control
+    /// of DMX lighting data using the Art-Net protocol.    
+    /// </summary>
+    /// <remarks>ArtNetDMX implements the IDMXCommunication interface to facilitate DMX data transmission over
+    /// UDP using the Art-Net protocol, commonly used in lighting control systems. The class manages network
+    /// communication, channel value updates, and resource cleanup. Thread safety is maintained for channel value
+    /// updates. Instances should be started with Start() before sending DMX data and stopped with Stop() when
+    /// communication is no longer needed. Dispose() should be called to release resources when finished. The class is
+    /// not intended for use across multiple universes simultaneously; use separate instances for each universe if
+    /// required.</remarks>
     public class ArtNetDMX : IDMXCommunication
     {
         private IPEndPoint _endPoint;
@@ -78,7 +35,7 @@ namespace DMXCommunication
 
         #region Settings
 
-        private static ArtNetDMXSettings _settings = new ArtNetDMXSettings();
+        private static readonly ArtNetDMXSettings _settings = new ArtNetDMXSettings();
 
         public ArtNetDMXSettings Settings
         {
@@ -88,14 +45,25 @@ namespace DMXCommunication
         object IDMXCommunication.Settings
         {
             get { return Settings; }
+            set
+            {
+                if (value is ArtNetDMXSettings settings)
+                {
+                    Settings.NodeIPAddress = settings.NodeIPAddress;
+                    Settings.Universe = settings.Universe;
+                    Settings.Port = settings.Port;
+                }
+                else
+                {
+                    throw new ArgumentException("Invalid settings object", nameof(value));
+                }
+            }
         }
 
         #endregion
 
         public void Start()
         {
-            //var permission = new SocketPermission(NetworkAccess.Accept, TransportType.Udp, "", Settings.Port);
-
             _endPoint = new IPEndPoint(Settings.NodeIPAddress, Settings.Port);
             _socket = new Socket(_endPoint.Address.AddressFamily, SocketType.Dgram, ProtocolType.Udp);
 
@@ -108,8 +76,10 @@ namespace DMXCommunication
 
             try
             {
-                Thread thread = new Thread(new ThreadStart(WriteData));
-                thread.Name = "Art-Net DMX Comms";
+                Thread thread = new Thread(new ThreadStart(WriteData))
+                {
+                    Name = "Art-Net DMX Comms"
+                };
                 thread.Start();
             }
             catch

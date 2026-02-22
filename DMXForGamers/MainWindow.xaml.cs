@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using DMXCommunication;
+using DMXCommunication.Settings;
 using DMXEngine;
 using DMXForGamers.Models;
 using DMXForGamers.Web;
@@ -322,6 +323,10 @@ namespace DMXForGamers
                     if (dmxPortAdapter != null)
                     {
                         dmxComm = (IDMXCommunication)Activator.CreateInstance(dmxPortAdapter.Type);
+                        if (dmxPortAdapter.Settings != null)
+                        {
+                            dmxComm.Settings = dmxPortAdapter.Settings;
+                        }
                     }
                 }
 

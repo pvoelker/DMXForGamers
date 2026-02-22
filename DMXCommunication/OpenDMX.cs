@@ -5,6 +5,13 @@ using static FTD2XX_NET.FTDI;
 
 namespace DMXCommunication
 {
+    /// <summary>
+    /// Provides communication with Open DMX USB devices using the FTDI chipset. This includes Enttec devices.
+    /// Enables sending DMX512 data to lighting equipment via a USB interface. 
+    /// </summary>
+    /// <remarks>This class implements the IDMXCommunication interface to support DMX output through Enttec
+    /// Open DMX (FTDI-based) hardware. It manages device initialization, data transmission, and resource cleanup.
+    /// Instances of this class are not thread-safe. Only one OpenDMX device can be controlled per instance.</remarks>
     public class OpenDMX : IDMXCommunication
     {
         private readonly byte[] _buffer = new byte[513];
@@ -43,6 +50,8 @@ namespace DMXCommunication
             get { return null; }
         }
 
+        object IDMXCommunication.Settings { get => Settings; set => throw new NotImplementedException(); }
+
         public void Start()
         {
             _status = _ftdi.OpenByIndex(0);
@@ -56,8 +65,10 @@ namespace DMXCommunication
 
             try
             {
-                Thread thread = new Thread(new ThreadStart(WriteData));
-                thread.Name = "OpenDMX Comms";
+                Thread thread = new Thread(new ThreadStart(WriteData))
+                {
+                    Name = "OpenDMX Comms"
+                };
                 thread.Start();
             }
             catch

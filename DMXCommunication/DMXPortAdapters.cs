@@ -1,30 +1,21 @@
-﻿using System;
+﻿using DMXCommunication.Models;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
-using System.Reflection;
-using System.Runtime.InteropServices;
 
 namespace DMXCommunication
 {
-    public class DMXPortAdapter
-    {
-        public DMXPortAdapter(string description, Guid id, Type type, object settings)
-        {
-            Description = description;
-            ID = id;
-            Type = type;
-            Settings = settings;
-        }
-
-        public string Description { get; private set; }
-        public Guid ID { get; private set; }
-        public Type Type { get; private set; }
-        public object Settings { get; private set; }
-    }
-
     static public class DMXPortAdapterHelpers
     {
+        /// <summary>
+        /// Retrieves a list of available DMX port adapters implemented in the current assembly.    
+        /// </summary>
+        /// <remarks>This method discovers all types in the executing assembly that implement the <see
+        /// cref="IDMXCommunication"/> interface and creates corresponding <see cref="DMXPortAdapter"/> instances. Each
+        /// adapter is initialized with its description, identifier, type, and settings as provided by the communication
+        /// implementation.</remarks>
+        /// <returns>A list of <see cref="DMXPortAdapter"/> objects representing all detected DMX port adapters. The list is
+        /// empty if no adapters are found.</returns>
         static public List<DMXPortAdapter> GetPortAdapters()
         {
             var retVal = new List<DMXPortAdapter>();

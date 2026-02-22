@@ -1,8 +1,14 @@
 ﻿using System;
-using System.Threading;
 
 namespace DMXCommunication
 {
+	/// <summary>
+	/// Provides a no-operation implementation of the IDMXCommunication interface that performs no actions and does not
+	/// communicate with any hardware.
+	/// </summary>
+	/// <remarks>Use NullAdapter when a DMX communication interface is required but no actual hardware interaction
+	/// is needed. This can be useful for testing, development, or as a default placeholder in scenarios where DMX output
+	/// is optional.</remarks>
 	public class NullAdapter : IDMXCommunication
 	{
         static public Guid ID = new Guid("1c01e3c1-ef23-4285-87b6-bd220610c6d7");
@@ -13,6 +19,8 @@ namespace DMXCommunication
         {
             get { return null; }
         }
+
+        object IDMXCommunication.Settings { get => Settings; set => throw new NotImplementedException(); }
 
         public void Start ()
 		{
