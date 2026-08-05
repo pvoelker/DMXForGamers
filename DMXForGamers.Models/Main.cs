@@ -253,11 +253,18 @@ namespace DMXForGamers.Models
 
         #region Commands
 
-        private RelayCommand<string> _help;
-        public RelayCommand<string> Help
+        private RelayCommand _help;
+        public RelayCommand Help
         {
             get => _help;
             set => SetProperty(ref _help, value);
+        }
+
+        private RelayCommand _webHelp;
+        public RelayCommand WebHelp
+        {
+            get => _webHelp;
+            set => SetProperty(ref _webHelp, value);
         }
 
         private RelayCommand _editSettings;

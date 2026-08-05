@@ -28,7 +28,7 @@
   VIAddVersionKey FileVersion "${MyVer_1}.${MyVer_2}.${MyVer_3}.${MyVer_4}"
   VIAddVersionKey ProductVersion "${MyVer_1}.${MyVer_2}.${MyVer_3}.${MyVer_4}"
   VIAddVersionKey FileDescription "Installation Package for DMX for Gamers"
-  VIAddVersionKey LegalCopyright "Copyright © 2025 Paul Voelker"
+  VIAddVersionKey LegalCopyright "Copyright © 2026 Paul Voelker"
 
   ;Default installation folder
   InstallDir "$PROGRAMFILES\${APP_NAME}"
@@ -69,7 +69,8 @@ Section
   File .\DMXForGamers\bin\Release\net10.0-windows\*.exe
   File .\DMXForGamers\bin\Release\net10.0-windows\*.dll
   File .\DMXForGamers\bin\Release\net10.0-windows\*.runtimeconfig.json
-  File .\DMXForGamers\bin\Release\net10.0-windows\dmxforgamershelp.chm
+  File .\DMXForGamers\bin\Release\net10.0-windows\dmxforgamershelp.html
+  File .\DMXForGamers\bin\Release\net10.0-windows\dmxforgamersweb.html
   File /nonfatal /a /r .\DMXForGamers\bin\Release\net10.0-windows\wwwroot\
 
   SetOutPath "$INSTDIR\runtimes\win"
@@ -135,7 +136,8 @@ Section "Uninstall"
   Delete "$INSTDIR\*.exe"
   Delete "$INSTDIR\*.dll"
   Delete "$INSTDIR\*.runtimeconfig.json"
-  Delete "$INSTDIR\dmxforgamershelp.chm"
+  Delete "$INSTDIR\dmxforgamershelp.html"
+  Delete "$INSTDIR\dmxforgamersweb.html"
 
   RmDir /r "$INSTDIR\runtimes"
 

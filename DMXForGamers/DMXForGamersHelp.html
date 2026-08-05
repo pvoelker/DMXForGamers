@@ -1,0 +1,47 @@
+<h1>DMX for Gamers Help</h1>
+<hr>
+<h2>About</h2>
+<p><strong>DMX for Gamers</strong> started out as a small project to add lighting for a <strong>Scorched3D</strong> (<a href="http://www.scorched3d.co.uk/"><u>http://www.scorched3d.co.uk/</u></a>) LAN party.  The server for Scorched3D is a console application with outputs that show significant events (game starting, player killed, game win).  These outputs were used to trigger lights over DMX.</p>
+<p>The addition of lighting to the LAN party was a hit.  As time allowed, work was done to make the application more generic and user friendly.</p>
+<p>This is certainly is not the most sophisticated DMX application out there.  The hope is that fills a &#39;niche&#39; and that others find ways to use this utility in there LAN parties with other games or maybe in completely new ways.</p>
+<p>Enjoy!</p>
+<hr>
+<h2>Introduction</h2>
+<p>Users of this software are assumed to have basic knowledge of electronic devices and how to wire them.</p>
+<p>DMX512 (Digital Multiplex or DMX for short) is a standard for digital communications used to control stage lighting and effects.  It&#39;s been around a long time, but is simple and very reliable.</p>
+<p>A series of 512 bytes of data is constantly sent over a shared bus line.  Each of these bytes is a &#39;channel&#39; and starts with channel 1.  The last channel being 512.</p>
+<p>Devices (like lights) on the bus line are assigned addresses.  The address is what &#39;channel&#39; the device needs to look at.  Devices can and most likely will look at several channels.  So a 3-channel light assigned to address 4 will look at channels 4, 5 and 6.</p>
+<hr>
+<h2>Hardware Requirements</h2>
+<p>First and foremost you need a PC to run the software.  <strong>DMX for Gamers</strong> itself does not require much horsepower.  Any PC capable of running Windows 7 or higher should be sufficient.</p>
+<p>To actually drive lights with <strong>DMX for Gamers</strong> will require the following:</p>
+<ul>
+<li><p>DMX Adapter</p>
+<ul>
+<li><em>Tested and Works</em><ul>
+<li>Enttec Open DMX USB</li>
+<li>DTECH USB to RS422/RS485</li>
+<li>ArtNet (DMX over IP)</li>
+</ul>
+</li>
+<li><em>Works in Theory</em><ul>
+<li>Any FTDI based DMX adapter</li>
+<li>Any RS485 adapter</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Any DMX controllable lights with manuals</p>
+<ul>
+<li>DMX lights come in all styles and functionalities.  I would recommend a simple 3 or 4 channel light to get started.  You can find cheap LED DMX lights from $40 - $60 online.</li>
+<li>You will need manuals or DMX instructions for the lights in order to use them with <strong>DMX for Gamers</strong></li>
+</ul>
+</li>
+<li><p>DMX cords</p>
+<ul>
+<li>By the specs, DMX cables are 5 pins.  However alot of hardware uses 3 pin cables.</li>
+<li>For short runs, standard 3 pin XLR audio cables will work</li>
+<li>For short runs you should not need to work about termination.  If you don&#39;t know what termination is, don&#39;t worry about it...</li>
+</ul>
+</li>
+</ul>

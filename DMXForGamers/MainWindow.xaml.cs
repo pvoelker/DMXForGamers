@@ -44,17 +44,9 @@ namespace DMXForGamers
             };
             _autoPlayTimer.Elapsed += AutoPlayTimer_Elapsed;
 
-            m_Data.Help = new RelayCommand<string>((x) =>
-            {
-                string helpTopic = x;
+            m_Data.Help = new RelayCommand(() => OpenHtmlHelp("DMXForGamersHelp.html"));
 
-                var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-                var chmPath = Path.Combine(path, "DMXForGamersHelp.chm");
-                if(helpTopic == null)
-                    System.Windows.Forms.Help.ShowHelp(null, chmPath);
-                else
-                    System.Windows.Forms.Help.ShowHelp(null, chmPath, System.Windows.Forms.HelpNavigator.TopicId, helpTopic);
-            });
+            m_Data.WebHelp = new RelayCommand(() => OpenHtmlHelp("DMXForGamersWeb.html"));
 
             m_Data.EditSettings = new RelayCommand(() =>
             {
@@ -354,6 +346,12 @@ namespace DMXForGamers
                         "Unable to Start", MessageBoxButton.OK, MessageBoxImage.Exclamation);
                     StopButton_Click(this, null);
                 }
+                else if ((m_Data.EnableAutoPlay == true) && (m_Data.AutoPlayDelay <= 0))
+                {
+                    MessageBox.Show("Auto Play Delay must be greater than 0",
+                        "Unable to Start", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                    StopButton_Click(this, null);
+                }
                 else
                 {
                     var dmxEvents = DMXEventsFile.LoadFile(m_Data.DMXFile);
@@ -601,6 +599,27 @@ namespace DMXForGamers
             }
 
             return null;
+        }
+
+        private static void OpenHtmlHelp(string fileName)
+        {
+            try
+            {
+                var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+                var htmlPath = Path.Combine(path, fileName);
+
+                var startInfo = new ProcessStartInfo
+                {
+                    FileName = new Uri(htmlPath).AbsoluteUri,
+                    UseShellExecute = true
+                };
+
+                Process.Start(startInfo);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Could not open help file: {ex.Message}");
+            }
         }
     }
 }
