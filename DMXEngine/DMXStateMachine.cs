@@ -96,9 +96,9 @@ namespace DMXEngine
             _dmxComm = dmxComm;
             _dmxComm.Start();
 
-            _audioEngine.UpdateDevicesInfo();
+            _audioEngine.UpdateAudioDevicesInfo();
             var deviceInfo = _audioEngine.PlaybackDevices.SingleOrDefault(x => x.IsDefault);
-            if (deviceInfo != default(DeviceInfo))
+            if (deviceInfo != default)
             {
                 _playbackDevice = _audioEngine.InitializePlaybackDevice(deviceInfo, _audioFormat);
                 _playbackDevice.Start();

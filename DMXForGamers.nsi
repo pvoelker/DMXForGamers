@@ -17,7 +17,7 @@
 ;--------------------------------
 ;General
 
-  !getdllversion ".\DMXForGamers\bin\Release\net9.0-windows\DMXForGamers.exe" MyVer_
+  !getdllversion ".\DMXForGamers\bin\Release\net10.0-windows\DMXForGamers.exe" MyVer_
 
   ;Name and file
   Name "DMX for Gamers v${MyVer_1}.${MyVer_2}"
@@ -28,7 +28,7 @@
   VIAddVersionKey FileVersion "${MyVer_1}.${MyVer_2}.${MyVer_3}.${MyVer_4}"
   VIAddVersionKey ProductVersion "${MyVer_1}.${MyVer_2}.${MyVer_3}.${MyVer_4}"
   VIAddVersionKey FileDescription "Installation Package for DMX for Gamers"
-  VIAddVersionKey LegalCopyright "Copyright © 2025 Paul Voelker"
+  VIAddVersionKey LegalCopyright "Copyright © 2026 Paul Voelker"
 
   ;Default installation folder
   InstallDir "$PROGRAMFILES\${APP_NAME}"
@@ -66,16 +66,21 @@
 Section
 
   SetOutPath "$INSTDIR"
-  
-  File .\DMXForGamers\bin\Release\net9.0-windows\*.exe
-  File .\DMXForGamers\bin\Release\net9.0-windows\*.dll
-  File .\DMXForGamers\bin\Release\net9.0-windows\*.runtimeconfig.json
-  File .\DMXForGamers\bin\Release\net9.0-windows\dmxforgamershelp.chm
-  
-  File /nonfatal /a /r .\DMXForGamers\bin\Release\net9.0-windows\wwwroot\
+  File .\DMXForGamers\bin\Release\net10.0-windows\*.exe
+  File .\DMXForGamers\bin\Release\net10.0-windows\*.dll
+  File .\DMXForGamers\bin\Release\net10.0-windows\*.runtimeconfig.json
+  File .\DMXForGamers\bin\Release\net10.0-windows\dmxforgamershelp.html
+  File .\DMXForGamers\bin\Release\net10.0-windows\dmxforgamersweb.html
+  File /nonfatal /a /r .\DMXForGamers\bin\Release\net10.0-windows\wwwroot\
+
+  SetOutPath "$INSTDIR\runtimes\win"
+  File /r .\DMXForGamers\bin\Release\net10.0-windows\runtimes\win\*
+  SetOutPath "$INSTDIR\runtimes\win-x86"
+  File /r .\DMXForGamers\bin\Release\net10.0-windows\runtimes\win-x86\*
+  SetOutPath "$INSTDIR\runtimes\win-x64"
+  File /r .\DMXForGamers\bin\Release\net10.0-windows\runtimes\win-x64\*
 
   SetOutPath "$INSTDIR\Examples"
-
   File .\ConfigFiles\*.dgd
   File .\ConfigFiles\*.dge
 
@@ -131,10 +136,15 @@ Section "Uninstall"
   Delete "$INSTDIR\*.exe"
   Delete "$INSTDIR\*.dll"
   Delete "$INSTDIR\*.runtimeconfig.json"
-  Delete "$INSTDIR\dmxforgamershelp.chm"
+  Delete "$INSTDIR\dmxforgamershelp.html"
+  Delete "$INSTDIR\dmxforgamersweb.html"
+
+  RmDir /r "$INSTDIR\runtimes"
 
   RmDir /r "$INSTDIR\wwwroot"
+
   RmDir "$INSTDIR\Examples"
+
   RmDir "$INSTDIR"
 
   DeleteRegKey /ifempty HKCU "Software\${APP_NAME}"

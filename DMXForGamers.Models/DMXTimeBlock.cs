@@ -62,7 +62,7 @@ namespace DMXForGamers.Models
             }
         }
 
-        private Guid _id;
+        private readonly Guid _id;
         /// <summary>
         /// Internally generated unique ID
         /// </summary>
@@ -89,7 +89,7 @@ namespace DMXForGamers.Models
             set => SetProperty(ref _timeSpan, value, true);
         }
 
-        private ObservableCollection<DMXValue> _dmxValues = new ObservableCollection<DMXValue>();
+        private readonly ObservableCollection<DMXValue> _dmxValues = new ObservableCollection<DMXValue>();
         public ObservableCollection<DMXValue> DMXValues
         {
             get { return _dmxValues; }

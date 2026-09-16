@@ -6,7 +6,7 @@ namespace DMXEngine
     public class TextEventEngine
     {
         private DMXStateMachine _dmx = null;
-        private EventDefinitions _eventDefs = null;
+        private readonly EventDefinitions _eventDefs = null;
 
         public TextEventEngine(DMXStateMachine dmx, EventDefinitions eventDefs)
         {

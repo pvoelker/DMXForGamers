@@ -11,11 +11,11 @@ namespace DMXEngine
 {
 	public class FileTextMonitor : ITextMonitor
 	{
-		private string _filePathName = null;
+		private readonly string _filePathName = null;
 		private FileSystemWatcher _fileWatcher = null;
 		private long _lastFileSize = 0;
 		private DateTime _lastFileModified = DateTime.MinValue;
-		private Action<string> _processorAction = null;
+		private readonly Action<string> _processorAction = null;
 
 		public FileTextMonitor(string file, Action<string> processor)
 		{

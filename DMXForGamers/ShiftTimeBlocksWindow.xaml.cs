@@ -33,7 +33,7 @@ namespace DMXForGamers
 
             var errors = data.Validate();
 
-            if (errors.Count() > 0)
+            if (errors.Any())
             {
                 var msg = new StringBuilder();
                 msg.AppendLine("The shifted times contain the following errors:");

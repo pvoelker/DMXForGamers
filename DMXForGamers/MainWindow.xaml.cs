@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using DMXCommunication;
+using DMXCommunication.Settings;
 using DMXEngine;
 using DMXForGamers.Models;
 using DMXForGamers.Web;
@@ -31,21 +32,21 @@ namespace DMXForGamers
 
             LoadData();
 
-            _dmxUpdateTimer = new Timer();
-            _dmxUpdateTimer.Interval = 10;
+            _dmxUpdateTimer = new Timer
+            {
+                Interval = 10
+            };
             _dmxUpdateTimer.Elapsed += DMXUpdateTimer_Elapsed;
 
-            m_Data.Help = new RelayCommand<string>((x) =>
+            _autoPlayTimer = new Timer
             {
-                var helpTopic = x as string;
+                Interval = 1000
+            };
+            _autoPlayTimer.Elapsed += AutoPlayTimer_Elapsed;
 
-                var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-                var chmPath = Path.Combine(path, "DMXForGamersHelp.chm");
-                if(helpTopic == null)
-                    System.Windows.Forms.Help.ShowHelp(null, chmPath);
-                else
-                    System.Windows.Forms.Help.ShowHelp(null, chmPath, System.Windows.Forms.HelpNavigator.TopicId, helpTopic);
-            });
+            m_Data.Help = new RelayCommand(() => OpenHtmlHelp("DMXForGamersHelp.html"));
+
+            m_Data.WebHelp = new RelayCommand(() => OpenHtmlHelp("DMXForGamersWeb.html"));
 
             m_Data.EditSettings = new RelayCommand(() =>
             {
@@ -119,17 +120,21 @@ namespace DMXForGamers
 #endif
         }
 
-        private Main m_Data = Main.Instance;
+        private readonly Main m_Data = Main.Instance;
 
         private AppSettings m_AppSettings = null;
         private string m_AppSettingsFilePath = null;
 
         private TextEventEngine _engine = null;
         private ITextMonitor _textMonitor = null;
-        private Timer _dmxUpdateTimer = null;
+        private readonly Timer _dmxUpdateTimer = null;
         private const int MAX_LINE_COUNT = 100;
 
+        private readonly Timer _autoPlayTimer = null;
+
         private SelfHost _webHost = null;
+
+        private readonly Random _random = new();
 
         private void LoadData()
         {
@@ -192,6 +197,9 @@ namespace DMXForGamers
             m_Data.EnabledRemote = m_AppSettings.EnableRemoteControl;
             m_Data.RemotePort = m_AppSettings.RemoteControlPort;
 
+            m_Data.EnableAutoPlay = m_AppSettings.EnableAutoPlay;
+            m_Data.AutoPlayDelay = m_AppSettings.AutoPlayDelay;
+
             this.DataContext = m_Data;
         }
 
@@ -215,6 +223,9 @@ namespace DMXForGamers
 
             m_AppSettings.EnableRemoteControl = m_Data.EnabledRemote;
             m_AppSettings.RemoteControlPort = m_Data.RemotePort;
+
+            m_AppSettings.EnableAutoPlay = m_Data.EnableAutoPlay;
+            m_AppSettings.AutoPlayDelay = m_Data.AutoPlayDelay;
 
             MessageBoxResult response = MessageBoxResult.Yes;
             while (response == MessageBoxResult.Yes)
@@ -284,6 +295,7 @@ namespace DMXForGamers
         {
             m_Data.IsRunning = true;
 
+#pragma warning disable CS0168 // Variable is declared but never used
             try
             {
                 m_Data.IsBusy = true;
@@ -303,6 +315,10 @@ namespace DMXForGamers
                     if (dmxPortAdapter != null)
                     {
                         dmxComm = (IDMXCommunication)Activator.CreateInstance(dmxPortAdapter.Type);
+                        if (dmxPortAdapter.Settings != null)
+                        {
+                            dmxComm.Settings = dmxPortAdapter.Settings;
+                        }
                     }
                 }
 
@@ -330,10 +346,16 @@ namespace DMXForGamers
                         "Unable to Start", MessageBoxButton.OK, MessageBoxImage.Exclamation);
                     StopButton_Click(this, null);
                 }
+                else if ((m_Data.EnableAutoPlay == true) && (m_Data.AutoPlayDelay <= 0))
+                {
+                    MessageBox.Show("Auto Play Delay must be greater than 0",
+                        "Unable to Start", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                    StopButton_Click(this, null);
+                }
                 else
                 {
                     var dmxEvents = DMXEventsFile.LoadFile(m_Data.DMXFile);
-                    DMXStateMachine dmx = new DMXStateMachine(dmxEvents, dmxComm, UpdateChannel, UpdateEvent);
+                    DMXStateMachine dmx = new(dmxEvents, dmxComm, UpdateChannel, UpdateEvent);
 
                     var eventDefs = EventDefinitionsFile.LoadFile(m_Data.EventsFile);
                     _engine = new TextEventEngine(dmx, eventDefs);
@@ -400,6 +422,9 @@ namespace DMXForGamers
                     {
                         m_Data.RunningText = string.Empty;
                     }
+
+                    m_Data.AutoPlayCount = 0;
+                    _autoPlayTimer.Enabled = m_Data.EnableAutoPlay;
                 }
             }
             catch (Exception ex)
@@ -417,10 +442,14 @@ namespace DMXForGamers
             {
                 m_Data.IsBusy = false;
             }
+#pragma warning restore CS0168 // Variable is declared but never used
         }
 
         private void StopButton_Click(object sender, RoutedEventArgs e)
         {
+            m_Data.AutoPlayCount = 0;
+            _autoPlayTimer.Enabled = false;
+
             if (_webHost != null)
             {
                 _webHost.Dispose();
@@ -493,6 +522,33 @@ namespace DMXForGamers
             }
         }
 
+        void AutoPlayTimer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            // Make sure no events are active
+            if(m_Data.Events.All(x => x.State == false))
+            {
+                m_Data.AutoPlayCount++;
+
+                if(m_Data.AutoPlayCount >= m_Data.AutoPlayDelay)
+                {
+                    try
+                    {
+                        var eventIndex = _random.Next(m_Data.Events.Count);
+                        var selectedEvent = m_Data.Events[eventIndex];
+                        selectedEvent.EventOn.Execute(null);
+                    }
+                    finally
+                    {
+                        m_Data.AutoPlayCount = 0;
+                    }
+                }
+            }
+            else
+            {
+                m_Data.AutoPlayCount = 0;
+            }
+        }
+
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             StopButton_Click(this, null);
@@ -543,6 +599,27 @@ namespace DMXForGamers
             }
 
             return null;
+        }
+
+        private static void OpenHtmlHelp(string fileName)
+        {
+            try
+            {
+                var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+                var htmlPath = Path.Combine(path, fileName);
+
+                var startInfo = new ProcessStartInfo
+                {
+                    FileName = new Uri(htmlPath).AbsoluteUri,
+                    UseShellExecute = true
+                };
+
+                Process.Start(startInfo);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Could not open help file: {ex.Message}");
+            }
         }
     }
 }

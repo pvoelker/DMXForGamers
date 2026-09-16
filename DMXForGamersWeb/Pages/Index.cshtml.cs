@@ -5,7 +5,7 @@ namespace DMXForGamers.Web.Pages
 {
     public class IndexModel : PageModel
     {
-        public Models.Main Data = null;
+        public required Models.Main Data;
 
         public void OnGet()
         {

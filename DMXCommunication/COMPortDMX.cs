@@ -1,25 +1,14 @@
-﻿using System;
-using System.ComponentModel;
+﻿using DMXCommunication.Settings;
+using System;
 using System.IO.Ports;
 using System.Threading;
 
 namespace DMXCommunication
 {
-    // PEV - 4/27/2018 - Unable to test this.  Standard RS232 ports cannot get to a high enough baud rate...
-
-    [Serializable]
-    public class ComPortDMXSettings : BaseSettings
-    {
-        [Category("Configuration")]
-        [DisplayName("Port Name")]
-        [Description("This property defines the serial port name to be used.")]
-        public string PortName { get; set; } = "COM1";
-    }
-
     public class COMPortDMX : IDMXCommunication
     {
-        private byte[] ZERO_BUFFER = new byte[] { 0x00 };
-        private byte[] _buffer = new byte[513];
+        private readonly byte[] ZERO_BUFFER = new byte[] { 0x00 };
+        private readonly byte[] _buffer = new byte[513];
         private SerialPort _serialPort = null;
         private EventWaitHandle _done = null;
         private EventWaitHandle _doneComplete = null;
@@ -31,7 +20,7 @@ namespace DMXCommunication
 
         #region Settings
 
-        private static ComPortDMXSettings _settings = new ComPortDMXSettings();
+        private static readonly ComPortDMXSettings _settings = new ComPortDMXSettings();
 
         public ComPortDMXSettings Settings
         {
@@ -41,6 +30,17 @@ namespace DMXCommunication
         object IDMXCommunication.Settings
         {
             get { return Settings; }
+            set
+            {
+                if (value is ComPortDMXSettings s)
+                {
+                    Settings.PortName = s.PortName;
+                }
+                else
+                {
+                    throw new ArgumentException("Invalid settings type", nameof(value));
+                }
+            }
         }
 
         #endregion
@@ -64,8 +64,10 @@ namespace DMXCommunication
 
             try
             {
-                Thread thread = new Thread(new ThreadStart(WriteData));
-                thread.Name = "COM Port DMX Comms";
+                Thread thread = new Thread(new ThreadStart(WriteData))
+                {
+                    Name = "COM Port DMX Comms"
+                };
                 thread.Start();
             }
             catch

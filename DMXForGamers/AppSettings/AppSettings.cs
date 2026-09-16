@@ -1,4 +1,4 @@
-﻿using DMXCommunication;
+﻿using DMXCommunication.Settings;
 using System;
 using System.Xml;
 using System.Xml.Serialization;
@@ -19,6 +19,9 @@ namespace DMXForGamers
 
         public bool EnableRemoteControl { get; set; }
         public ushort RemoteControlPort { get; set; }
-	}
+
+		public bool EnableAutoPlay { get; set; }
+		public int AutoPlayDelay { get; set; }
+    }
 }
 

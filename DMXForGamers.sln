@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.3.32611.2
+# Visual Studio Version 18
+VisualStudioVersion = 18.8.12023.21
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DMXCommunication", "DMXCommunication\DMXCommunication.csproj", "{574E1761-FFDA-4D62-9444-EC23AD1E7E99}"
 EndProject
@@ -63,11 +63,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Install", "Install", "{16DB
 		DMXForGamers.nsi = DMXForGamers.nsi
 		DMXForGamersUninstall.ico = DMXForGamersUninstall.ico
 		signfile.bat = signfile.bat
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Help", "Help", "{8E5DF49E-86B3-4136-A71E-5ECCE779AADA}"
-	ProjectSection(SolutionItems) = preProject
-		DMXForGamersHelp.sh5 = DMXForGamersHelp.sh5
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DMXForGamers.Models", "DMXForGamers.Models\DMXForGamers.Models.csproj", "{6702EB60-74FE-480E-81A5-9EFB4962AF2A}"

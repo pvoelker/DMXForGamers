@@ -1,8 +1,11 @@
 ﻿using System;
 
-namespace DMXCommunication
+namespace DMXCommunication.Models
 {
-    public class ArtNetMessage
+    /// <summary>
+    /// Represents an Art-Net DMX message containing a universe identifier and DMX channel values
+    /// </summary>
+    internal class ArtNetMessage
     {
         public ArtNetMessage(ushort universe, byte[] dmxValues)
         {

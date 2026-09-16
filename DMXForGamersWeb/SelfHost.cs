@@ -14,7 +14,7 @@ namespace DMXForGamers.Web
     {
         private bool disposedValue;
 
-        private WebApplication _webApp = null;
+        private WebApplication? _webApp = null;
 
         public async Task Start(int port)
         {
@@ -63,11 +63,8 @@ namespace DMXForGamers.Web
             {
                 if (disposing)
                 {
-                    if (_webApp != null)
-                    {
-                        _webApp.DisposeAsync(); // Fire and forget
-                        _webApp = null;
-                    }
+                    _webApp?.DisposeAsync(); // Fire and forget
+                    _webApp = null;
                 }
 
                 disposedValue = true;
