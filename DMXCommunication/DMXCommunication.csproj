@@ -16,6 +16,6 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="FTD2XX.Net" Version="1.2.1" />
-    <PackageReference Include="System.IO.Ports" Version="10.0.10" />
+    <PackageReference Include="System.IO.Ports" Version="10.0.12" />
   </ItemGroup>
 </Project>

@@ -9,7 +9,7 @@ using System.Runtime.CompilerServices;
 [assembly: AssemblyConfiguration ("")]
 [assembly: AssemblyCompany ("")]
 [assembly: AssemblyProduct("DMX for Gamer")]
-[assembly: AssemblyCopyright("Copyright © 2025 Paul Voelker")]
+[assembly: AssemblyCopyright("Copyright © 2026 Paul Voelker")]
 [assembly: AssemblyTrademark ("")]
 [assembly: AssemblyCulture ("")]
 
